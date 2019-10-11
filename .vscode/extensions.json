@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "rtbenfield.vscode-jest-test-adapter",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-typescript-tslint-plugin"
+  ]
+}
