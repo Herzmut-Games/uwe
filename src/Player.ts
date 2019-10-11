@@ -3,9 +3,9 @@ import { screenWidth, screenHeight } from './config';
 
 export class Player {
     private _player: Physics.Arcade.Sprite;
-    private speed = 3;
+    private speed = 6;
     private diagonalSpeed = this.speed / 1.5;
-    private animationSpeed = 10;
+    private animationSpeed = 15;
 
     constructor(private parentScene: Scene) {
         this._player = parentScene.physics.add.sprite(100, 450, 'player');
