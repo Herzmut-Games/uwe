@@ -1,6 +1,26 @@
 import { Scene, GameObjects } from 'phaser';
 
 export class Button {
+    public static create(
+        parentScene: Scene,
+        x: number,
+        y: number,
+        text: string,
+        color: string,
+        hoverColor: string,
+        actionHandler: () => void
+    ): Button {
+        return new Button(
+            parentScene,
+            x,
+            y,
+            text,
+            color,
+            hoverColor,
+            actionHandler
+        );
+    }
+
     private _text: GameObjects.Text;
 
     constructor(
