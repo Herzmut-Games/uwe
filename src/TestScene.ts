@@ -11,6 +11,7 @@ export class TestScene extends Scene {
     public preload(): void {}
 
     public create(): void {
+        console.log('Create TestScene');
         this._score = new Score(this);
     }
 
