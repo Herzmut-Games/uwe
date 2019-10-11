@@ -17,7 +17,7 @@ export class StartScene extends Scene {
             'Start',
             '#FFF',
             '#D50C2D',
-            () => this.scene.start('TestScene')
+            () => this.scene.start('Room')
         );
     }
 }
