@@ -2,12 +2,9 @@ import { Scene } from 'phaser';
 import { Score } from './Score';
 
 export class TestScene extends Scene {
-<<<<<<< HEAD
     private _circles: GameObjects.Arc[] = [];
     private _player: GameObjects.Image;
-=======
     private _score: Score;
->>>>>>> master
 
     constructor() {
         super({ key: 'TestScene' });
@@ -18,12 +15,12 @@ export class TestScene extends Scene {
     }
 
     public create(): void {
-<<<<<<< HEAD
         this._addPlayer();
         this._createCollision();
     }
 
     public update(): void {
+        this._score.update();
         const control = this.input.keyboard.createCursorKeys();
 
         if (this.input.keyboard.addKey('W').isDown) {
@@ -71,13 +68,7 @@ export class TestScene extends Scene {
         (this._player.body as Physics.Arcade.Body)
             .setAllowGravity(false)
             .setCollideWorldBounds(true);
-=======
         console.log('Create TestScene');
         this._score = new Score(this);
-    }
-
-    public update(): void {
-        this._score.update();
->>>>>>> master
     }
 }
