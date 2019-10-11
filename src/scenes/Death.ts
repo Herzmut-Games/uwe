@@ -1,14 +1,14 @@
 import { Scene } from 'phaser';
-import { screenWidth, screenHeight } from './config';
-import { Button } from './Button';
+import { screenWidth, screenHeight } from '../config';
+import { Button } from '../objects/Button';
 
 export interface DeathSceneData {
     score: number;
 }
 
-export class DeathScene extends Scene {
+export class Death extends Scene {
     constructor() {
-        super({ key: 'DeathScene' });
+        super({ key: 'Death' });
     }
 
     public create(data: DeathSceneData): void {
@@ -28,7 +28,7 @@ export class DeathScene extends Scene {
             'Retry',
             '#FFF',
             '#D50C2D',
-            () => this.scene.start('TestScene')
+            () => this.scene.start('Room')
         );
     }
 }

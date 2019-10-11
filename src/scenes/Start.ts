@@ -1,10 +1,10 @@
 import { Scene } from 'phaser';
-import { screenWidth, screenHeight } from './config';
-import { Button } from './Button';
+import { screenWidth, screenHeight } from '../config';
+import { Button } from '../objects/Button';
 
-export class StartScene extends Scene {
+export class Start extends Scene {
     constructor() {
-        super({ key: 'StartScene' });
+        super({ key: 'Start' });
     }
 
     public create(): void {
@@ -25,7 +25,7 @@ export class StartScene extends Scene {
             'DIE',
             '#D50C2D',
             '#FFF',
-            () => this.scene.start('DeathScene', { score: 1337 })
+            () => this.scene.start('Death', { score: 1337 })
         );
     }
 }
