@@ -1,9 +1,13 @@
-import { screenWidth, screenHeight } from './config';
-import { Scene, GameObjects, Physics } from 'phaser';
+import { Scene } from 'phaser';
+import { Score } from './Score';
 
 export class TestScene extends Scene {
+<<<<<<< HEAD
     private _circles: GameObjects.Arc[] = [];
     private _player: GameObjects.Image;
+=======
+    private _score: Score;
+>>>>>>> master
 
     constructor() {
         super({ key: 'TestScene' });
@@ -14,6 +18,7 @@ export class TestScene extends Scene {
     }
 
     public create(): void {
+<<<<<<< HEAD
         this._addPlayer();
         this._createCollision();
     }
@@ -66,5 +71,13 @@ export class TestScene extends Scene {
         (this._player.body as Physics.Arcade.Body)
             .setAllowGravity(false)
             .setCollideWorldBounds(true);
+=======
+        console.log('Create TestScene');
+        this._score = new Score(this);
+    }
+
+    public update(): void {
+        this._score.update();
+>>>>>>> master
     }
 }
