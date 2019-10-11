@@ -3,12 +3,13 @@ import { screenWidth, screenHeight } from './config';
 
 export class Player {
     private _player: Physics.Arcade.Sprite;
-    private speed = 3;
+    private speed = 1.7;
     private diagonalSpeed = this.speed / 1.5;
-    private animationSpeed = 15;
+    private animationSpeed = 10;
 
     constructor(private parentScene: Scene) {
         this._player = parentScene.physics.add.sprite(100, 450, 'player');
+        this._player.setScale(0.6);
         this._player.setBounce(0.2);
         this._player.setCollideWorldBounds(true);
 
