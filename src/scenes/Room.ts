@@ -10,7 +10,7 @@ export class Room extends Scene {
     }
 
     public preload() {
-        this.load.image('background', 'assets/backgrounds/room.png');
+        this.load.image('background', 'assets/backgrounds/map.png');
         this.load.spritesheet('player', 'assets/player.png', {
             frameWidth: 64,
             frameHeight: 64,
@@ -18,12 +18,12 @@ export class Room extends Scene {
     }
 
     public create() {
-        const background = this.add.image(0, 0, 'background');
-        background.setOrigin(0, 0).setDisplaySize(800, 600);
+        const background = this.add.image(0, 88, 'background');
+        background.setOrigin(0, 0).setDisplaySize(800, 512);
 
         this._score = new Score(this);
         this._player = new Player(this);
-        this.physics.world.setBounds(0, 0, 800, 600);
+        this.physics.world.setBounds(0, 108, 800, 452);
     }
 
     public update(): void {
