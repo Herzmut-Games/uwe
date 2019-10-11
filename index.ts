@@ -3,6 +3,7 @@ import { Game, Types } from 'phaser';
 import { StartScene } from './src/StartScene';
 import { TestScene } from './src/TestScene';
 import { Room } from './src/scenes/Room';
+import { DeathScene } from './src/DeathScene';
 
 export const config: Types.Core.GameConfig = {
     type: Phaser.AUTO,
@@ -14,7 +15,7 @@ export const config: Types.Core.GameConfig = {
             gravity: { y: 0 },
         },
     },
-    scene: [StartScene, TestScene, Room],
+    scene: [DeathScene, StartScene, TestScene, Room],
 };
 
 const game = new Game(config);
