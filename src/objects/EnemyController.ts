@@ -7,9 +7,9 @@ export class EnemyController {
 
     private get enemyCount(): number {
         return (
-            this._spiritGroups[0].getLength() +
-            this._spiritGroups[1].getLength() +
-            this._spiritGroups[2].getLength()
+            this._spiritGroups[0].countActive() +
+            this._spiritGroups[1].countActive() +
+            this._spiritGroups[2].countActive()
         );
     }
 
@@ -28,12 +28,13 @@ export class EnemyController {
     }
 
     private _spawnSpirits(): void {
-        if (this.enemyCount < 30) {
+        if (this.enemyCount < 20) {
             for (let i = 0, l = this._round; i < l; i++) {
                 this._spiritGroups[Phaser.Math.Between(0, 2)]
                     .get()
                     .setActive(true)
                     .setVisible(true)
+                    .enableBody()
                     .spawn(this._player);
             }
         }

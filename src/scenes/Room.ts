@@ -123,7 +123,7 @@ export class Room extends Scene {
                 this._player.fireballs,
                 this._player.waterballs,
             ],
-            (spirit: GameObjects.Sprite, ball: Ball) => {
+            (spirit: Enemy, ball: Ball) => {
                 const spiritType: EnemyType = spirit.getData('type');
                 const ballType: BallType = ball.getData('type');
 
@@ -137,7 +137,9 @@ export class Room extends Scene {
                 ) {
                     this._score.add(100);
 
-                    spirit.destroy();
+                    spirit.setActive(false);
+                    spirit.setVisible(false);
+                    spirit.disableBody();
                     if (Math.random() > 0.3) {
                         ball.fadeOut();
                     }
