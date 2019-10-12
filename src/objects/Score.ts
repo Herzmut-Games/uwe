@@ -11,7 +11,7 @@ export class Score {
     private _subheadline: GameObjects.Text;
 
     constructor(parentScene: Scene) {
-        parentScene.add.text(20, 20, 'Score', {
+        parentScene.add.text(20, 20, 'Punkte', {
             fontFamily: fonts.primary,
             fontSize: '30px',
             fill: colors.primary.light,

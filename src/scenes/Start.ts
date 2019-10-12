@@ -186,7 +186,7 @@ export class Start extends Scene {
             })
             .setOrigin(0.5, 0.5);
         this.add
-            .text(screenWidth / 2, 140, '(Das E steht für Elemente)', {
+            .text(screenWidth / 2, 140, '(E wie Elemente, wa?)', {
                 fill: '#D50C2D',
                 fontSize: 25,
                 fontFamily: fonts.primary,

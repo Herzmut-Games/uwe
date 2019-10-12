@@ -31,7 +31,7 @@ export class Healthbar {
             this._xPos = this._xPos - offsetRight;
         }
 
-        parentScene.add.text(this._xPos, 20, 'Health', {
+        parentScene.add.text(this._xPos, 20, 'Leben', {
             fontFamily: fonts.primary,
             fontSize: '30px',
             fill: colors.primary.light,
