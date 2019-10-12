@@ -16,9 +16,9 @@ export enum Direction {
 }
 
 export enum Element {
-    Fire = 0xd50c2d,
-    Water = 0x0000ff,
-    Earth = 0x00ff00,
+    Fire = 0xff7e7e,
+    Water = 0x7e84ff,
+    Earth = 0x7eff84,
 }
 
 interface ControlKeys {
