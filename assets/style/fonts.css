@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'DisposableDroid';
+    src: url('../fonts/DisposableDroidBB.ttf');
+    font-weight: 400;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'DisposableDroid';
+    src: url('../fonts/DisposableDroidBB_bld.ttf');
+    font-weight: 500;
+    font-weight: bold;
+}
