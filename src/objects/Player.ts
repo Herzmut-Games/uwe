@@ -293,21 +293,18 @@ export class Player {
                 this.fireballs
                     .get()
                     .setActive(true)
-                    .setVisible(true)
                     .shoot(this._player, direction);
                 break;
             case Element.Water:
                 this.waterballs
                     .get()
                     .setActive(true)
-                    .setVisible(true)
                     .shoot(this._player, direction);
                 break;
             case Element.Earth:
                 this.earthballs
                     .get()
                     .setActive(true)
-                    .setVisible(true)
                     .shoot(this._player, direction);
                 break;
         }
