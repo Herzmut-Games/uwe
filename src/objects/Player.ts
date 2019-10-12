@@ -1,4 +1,5 @@
-import { Scene, Physics, Input, Types } from 'phaser';
+import { Scene, Physics, Input, Types, GameObjects } from 'phaser';
+import { Fireball } from './Fireball';
 
 enum Direction {
     Up,
@@ -42,6 +43,10 @@ export class Player {
 
     private _isMoving: boolean = false;
     private _currentElement: Element = Element.Fire;
+
+    private _fireballs: GameObjects.Group;
+    private _waterballs: GameObjects.Group;
+    private _earthballs: GameObjects.Group;
 
     private get movementDirection(): Direction {
         switch (true) {
@@ -91,8 +96,22 @@ export class Player {
 
         parentScene.physics.world.enableBody(this._player);
 
-        this._addAnimations();
+        this._earthballs = parentScene.physics.add.group({
+            classType: Fireball,
+            runChildUpdate: true,
+        });
+        this._waterballs = parentScene.physics.add.group({
+            classType: Fireball,
+            runChildUpdate: true,
+        });
+        this._fireballs = parentScene.physics.add.group({
+            classType: Fireball,
+            runChildUpdate: true,
+        });
+
         this._addElementListeners();
+        this._addShootListeners();
+        this._addAnimations();
     }
 
     public update(): void {
@@ -228,6 +247,29 @@ export class Player {
                     this._currentElement = Element.Fire;
                     break;
             }
+        };
+    }
+
+    private _addShootListeners(): void {
+        this._keys.Left.onDown = () => {
+            console.log('on fire');
+            switch (this._currentElement) {
+                case Element.Fire:
+                    this._fireballs
+                        .get()
+                        .setActive(true)
+                        .setVisible(true)
+                        .fire(this);
+                    break;
+                case Element.Water:
+                    this._currentElement = Element.Grass;
+                    break;
+                case Element.Grass:
+                    this._currentElement = Element.Fire;
+                    break;
+            }
+
+            // this.physics.add.collider(enemyGroup, fireball, () => {});
         };
     }
 }
