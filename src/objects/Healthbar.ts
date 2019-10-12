@@ -17,7 +17,9 @@ export class Healthbar {
 
     public ouch(): void {
         this._health -= 1;
-        this._hearts.pop().destroy();
+        if (this._hearts.length > 0) {
+            this._hearts.pop().destroy();
+        }
     }
 
     private _render(parentScene: Scene): void {

@@ -1,10 +1,7 @@
 import { Scene } from 'phaser';
-import { screenWidth, screenHeight } from '../config';
+import { screenWidth } from '../config';
 import { Button } from '../objects/Button';
 import { fonts } from '../objects/Fonts';
-import { SingleEntryPlugin } from 'webpack';
-import { Room } from './Room';
-import { tsExpressionWithTypeArguments } from '@babel/types';
 
 export class Start extends Scene {
     private _music: Phaser.Sound.BaseSound;
