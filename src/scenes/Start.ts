@@ -15,7 +15,7 @@ export class Start extends Scene {
     private _aboutButton: Button;
     private _aboutText: Phaser.GameObjects.Text;
     private _aboutBackButton: Button;
-
+    private _moonWalkEnabled: boolean = false;
     constructor() {
         super({ key: 'Start' });
     }
@@ -23,6 +23,7 @@ export class Start extends Scene {
     public preload() {
         this.load.image('menu-background', 'assets/backgrounds/menu.png');
         this.load.audio('intro', 'assets/sounds/intro.mp3');
+        this.load.audio('thriller', 'assets/sounds/thriller.mp3');
         this.load.audio(
             'menu-select',
             'assets/sounds/effects/sfx_menu_select1.wav'
@@ -59,12 +60,22 @@ export class Start extends Scene {
         this._background.tilePositionX += 2.75 + this._runAwayModifier;
 
         if (this._menuPlayer.x >= 900) {
+            this._playerRunAway = false;
+            this._runAwayModifier = 0;
             this.scene.start('Room');
             this.destroy();
         }
     }
 
     private _displayMenuPlayer(): void {
+        this.anims.create({
+            key: 'left',
+            frames: this.anims.generateFrameNumbers('player', {
+                frames: [1, 5, 9, 13],
+            }),
+            frameRate: 5.2,
+            repeat: -1,
+        });
         this.anims.create({
             key: 'right',
             frames: this.anims.generateFrameNumbers('player', {
@@ -83,9 +94,31 @@ export class Start extends Scene {
         });
 
         this._menuPlayer = this.physics.add.sprite(200, 350, 'player');
+        this._menuPlayer.on('pointerup', () => this._toggleMoonWalk());
+        this._menuPlayer.setInteractive();
         this._menuPlayer.setOrigin(0.5, 0.5);
         this._menuPlayer.setScale(7);
         this._menuPlayer.play('right');
+    }
+
+    private _toggleMoonWalk(): void {
+        this._moonWalkEnabled = !this._moonWalkEnabled;
+        if (this._moonWalkEnabled) {
+            this._music.stop();
+            this._music = this.sound.add('thriller', { loop: true });
+            this._music.play();
+            this.time.delayedCall(
+                934,
+                () => this._menuPlayer.anims.play('left'),
+                [],
+                this
+            );
+        } else {
+            this._menuPlayer.anims.play('right');
+            this._music.stop();
+            this._music = this.sound.add('intro', { volume: 0.5, loop: true });
+            this._music.play();
+        }
     }
 
     private _displayHeader(): void {
