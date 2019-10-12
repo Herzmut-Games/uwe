@@ -10,11 +10,13 @@ import {
     EnemyType,
 } from '../objects/Enemy';
 import { BallType } from '../objects/Ball';
+import { EnemyController } from '../objects/EnemyController';
 
 export class Room extends Scene {
     private _score: Score;
     private _player: Player;
     private _music: Phaser.Sound.BaseSound;
+    private _enemyController: EnemyController;
     private _firespirits: Phaser.Physics.Arcade.Group;
     private _waterspirits: Phaser.Physics.Arcade.Group;
     private _earthspirits: Phaser.Physics.Arcade.Group;
@@ -91,25 +93,10 @@ export class Room extends Scene {
             runChildUpdate: true,
         });
 
-        this._earthspirits
-            .get()
-            .setActive(true)
-            .setVisible(true)
-            .spawn(this._player);
-        this._waterspirits
-            .get()
-            .setActive(true)
-            .setVisible(true)
-            .spawn(this._player);
-        this._firespirits
-            .get()
-            .setActive(true)
-            .setVisible(true)
-            .spawn(this._player);
-
-        this.physics.add.collider(this._earthspirits, this._waterspirits);
-        this.physics.add.collider(this._earthspirits, this._firespirits);
-        this.physics.add.collider(this._waterspirits, this._firespirits);
+        this.physics.add.collider(
+            [this._waterspirits, this._firespirits, this._earthspirits],
+            [this._waterspirits, this._firespirits, this._earthspirits]
+        );
         this.physics.add.collider(
             [this._waterspirits, this._firespirits, this._earthspirits],
             [
@@ -122,14 +109,15 @@ export class Room extends Scene {
                 const ballType: BallType = ball.getData('type');
 
                 if (
-                    (spiritType === EnemyType.EARTH &&
-                        ballType === BallType.EARTH) ||
                     (spiritType === EnemyType.FIRE &&
+                        ballType === BallType.WATER) ||
+                    (spiritType === EnemyType.EARTH &&
                         ballType === BallType.FIRE) ||
                     (spiritType === EnemyType.WATER &&
-                        ballType === BallType.WATER)
+                        ballType === BallType.EARTH)
                 ) {
                     this._score.add(100);
+
                     spirit.destroy();
                     ball.destroy();
                 } else {
@@ -137,20 +125,11 @@ export class Room extends Scene {
                 }
             }
         );
-
-        this.physics.add.collider(
-            this._player.gameObject,
-            [this._earthspirits, this._waterspirits, this._firespirits],
-            (
-                player: GameObjects.GameObject,
-                spirit: GameObjects.GameObject
-            ) => {
-                console.log(spirit.getData('type'));
-                spirit.destroy();
-            },
-            null,
-            this
-        );
+        this._enemyController = new EnemyController(this, this._player, [
+            this._earthspirits,
+            this._firespirits,
+            this._waterspirits,
+        ]);
     }
 
     public update(): void {
