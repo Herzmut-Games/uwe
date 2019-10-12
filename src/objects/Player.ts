@@ -216,7 +216,7 @@ export class Player {
         this._keys.Two.onDown = () => (this._currentElement = Element.Water);
         this._keys.Three.onDown = () => (this._currentElement = Element.Grass);
 
-        this._keys.Space.onUp = () => {
+        this._keys.Space.onDown = () => {
             switch (this._currentElement) {
                 case Element.Fire:
                     this._currentElement = Element.Water;
