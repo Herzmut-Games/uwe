@@ -61,6 +61,12 @@ export class Enemy extends Physics.Arcade.Sprite {
         this.setDataEnabled();
         this.setData('type', this._kind);
     }
+
+    public kill() {
+        this.setActive(false);
+        this.setVisible(false);
+        this.disableBody();
+    }
 }
 
 export class FireSpirit extends Enemy {

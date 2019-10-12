@@ -105,8 +105,8 @@ export class Room extends Scene {
         this.physics.add.collider(
             this._player.gameObject,
             [this._waterspirits, this._firespirits, this._earthspirits],
-            (_: GameObjects.GameObject, spirit: GameObjects.GameObject) => {
-                spirit.destroy();
+            (_: GameObjects.GameObject, spirit: Enemy) => {
+                spirit.kill();
                 this._healthbar.ouch();
             }
         );
@@ -137,9 +137,7 @@ export class Room extends Scene {
                 ) {
                     this._score.add(100);
 
-                    spirit.setActive(false);
-                    spirit.setVisible(false);
-                    spirit.disableBody();
+                    spirit.kill();
                     if (Math.random() > 0.3) {
                         ball.fadeOut();
                     }
