@@ -36,7 +36,7 @@ export class Button {
         this._text = parentScene.add
             .text(x, y, text, {
                 fill: color,
-                fontSize: '32px',
+                fontSize: '58px',
                 fontFamily: fonts.primary,
             })
             .setInteractive({ useHandCursor: true });
