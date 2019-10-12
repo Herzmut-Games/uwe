@@ -54,7 +54,7 @@ export class Enemy extends Physics.Arcade.Sprite {
     public spawn(player: Player) {
         this._player = player;
         this.setCollideWorldBounds(true);
-        this.setRandomPosition(0, 108, 800, 452);
+        while (!this._hasSufficientDistanceToPlayer) {}
         this.anims.play(`run_${this._kind}`, true);
         this.setScale(2);
         this.setCircle(5);
@@ -66,6 +66,15 @@ export class Enemy extends Physics.Arcade.Sprite {
         this.setActive(false);
         this.setVisible(false);
         this.disableBody();
+    }
+
+    private get _hasSufficientDistanceToPlayer(): boolean {
+        const minDistance: number = 128;
+        this.setRandomPosition(0, 108, 800, 452);
+        return (
+            Math.abs(this._player.x - this.x) >= minDistance &&
+            Math.abs(this._player.y - this.y) >= minDistance
+        );
     }
 }
 
