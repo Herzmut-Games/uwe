@@ -36,6 +36,8 @@ export class Button {
             .text(x, y, text, { fill: color, fontSize: '32px' })
             .setInteractive({ useHandCursor: true });
 
+        this._text.setOrigin(0.5, 1);
+
         this._text
             .on('pointerover', () => this._setColor(hoverColor))
             .on('pointerout', () => this._setColor(color))

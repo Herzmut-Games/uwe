@@ -15,6 +15,9 @@ export const config: Types.Core.GameConfig = {
         },
     },
     scene: [Start, Death, Room],
+    render: {
+        pixelArt: true,
+    },
 };
 
 const game = new Game(config);

@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 import { Score } from '../objects/Score';
-import { Player } from '../Player';
+import { Player } from '../objects/Player';
 
 export class Room extends Scene {
     private _score: Score;
