@@ -140,6 +140,13 @@ export class Player {
         this._setElementColor();
     }
 
+    public removeShootListeners(): void {
+        this._keys.Down.removeAllListeners();
+        this._keys.Up.removeAllListeners();
+        this._keys.Left.removeAllListeners();
+        this._keys.Right.removeAllListeners();
+    }
+
     private _setElementColor(): void {
         this._player.tint = this._currentElement;
     }

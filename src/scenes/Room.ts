@@ -166,6 +166,7 @@ export class Room extends Scene {
         if (this._healthbar.health <= 0) {
             this.scene.stop();
             this.scene.start('Death', { score: this._score.score });
+            this._player.removeShootListeners();
         }
     }
 }

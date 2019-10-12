@@ -5,6 +5,6 @@ const primary = {
 };
 
 export const colors = {
-    primary: primary,
+    primary,
     white: '#fff',
 };
