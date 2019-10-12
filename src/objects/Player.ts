@@ -89,7 +89,7 @@ export class Player {
         const cursorKeys = this.parentScene.input.keyboard.createCursorKeys();
         this._footsteps = this.parentScene.sound.add('footsteps', {
             rate: 1.5,
-            volume: 0.5,
+            volume: 0.3,
         });
 
         this._keys = {
