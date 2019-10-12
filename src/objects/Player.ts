@@ -1,7 +1,9 @@
 import { Scene, Physics, Input, Types, GameObjects } from 'phaser';
 import { Fireball } from './Fireball';
+import { Waterball } from './Waterball';
+import { Earthball } from './Earthball';
 
-enum Direction {
+export enum Direction {
     Up,
     UpRight,
     Right,
@@ -16,7 +18,7 @@ enum Direction {
 enum Element {
     Fire = 0xd50c2d,
     Water = 0x0000ff,
-    Grass = 0x00ff00,
+    Earth = 0x00ff00,
 }
 
 interface ControlKeys {
@@ -97,11 +99,11 @@ export class Player {
         parentScene.physics.world.enableBody(this._player);
 
         this._earthballs = parentScene.physics.add.group({
-            classType: Fireball,
+            classType: Earthball,
             runChildUpdate: true,
         });
         this._waterballs = parentScene.physics.add.group({
-            classType: Fireball,
+            classType: Waterball,
             runChildUpdate: true,
         });
         this._fireballs = parentScene.physics.add.group({
@@ -110,13 +112,13 @@ export class Player {
         });
 
         this._addElementListeners();
-        this._addShootListeners();
         this._addAnimations();
     }
 
     public update(): void {
         this._move();
         this._animate();
+        this._shoot();
         this._setElementColor();
     }
 
@@ -233,7 +235,7 @@ export class Player {
     private _addElementListeners(): void {
         this._keys.One.onDown = () => (this._currentElement = Element.Fire);
         this._keys.Two.onDown = () => (this._currentElement = Element.Water);
-        this._keys.Three.onDown = () => (this._currentElement = Element.Grass);
+        this._keys.Three.onDown = () => (this._currentElement = Element.Earth);
 
         this._keys.Space.onDown = () => {
             switch (this._currentElement) {
@@ -241,35 +243,57 @@ export class Player {
                     this._currentElement = Element.Water;
                     break;
                 case Element.Water:
-                    this._currentElement = Element.Grass;
+                    this._currentElement = Element.Earth;
                     break;
-                case Element.Grass:
+                case Element.Earth:
                     this._currentElement = Element.Fire;
                     break;
             }
         };
     }
 
-    private _addShootListeners(): void {
-        this._keys.Left.onDown = () => {
-            console.log('on fire');
-            switch (this._currentElement) {
-                case Element.Fire:
-                    this._fireballs
-                        .get()
-                        .setActive(true)
-                        .setVisible(true)
-                        .fire(this);
-                    break;
-                case Element.Water:
-                    this._currentElement = Element.Grass;
-                    break;
-                case Element.Grass:
-                    this._currentElement = Element.Fire;
-                    break;
-            }
+    private _shoot(): void {
+        switch (true) {
+            case this._keys.Up.isDown:
+                this._shootIntoDirection(Direction.Up);
+                break;
+            case this._keys.Down.isDown:
+                this._shootIntoDirection(Direction.Down);
+                break;
+            case this._keys.Left.isDown:
+                this._shootIntoDirection(Direction.Left);
+                break;
+            case this._keys.Right.isDown:
+                this._shootIntoDirection(Direction.Right);
+                break;
+        }
+    }
 
-            // this.physics.add.collider(enemyGroup, fireball, () => {});
-        };
+    private _shootIntoDirection(direction: Direction): void {
+        switch (this._currentElement) {
+            case Element.Fire:
+                this._fireballs
+                    .get()
+                    .setActive(true)
+                    .setVisible(true)
+                    .shoot(this._player, direction);
+                break;
+            case Element.Water:
+                this._waterballs
+                    .get()
+                    .setActive(true)
+                    .setVisible(true)
+                    .shoot(this._player, direction);
+                break;
+            case Element.Earth:
+                this._earthballs
+                    .get()
+                    .setActive(true)
+                    .setVisible(true)
+                    .shoot(this._player, direction);
+                break;
+        }
+
+        // this.physics.add.collider(enemyGroup, fireball, () => {});
     }
 }
