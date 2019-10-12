@@ -13,6 +13,8 @@ import { BallType, Ball } from '../objects/Ball';
 import { EnemyController } from '../objects/EnemyController';
 import { Healthbar } from '../objects/Healthbar';
 import { WeaponStatus } from '../objects/WeaponStatus';
+import { fonts } from '../objects/Fonts';
+import { colors } from '../objects/Colors';
 
 export class Room extends Scene {
     private _score: Score;
@@ -24,6 +26,17 @@ export class Room extends Scene {
     private _firespirits: Phaser.Physics.Arcade.Group;
     private _waterspirits: Phaser.Physics.Arcade.Group;
     private _earthspirits: Phaser.Physics.Arcade.Group;
+    private _countdownText: GameObjects.Text;
+    private _countdownPost: GameObjects.Text;
+    private _countdownPre: GameObjects.Text;
+    private _countdownTexts: string[] = [
+        'und ab',
+        'eins',
+        'zwei',
+        'drei',
+        'vier',
+    ];
+    private _currentCountdown: number = 4;
 
     constructor() {
         super({ key: 'Room' });
@@ -184,6 +197,8 @@ export class Room extends Scene {
             });
             this._music.play();
         });
+
+        this._displayStartCountdown();
     }
 
     public update(): void {
@@ -199,6 +214,47 @@ export class Room extends Scene {
             this.scene.stop();
             this.scene.start('Death', { score: this._score.score });
             this._player.removeShootListeners();
+        }
+    }
+
+    private _displayStartCountdown(): void {
+        this._countdownPre = this.add
+            .text(400, 250, 'Mach dich ma fertich', {
+                fill: colors.white,
+                fontSize: 30,
+                fontFamily: fonts.primary,
+            })
+            .setOrigin(0.5, 0.5);
+        this._countdownText = this.add
+            .text(400, 300, this._countdownTexts[this._currentCountdown], {
+                fill: colors.white,
+                fontSize: 68,
+                fontFamily: fonts.primary,
+            })
+            .setOrigin(0.5, 0.5);
+        this._countdownPost = this.add
+            .text(400, 350, 'geht gleich los', {
+                fill: colors.white,
+                fontSize: 30,
+                fontFamily: fonts.primary,
+            })
+            .setOrigin(0.5, 0.5);
+
+        this._countDown();
+    }
+
+    private _countDown(): void {
+        this._currentCountdown -= 1;
+        if (this._currentCountdown >= 0) {
+            this._countdownText.setText(
+                this._countdownTexts[this._currentCountdown]
+            );
+            this.time.delayedCall(1000, this._countDown, [], this);
+        } else {
+            this._countdownText.destroy();
+            this._countdownPost.destroy();
+            this._countdownPre.destroy();
+            this._currentCountdown = 4;
         }
     }
 }
