@@ -65,15 +65,33 @@ export class Start extends Scene {
             })
             .setOrigin(0.5, 0.5)
             .setAngle(30);
-        Button.create(this, 550, 350, 'Start', '#FFF', '#D50C2D', () => {
-            this.scene.start('Room');
-            this.sound.add('menu-select').play();
-            this.destroy();
-        });
+        Button.create(
+            this,
+            550,
+            350,
+            'Start',
+            '#FFF',
+            '#D50C2D',
+            '58px',
+            () => {
+                this.scene.start('Room');
+                this.sound.add('menu-select').play();
+                this.destroy();
+            }
+        );
 
-        Button.create(this, 550, 430, 'About', '#D50C2D', '#FFF', () => {
-            this.scene.start('Death', { score: 1337 });
-            this.destroy();
-        });
+        Button.create(
+            this,
+            550,
+            430,
+            'About',
+            '#D50C2D',
+            '#FFF',
+            '58px',
+            () => {
+                this.scene.start('Death', { score: 1337 });
+                this.destroy();
+            }
+        );
     }
 }
