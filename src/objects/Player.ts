@@ -117,13 +117,13 @@ export class Player {
         });
 
         this._addElementListeners();
+        this._addShootListeners();
         this._addAnimations();
     }
 
     public update(): void {
         this._move();
         this._animate();
-        this._shoot();
         this._setElementColor();
     }
 
@@ -261,21 +261,19 @@ export class Player {
         };
     }
 
-    private _shoot(): void {
-        switch (true) {
-            case this._keys.Up.isDown:
-                this._shootIntoDirection(Direction.Up);
-                break;
-            case this._keys.Down.isDown:
-                this._shootIntoDirection(Direction.Down);
-                break;
-            case this._keys.Left.isDown:
-                this._shootIntoDirection(Direction.Left);
-                break;
-            case this._keys.Right.isDown:
-                this._shootIntoDirection(Direction.Right);
-                break;
-        }
+    private _addShootListeners(): void {
+        this._keys.Down.on('down', () => {
+            this._shootIntoDirection(Direction.Down);
+        });
+        this._keys.Up.on('down', () => {
+            this._shootIntoDirection(Direction.Up);
+        });
+        this._keys.Left.on('down', () => {
+            this._shootIntoDirection(Direction.Left);
+        });
+        this._keys.Right.on('down', () => {
+            this._shootIntoDirection(Direction.Right);
+        });
     }
 
     private _shootIntoDirection(direction: Direction): void {
@@ -302,7 +300,5 @@ export class Player {
                     .shoot(this._player, direction);
                 break;
         }
-
-        // this.physics.add.collider(enemyGroup, fireball, () => {});
     }
 }

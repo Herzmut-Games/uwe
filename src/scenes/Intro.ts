@@ -13,15 +13,11 @@ export class Intro extends Scene {
     }
     public create(): void {
         this.cameras.main.setBackgroundColor('#FFF');
-        const text = this.add.text(
-            screenWidth / 2,
-            screenHeight / 1.5,
-            'Hetzner GameJam 2019',
-            {
+        this.add
+            .text(screenWidth / 2, screenHeight / 1.5, 'Hetzner GameJam 2019', {
                 fill: '#000',
-            }
-        );
-        text.setOrigin(0.5, 0.5);
+            })
+            .setOrigin(0.5, 0.5);
         this.time.delayedCall(847, this._displayLogo, [], this);
         this.time.delayedCall(4000, this._startMenu, [], this);
         this.sound.add('bling').play();
