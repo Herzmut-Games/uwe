@@ -18,6 +18,7 @@ export class Room extends Scene {
 
     public preload() {
         this.load.image('background', 'assets/backgrounds/map.png');
+        this.load.image('topbar', 'assets/backgrounds/topbar.png');
         this.load.spritesheet('player', 'assets/georg.png', {
             frameWidth: 48,
             frameHeight: 48,
@@ -60,6 +61,9 @@ export class Room extends Scene {
     public create() {
         const background = this.add.image(0, 88, 'background');
         background.setOrigin(0, 0).setDisplaySize(800, 512);
+
+        const topbar = this.add.image(0, 0, 'topbar');
+        topbar.setOrigin(0, 0).setDisplaySize(800, 112);
 
         this._score = new Score(this);
         this._player = new Player(this);
