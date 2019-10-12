@@ -86,7 +86,6 @@ export class Start extends Scene {
             this.destroy();
         }
 
-        console.log(this._background_dark.alpha);
         if (this._moonWalkEnabled) {
             if (this._background_dark.alpha < 1) {
                 this._background_dark.setAlpha(
