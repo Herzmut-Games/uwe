@@ -52,12 +52,12 @@ export class Button {
             .on('pointerup', () => this.actionHandler());
     }
 
-    public remove(): void {
-        this._text.destroy();
-    }
-
     public setAlpha(alpha: number) {
         this._text.setAlpha(alpha);
+    }
+
+    public remove(): void {
+        this._text.destroy();
     }
 
     private _setColor(color: string): void {
