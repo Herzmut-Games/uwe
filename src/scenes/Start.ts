@@ -13,6 +13,8 @@ export class Start extends Scene {
     private _runAwayModifier: number = 0;
     private _startButton: Button;
     private _aboutButton: Button;
+    _aboutText: Phaser.GameObjects.Text;
+    _aboutBackButton: Button;
     constructor() {
         super({ key: 'Start' });
     }
@@ -41,6 +43,27 @@ export class Start extends Scene {
         this._music = this.sound.add('intro', { volume: 0.5, loop: true });
         this._music.play();
 
+        this._displayMenuPlayer();
+        this._displayHeader();
+        this._displayMenu();
+    }
+
+    public update(): void {
+        if (this._playerRunAway) {
+            this._runAwayModifier += 0.4;
+            this._startButton.setAlpha(1 - this._runAwayModifier * 0.1);
+            this._aboutButton.setAlpha(1 - this._runAwayModifier * 0.1);
+        }
+        this._menuPlayer.x += this._runAwayModifier;
+        this._background.tilePositionX += 2.75 + this._runAwayModifier;
+
+        if (this._menuPlayer.x >= 900) {
+            this.scene.start('Room');
+            this.destroy();
+        }
+    }
+
+    private _displayMenuPlayer(): void {
         this.anims.create({
             key: 'right',
             frames: this.anims.generateFrameNumbers('player', {
@@ -62,7 +85,9 @@ export class Start extends Scene {
         this._menuPlayer.setOrigin(0.5, 0.5);
         this._menuPlayer.setScale(7);
         this._menuPlayer.play('right');
+    }
 
+    private _displayHeader(): void {
         this.add
             .text(screenWidth / 2, 80, 'UWE', {
                 fill: '#D50C2D',
@@ -85,6 +110,42 @@ export class Start extends Scene {
             })
             .setOrigin(0.5, 0.5)
             .setAngle(30);
+    }
+
+    private _hideMenu(): void {
+        this._startButton.remove();
+        this._aboutButton.remove();
+    }
+
+    private _hideAbout(): void {
+        this._aboutText.destroy();
+        this._aboutBackButton.remove();
+    }
+
+    private _displayAbout(): void {
+        this._aboutText = this.add
+            .text(570, 350, 'Christopher\nMarvin\nPatrick\nRobert', {
+                fill: '#FFF',
+                fontSize: '58px',
+                fontFamily: fonts.primary,
+            })
+            .setOrigin(0.5, 0.5);
+        this._aboutBackButton = Button.create(
+            this,
+            580,
+            570,
+            'Back',
+            '#FFF',
+            '#D50C2D',
+            '58px',
+            () => {
+                this._hideAbout();
+                this._displayMenu();
+            }
+        );
+    }
+
+    private _displayMenu(): void {
         this._startButton = Button.create(
             this,
             580,
@@ -104,29 +165,14 @@ export class Start extends Scene {
             this,
             580,
             570,
-            'About',
+            'Credits',
             '#FFF',
             '#D50C2D',
             '58px',
             () => {
-                this.scene.start('Death', { score: 1337 });
-                this.destroy();
+                this._hideMenu();
+                this._displayAbout();
             }
         );
-    }
-
-    public update(): void {
-        if (this._playerRunAway) {
-            this._runAwayModifier += 0.4;
-            this._startButton.setAlpha(1 - this._runAwayModifier * 0.1);
-            this._aboutButton.setAlpha(1 - this._runAwayModifier * 0.1);
-        }
-        this._menuPlayer.x += this._runAwayModifier;
-        this._background.tilePositionX += 2.75 + this._runAwayModifier;
-
-        if (this._menuPlayer.x >= 900) {
-            this.scene.start('Room');
-            this.destroy();
-        }
     }
 }

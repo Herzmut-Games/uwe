@@ -1,5 +1,6 @@
 import { Scene } from 'phaser';
 import { screenWidth, screenHeight } from '../config';
+import { fonts } from '../objects/Fonts';
 
 export class Intro extends Scene {
     _logo: Phaser.GameObjects.Image;
@@ -8,7 +9,7 @@ export class Intro extends Scene {
     }
 
     public preload(): void {
-        this.load.image('logo', 'assets/uwe_logo.png');
+        this.load.image('logo', 'assets/herzmut_logo.png');
         this.load.audio('bling', 'assets/sounds/bling.mp3');
     }
     public create(): void {
@@ -24,8 +25,15 @@ export class Intro extends Scene {
     }
 
     private _displayLogo(): void {
-        this._logo = this.add.image(screenWidth / 2, screenHeight / 2, 'logo');
+        this._logo = this.add.image(screenWidth / 2, 200, 'logo');
         this._logo.setOrigin(0.5, 0.5);
+        this.add
+            .text(400, 225, 'Games', {
+                fill: '#D50C2D',
+                fontFamily: fonts.primary,
+                fontSize: '30px',
+            })
+            .setOrigin(0.5, 0.5);
     }
 
     private _startMenu(): void {
