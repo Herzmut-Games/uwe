@@ -20,6 +20,31 @@ export class Start extends Scene {
     public create(): void {
         this._music = this.sound.add('intro', { loop: true });
         this._music.play();
+
+        this.add
+            .text(screenWidth / 2, screenHeight / 4, 'UWE', {
+                fill: '#D50C2D',
+                fontSize: 100,
+            })
+            .setOrigin(0.5, 0.5);
+        this.add
+            .text(
+                screenWidth / 2,
+                screenHeight / 3,
+                '(Das E steht für Elemente)',
+                {
+                    fill: '#D50C2D',
+                    fontSize: 25,
+                }
+            )
+            .setOrigin(0.5, 0.5);
+        this.add
+            .text(screenWidth / 1.5, screenHeight / 5, 'Bist du auch dabei?', {
+                fill: '#FFFF00',
+                fontSize: 20,
+            })
+            .setOrigin(0.5, 0.5)
+            .setAngle(30);
         Button.create(
             this,
             screenWidth / 2,
