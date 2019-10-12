@@ -121,7 +121,7 @@ export class Room extends Scene {
                 this._player.fireballs,
                 this._player.waterballs,
             ],
-            (spirit: GameObjects.Sprite, ball: GameObjects.Sprite) => {
+            (spirit: GameObjects.Sprite, ball: Ball) => {
                 const spiritType: EnemyType = spirit.getData('type');
                 const ballType: BallType = ball.getData('type');
 
