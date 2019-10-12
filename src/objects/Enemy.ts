@@ -10,7 +10,7 @@ export enum EnemyType {
 
 export class Enemy extends Physics.Arcade.Sprite {
     private _player: Player;
-    private _speed: number = 50;
+    private _speed: number = 100;
     private _diagonalSpeed: number = this._speed / 1.5;
     private _health: number = 1;
 
