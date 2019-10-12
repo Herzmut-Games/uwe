@@ -1,4 +1,5 @@
 import { Scene, GameObjects } from 'phaser';
+import { fonts } from './Fonts';
 
 export class Button {
     public static create(
@@ -8,6 +9,7 @@ export class Button {
         text: string,
         color: string,
         hoverColor: string,
+        size: string = '58px',
         actionHandler: () => void
     ): Button {
         return new Button(
@@ -17,6 +19,7 @@ export class Button {
             text,
             color,
             hoverColor,
+            size,
             actionHandler
         );
     }
@@ -30,10 +33,15 @@ export class Button {
         text: string,
         color: string,
         hoverColor: string,
+        size: string = '58px',
         public actionHandler: () => void
     ) {
         this._text = parentScene.add
-            .text(x, y, text, { fill: color, fontSize: '32px' })
+            .text(x, y, text, {
+                fill: color,
+                fontSize: size,
+                fontFamily: fonts.primary,
+            })
             .setInteractive({ useHandCursor: true });
 
         this._text.setOrigin(0.5, 1);
