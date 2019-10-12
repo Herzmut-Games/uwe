@@ -2,7 +2,14 @@ import { Scene, GameObjects, Physics } from 'phaser';
 import { Score } from '../objects/Score';
 import { Player } from '../objects/Player';
 import { Fireball } from '../objects/Fireball';
-import { FireSpirit, WaterSpirit, EarthSpirit, Enemy } from '../objects/Enemy';
+import {
+    FireSpirit,
+    WaterSpirit,
+    EarthSpirit,
+    Enemy,
+    EnemyType,
+} from '../objects/Enemy';
+import { BallType } from '../objects/Ball';
 
 export class Room extends Scene {
     private _score: Score;
@@ -108,12 +115,41 @@ export class Room extends Scene {
         this.physics.add.collider(this._earthspirits, this._firespirits);
         this.physics.add.collider(this._waterspirits, this._firespirits);
         this.physics.add.collider(
+            [this._waterspirits, this._firespirits, this._earthspirits],
+            [
+                this._player.earthballs,
+                this._player.fireballs,
+                this._player.waterballs,
+            ],
+            (spirit: GameObjects.GameObject, ball: GameObjects.GameObject) => {
+                const spiritType: EnemyType = spirit.getData('type');
+                const ballType: BallType = ball.getData('type');
+
+                if (
+                    (spiritType === EnemyType.EARTH &&
+                        ballType === BallType.EARTH) ||
+                    (spiritType === EnemyType.FIRE &&
+                        ballType === BallType.FIRE) ||
+                    (spiritType === EnemyType.WATER &&
+                        ballType === BallType.WATER)
+                ) {
+                    this._score.add(100);
+                    spirit.destroy();
+                    ball.destroy();
+                } else {
+                    ball.destroy();
+                }
+            }
+        );
+
+        this.physics.add.collider(
             this._player.gameObject,
             [this._earthspirits, this._waterspirits, this._firespirits],
             (
                 player: GameObjects.GameObject,
                 spirit: GameObjects.GameObject
             ) => {
+                console.log(spirit.getData('type'));
                 spirit.destroy();
             },
             null,
