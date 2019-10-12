@@ -42,7 +42,7 @@ export class WeaponStatus {
             'firestatus'
         );
 
-        this._weapon.setScale(5);
+        this._weapon.setScale(4);
         this._weapon.setAngle(90);
 
         this._weapon.anims.play('firestatus_ani');
