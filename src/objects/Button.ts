@@ -24,6 +24,11 @@ export class Button {
         );
     }
 
+    public setAlpha(alpha: number) {
+        console.log(this._text.alpha);
+        this._text.setAlpha(alpha);
+    }
+
     private _text: GameObjects.Text;
 
     constructor(

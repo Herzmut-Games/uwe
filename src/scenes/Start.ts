@@ -2,14 +2,23 @@ import { Scene } from 'phaser';
 import { screenWidth, screenHeight } from '../config';
 import { Button } from '../objects/Button';
 import { fonts } from '../objects/Fonts';
+import { SingleEntryPlugin } from 'webpack';
+import { Room } from './Room';
 
 export class Start extends Scene {
     private _music: Phaser.Sound.BaseSound;
+    private _background: Phaser.GameObjects.TileSprite;
+    private _menuPlayer: Phaser.Physics.Arcade.Sprite;
+    private _playerRunAway: boolean;
+    private _runAwayModifier: number = 0;
+    private _startButton: Button;
+    private _aboutButton: Button;
     constructor() {
         super({ key: 'Start' });
     }
 
     public preload() {
+        this.load.image('menu-background', 'assets/backgrounds/menu.png');
         this.load.audio('intro', 'assets/sounds/intro.mp3');
         this.load.audio(
             'menu-select',
@@ -26,32 +35,43 @@ export class Start extends Scene {
     }
 
     public create(): void {
+        this._background = this.add.tileSprite(100, 0, 0, 0, 'menu-background');
+        this._background.setScale(1.2);
+
         this._music = this.sound.add('intro', { volume: 0.5, loop: true });
         this._music.play();
 
         this.anims.create({
-            key: 'down',
+            key: 'right',
             frames: this.anims.generateFrameNumbers('player', {
-                frames: [0, 4, 8, 12],
+                frames: [3, 7, 11, 15],
             }),
             frameRate: 5.2,
             repeat: -1,
         });
+        this.anims.create({
+            key: 'right-fast',
+            frames: this.anims.generateFrameNumbers('player', {
+                frames: [3, 7, 11, 15],
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
 
-        const menuPlayer = this.physics.add.sprite(200, 350, 'player');
-        menuPlayer.setOrigin(0.5, 0.5);
-        menuPlayer.setScale(7);
-        menuPlayer.play('down');
+        this._menuPlayer = this.physics.add.sprite(200, 350, 'player');
+        this._menuPlayer.setOrigin(0.5, 0.5);
+        this._menuPlayer.setScale(7);
+        this._menuPlayer.play('right');
 
         this.add
             .text(screenWidth / 2, 80, 'UWE', {
                 fill: '#D50C2D',
-                fontSize: 100,
+                fontSize: 120,
                 fontFamily: fonts.primary,
             })
             .setOrigin(0.5, 0.5);
         this.add
-            .text(screenWidth / 2, 130, '(Das E steht für Elemente)', {
+            .text(screenWidth / 2, 140, '(Das E steht für Elemente)', {
                 fill: '#D50C2D',
                 fontSize: 25,
                 fontFamily: fonts.primary,
@@ -65,33 +85,48 @@ export class Start extends Scene {
             })
             .setOrigin(0.5, 0.5)
             .setAngle(30);
-        Button.create(
+        this._startButton = Button.create(
             this,
-            550,
-            350,
+            580,
+            510,
             'Start',
             '#FFF',
             '#D50C2D',
             '58px',
             () => {
-                this.scene.start('Room');
                 this.sound.add('menu-select').play();
-                this.destroy();
+                this._menuPlayer.anims.play('right-fast');
+                this._playerRunAway = true;
             }
         );
 
-        Button.create(
+        this._aboutButton = Button.create(
             this,
-            550,
-            430,
+            580,
+            570,
             'About',
-            '#D50C2D',
             '#FFF',
+            '#D50C2D',
             '58px',
             () => {
                 this.scene.start('Death', { score: 1337 });
                 this.destroy();
             }
         );
+    }
+
+    public update(): void {
+        if (this._playerRunAway) {
+            this._runAwayModifier += 0.4;
+            this._startButton.setAlpha(1 - this._runAwayModifier * 0.1);
+            this._aboutButton.setAlpha(1 - this._runAwayModifier * 0.1);
+        }
+        this._menuPlayer.x += this._runAwayModifier;
+        this._background.tilePositionX += 2.75 + this._runAwayModifier;
+
+        if (this._menuPlayer.x >= 900) {
+            this.scene.start('Room');
+            this.destroy();
+        }
     }
 }
