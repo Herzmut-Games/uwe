@@ -30,6 +30,8 @@ export class Room extends Scene {
     public preload() {
         this.load.image('background', 'assets/backgrounds/map.png');
         this.load.image('topbar', 'assets/backgrounds/topbar.png');
+        this.load.image('fullHeart', 'assets/heart.png');
+        this.load.image('halfHeart', 'assets/heart_half.png');
         this.load.spritesheet('player', 'assets/georg.png', {
             frameWidth: 48,
             frameHeight: 48,
@@ -157,7 +159,6 @@ export class Room extends Scene {
     public update(): void {
         this._score.update();
         this._player.update();
-        this._healthbar.update();
         this._checkGameEnd();
     }
 
