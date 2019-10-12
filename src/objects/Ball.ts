@@ -15,6 +15,7 @@ export abstract class Ball extends Physics.Arcade.Sprite {
     private _animationSpeed: number = 10;
     private _shootSpeed: number = 9;
     private _direction: Direction;
+    private _fadingOut: boolean = false;
 
     constructor(protected parentScene: Scene, protected ballType: BallType) {
         super(parentScene, 0, 0, ballType);
@@ -31,7 +32,18 @@ export abstract class Ball extends Physics.Arcade.Sprite {
     }
 
     public shoot(player: Physics.Arcade.Sprite, direction: Direction) {
-        // this.setCollideWorldBounds(true);
+        this.scale = 0.1;
+        this.setCollideWorldBounds(true);
+        (this.body as any).onWorldBounds = true;
+        this.body.world.on(
+            'worldbounds',
+            body => {
+                if (body.gameObject === this) {
+                    this.fadeOut();
+                }
+            },
+            this
+        );
         this._direction = direction;
 
         switch (direction) {
@@ -53,6 +65,19 @@ export abstract class Ball extends Physics.Arcade.Sprite {
     }
 
     public update() {
+        if (this._fadingOut) {
+            this.scale -= 0.25;
+            if (this.scale <= 0) {
+                this.destroy();
+            }
+            return;
+        } else if (this.scale < 1) {
+            this.scale += 0.1;
+        } else {
+            // just in case...
+            this.scale = 1;
+        }
+
         switch (this._direction) {
             case Direction.Left:
                 this.x -= this._shootSpeed;
@@ -67,5 +92,9 @@ export abstract class Ball extends Physics.Arcade.Sprite {
                 this.x += this._shootSpeed;
                 break;
         }
+    }
+
+    public fadeOut() {
+        this._fadingOut = true;
     }
 }
