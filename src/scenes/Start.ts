@@ -59,6 +59,8 @@ export class Start extends Scene {
         this._background.tilePositionX += 2.75 + this._runAwayModifier;
 
         if (this._menuPlayer.x >= 900) {
+            this._playerRunAway = false;
+            this._runAwayModifier = 0;
             this.scene.start('Room');
             this.destroy();
         }
@@ -175,22 +177,5 @@ export class Start extends Scene {
                 this._displayAbout();
             }
         );
-    }
-
-    public update(): void {
-        if (this._playerRunAway) {
-            this._runAwayModifier += 0.4;
-            this._startButton.setAlpha(1 - this._runAwayModifier * 0.1);
-            this._aboutButton.setAlpha(1 - this._runAwayModifier * 0.1);
-        }
-        this._menuPlayer.x += this._runAwayModifier;
-        this._background.tilePositionX += 2.75 + this._runAwayModifier;
-
-        if (this._menuPlayer.x >= 900) {
-            this._playerRunAway = false;
-            this._runAwayModifier = 0;
-            this.scene.start('Room');
-            this.destroy();
-        }
     }
 }
