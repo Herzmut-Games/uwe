@@ -19,7 +19,7 @@ export class Intro extends Scene {
             })
             .setOrigin(0.5, 0.5);
         this.time.delayedCall(847, this._displayLogo, [], this);
-        this.time.delayedCall(4000, this._startMenu, [], this);
+        this.time.delayedCall(2000, this._startMenu, [], this);
         this.sound.add('bling').play();
     }
 
