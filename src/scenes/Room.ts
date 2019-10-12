@@ -5,6 +5,7 @@ import { Player } from '../objects/Player';
 export class Room extends Scene {
     private _score: Score;
     private _player: Player;
+    private _music: Phaser.Sound.BaseSound;
     constructor() {
         super({ key: 'Room' });
     }
@@ -15,6 +16,7 @@ export class Room extends Scene {
             frameWidth: 64,
             frameHeight: 64,
         });
+        this.load.audio('battle', 'assets/sounds/battle.mp3');
     }
 
     public create() {
@@ -24,6 +26,9 @@ export class Room extends Scene {
         this._score = new Score(this);
         this._player = new Player(this);
         this.physics.world.setBounds(0, 108, 800, 452);
+
+        this._music = this.sound.add('battle');
+        this._music.play();
     }
 
     public update(): void {
