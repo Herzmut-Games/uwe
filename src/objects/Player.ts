@@ -49,18 +49,17 @@ export class Player {
         return this._player;
     }
 
+    public fireballs: Phaser.Physics.Arcade.Group;
+    public waterballs: Phaser.Physics.Arcade.Group;
+    public earthballs: Phaser.Physics.Arcade.Group;
+
     private _player: Physics.Arcade.Sprite;
     private _speed = 6;
     private _diagonalSpeed = this._speed / 1.5;
     private _animationSpeed = 15;
     private _keys: ControlKeys;
-
     private _isMoving: boolean = false;
     private _currentElement: Element = Element.Fire;
-
-    private _fireballs: GameObjects.Group;
-    private _waterballs: GameObjects.Group;
-    private _earthballs: GameObjects.Group;
     private _footsteps: Phaser.Sound.BaseSound;
 
     private get movementDirection(): Direction {
@@ -115,15 +114,15 @@ export class Player {
 
         parentScene.physics.world.enableBody(this._player);
 
-        this._earthballs = parentScene.physics.add.group({
+        this.earthballs = parentScene.physics.add.group({
             classType: Earthball,
             runChildUpdate: true,
         });
-        this._waterballs = parentScene.physics.add.group({
+        this.waterballs = parentScene.physics.add.group({
             classType: Waterball,
             runChildUpdate: true,
         });
-        this._fireballs = parentScene.physics.add.group({
+        this.fireballs = parentScene.physics.add.group({
             classType: Fireball,
             runChildUpdate: true,
         });
@@ -291,21 +290,21 @@ export class Player {
     private _shootIntoDirection(direction: Direction): void {
         switch (this._currentElement) {
             case Element.Fire:
-                this._fireballs
+                this.fireballs
                     .get()
                     .setActive(true)
                     .setVisible(true)
                     .shoot(this._player, direction);
                 break;
             case Element.Water:
-                this._waterballs
+                this.waterballs
                     .get()
                     .setActive(true)
                     .setVisible(true)
                     .shoot(this._player, direction);
                 break;
             case Element.Earth:
-                this._earthballs
+                this.earthballs
                     .get()
                     .setActive(true)
                     .setVisible(true)
