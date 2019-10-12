@@ -28,18 +28,18 @@ export class EnemyController {
     }
 
     private _spawnSpirits(): void {
-        if (this.enemyCount < 20) {
+        if (this.enemyCount < 10) {
             for (let i = 0, l = this._round; i < l; i++) {
                 this._spiritGroups[Phaser.Math.Between(0, 2)]
                     .get()
                     .setActive(true)
                     .setVisible(true)
                     .enableBody()
-                    .spawn(this._player);
+                    .spawn(this._player, Phaser.Math.Between(0, 2));
             }
         }
 
-        if (this._round < 10) {
+        if (this._round < 4) {
             this._round += 1;
         }
     }

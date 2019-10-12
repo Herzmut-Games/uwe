@@ -138,7 +138,7 @@ export class Room extends Scene {
             this._waterspirits,
         ]);
 
-        this.physics.add.collider(
+        this.physics.add.overlap(
             this._player.gameObject,
             [this._waterspirits, this._firespirits, this._earthspirits],
             (_: GameObjects.GameObject, spirit: Enemy) => {
@@ -154,7 +154,7 @@ export class Room extends Scene {
             [this._waterspirits, this._firespirits, this._earthspirits]
         );
 
-        this.physics.add.collider(
+        this.physics.add.overlap(
             [this._waterspirits, this._firespirits, this._earthspirits],
             [
                 this._player.earthballs,
@@ -164,24 +164,10 @@ export class Room extends Scene {
             (spirit: Enemy, ball: Ball) => {
                 const spiritType: EnemyType = spirit.getData('type');
                 const ballType: BallType = ball.getData('type');
+                ball.fadeOut();
 
-                if (
-                    (spiritType === EnemyType.FIRE &&
-                        ballType === BallType.WATER) ||
-                    (spiritType === EnemyType.EARTH &&
-                        ballType === BallType.FIRE) ||
-                    (spiritType === EnemyType.WATER &&
-                        ballType === BallType.EARTH)
-                ) {
+                if (spirit.hit(ballType)) {
                     this._score.add(100);
-
-                    spirit.kill();
-                    this.sound.add('enemy-death').play();
-                    if (Math.random() > 0.3) {
-                        ball.fadeOut();
-                    }
-                } else {
-                    ball.fadeOut();
                 }
             }
         );
