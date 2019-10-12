@@ -1,6 +1,6 @@
 import { Scene, GameObjects, Physics } from 'phaser';
 import { Score } from '../objects/Score';
-import { Player } from '../objects/Player';
+import { Player, Element } from '../objects/Player';
 import { Fireball } from '../objects/Fireball';
 import {
     FireSpirit,

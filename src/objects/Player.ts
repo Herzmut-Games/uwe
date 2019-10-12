@@ -61,6 +61,7 @@ export class Player {
     private _isMoving: boolean = false;
     private _currentElement: Element = Element.Fire;
     private _footsteps: Phaser.Sound.BaseSound;
+    private _swap: Phaser.Sound.BaseSound;
 
     private get movementDirection(): Direction {
         switch (true) {
@@ -91,6 +92,7 @@ export class Player {
             rate: 1.5,
             volume: 0.3,
         });
+        this._swap = this.parentScene.sound.add('element-switch');
 
         this._keys = {
             One: this.parentScene.input.keyboard.addKey('ONE'),
@@ -257,7 +259,7 @@ export class Player {
         this._keys.Three.onDown = () => (this._currentElement = Element.Earth);
 
         this._keys.Space.onDown = () => {
-            this.parentScene.sound.add('element-switch').play();
+            this._swap.play();
             switch (this._currentElement) {
                 case Element.Fire:
                     this._currentElement = Element.Water;
