@@ -22,10 +22,10 @@ export class Healthbar {
 
     private _render(parentScene: Scene): void {
         // 40 is width of heart.png
-        let heartWidth = 40;
-        let heartCount = this.health / 2;
+        const heartWidth = 40;
+        const heartCount = this.health / 2;
         if (heartCount > 3) {
-            let offsetRight = (heartCount - 3) * heartWidth;
+            const offsetRight = (heartCount - 3) * heartWidth;
             this._xPos = this._xPos - offsetRight;
         }
 
@@ -36,13 +36,13 @@ export class Healthbar {
         });
 
         for (let i = 0; i < heartCount; i++) {
-            let offset = heartWidth * i;
+            const offset = heartWidth * i;
 
-            let halfHeart = parentScene.add
+            const halfHeart = parentScene.add
                 .sprite(this._xPos + offset, 54, 'halfHeart')
                 .setOrigin(0, 0);
 
-            let fullHeart = parentScene.add
+            const fullHeart = parentScene.add
                 .sprite(this._xPos + offset, 54, 'fullHeart')
                 .setOrigin(0, 0);
 

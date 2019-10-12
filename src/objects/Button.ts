@@ -24,14 +24,6 @@ export class Button {
         );
     }
 
-    public setAlpha(alpha: number) {
-        this._text.setAlpha(alpha);
-    }
-
-    public remove(): void {
-        this._text.destroy();
-    }
-
     private _text: GameObjects.Text;
 
     constructor(
@@ -58,6 +50,14 @@ export class Button {
             .on('pointerover', () => this._setColor(hoverColor))
             .on('pointerout', () => this._setColor(color))
             .on('pointerup', () => this.actionHandler());
+    }
+
+    public remove(): void {
+        this._text.destroy();
+    }
+
+    public setAlpha(alpha: number) {
+        this._text.setAlpha(alpha);
     }
 
     private _setColor(color: string): void {

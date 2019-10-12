@@ -3,7 +3,8 @@ import { screenWidth, screenHeight } from '../config';
 import { fonts } from '../objects/Fonts';
 
 export class Intro extends Scene {
-    _logo: Phaser.GameObjects.Image;
+    private _logo: Phaser.GameObjects.Image;
+
     constructor() {
         super({ key: 'Intro' });
     }

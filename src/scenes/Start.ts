@@ -13,8 +13,9 @@ export class Start extends Scene {
     private _runAwayModifier: number = 0;
     private _startButton: Button;
     private _aboutButton: Button;
-    _aboutText: Phaser.GameObjects.Text;
-    _aboutBackButton: Button;
+    private _aboutText: Phaser.GameObjects.Text;
+    private _aboutBackButton: Button;
+
     constructor() {
         super({ key: 'Start' });
     }

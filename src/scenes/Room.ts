@@ -1,6 +1,6 @@
 import { Scene, GameObjects, Physics } from 'phaser';
 import { Score } from '../objects/Score';
-import { Player } from '../objects/Player';
+import { Player, Element } from '../objects/Player';
 import { Fireball } from '../objects/Fireball';
 import {
     FireSpirit,
@@ -166,6 +166,7 @@ export class Room extends Scene {
         if (this._healthbar.health <= 0) {
             this.scene.stop();
             this.scene.start('Death', { score: this._score.score });
+            this._player.removeShootListeners();
         }
     }
 }
