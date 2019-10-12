@@ -28,6 +28,10 @@ export class Button {
         this._text.setAlpha(alpha);
     }
 
+    public remove(): void {
+        this._text.destroy();
+    }
+
     private _text: GameObjects.Text;
 
     constructor(
