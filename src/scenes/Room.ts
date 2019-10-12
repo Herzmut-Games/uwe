@@ -12,9 +12,9 @@ export class Room extends Scene {
 
     public preload() {
         this.load.image('background', 'assets/backgrounds/map.png');
-        this.load.spritesheet('player', 'assets/player.png', {
-            frameWidth: 64,
-            frameHeight: 64,
+        this.load.spritesheet('player', 'assets/georg.png', {
+            frameWidth: 48,
+            frameHeight: 48,
         });
         this.load.audio('battle', 'assets/sounds/battle.mp3');
     }

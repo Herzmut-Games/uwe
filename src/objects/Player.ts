@@ -56,6 +56,7 @@ export class Player {
         this._keyD = this.parentScene.input.keyboard.addKey('D');
 
         this._player = parentScene.physics.add.sprite(100, 450, 'player');
+        this._player.setScale(1.3);
         this._player.setBounce(0.2);
         this._player.setCollideWorldBounds(true);
 
@@ -140,8 +141,7 @@ export class Player {
         this.parentScene.anims.create({
             key: 'left',
             frames: this.parentScene.anims.generateFrameNumbers('player', {
-                start: 4,
-                end: 7,
+                frames: [1, 5, 9, 13],
             }),
             frameRate: this._animationSpeed,
             repeat: -1,
@@ -150,8 +150,7 @@ export class Player {
         this.parentScene.anims.create({
             key: 'right',
             frames: this.parentScene.anims.generateFrameNumbers('player', {
-                start: 8,
-                end: 11,
+                frames: [3, 7, 11, 15],
             }),
             frameRate: this._animationSpeed,
             repeat: -1,
@@ -160,8 +159,7 @@ export class Player {
         this.parentScene.anims.create({
             key: 'up',
             frames: this.parentScene.anims.generateFrameNumbers('player', {
-                start: 12,
-                end: 15,
+                frames: [2, 6, 10, 14],
             }),
             frameRate: this._animationSpeed,
             repeat: -1,
@@ -170,8 +168,7 @@ export class Player {
         this.parentScene.anims.create({
             key: 'down',
             frames: this.parentScene.anims.generateFrameNumbers('player', {
-                start: 0,
-                end: 3,
+                frames: [0, 4, 8, 12],
             }),
             frameRate: this._animationSpeed,
             repeat: -1,
