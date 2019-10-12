@@ -32,22 +32,29 @@ export abstract class Ball extends Physics.Arcade.Sprite {
     }
 
     public shoot(player: Physics.Arcade.Sprite, direction: Direction) {
-        this.scale = 0.1;
+        if (!this.body.onWorldBounds) {
+            (this.body as any).onWorldBounds = true;
+            this.body.world.on(
+                'worldbounds',
+                body => {
+                    if (body.gameObject === this) {
+                        this.fadeOut();
+                    }
+                },
+                this
+            );
+        }
         this.setCollideWorldBounds(true);
-        (this.body as any).onWorldBounds = true;
-        this.body.world.on(
-            'worldbounds',
-            body => {
-                if (body.gameObject === this) {
-                    this.fadeOut();
-                }
-            },
-            this
-        );
+        this.setDataEnabled();
+        this.data.set('type', this.ballType);
+        this._fadingOut = false;
+        this.scale = 0.1;
         this._direction = direction;
 
         switch (direction) {
-            // sprite has left orientation by default
+            case Direction.Left:
+                this.setAngle(0);
+                break;
             case Direction.Up:
                 this.setAngle(90);
                 break;
@@ -58,8 +65,6 @@ export abstract class Ball extends Physics.Arcade.Sprite {
                 this.setAngle(180);
                 break;
         }
-        this.setDataEnabled();
-        this.data.set('type', this.ballType);
         this.setPosition(player.x, player.y);
         this.anims.play(getBallAnimation(this.ballType), true);
     }
@@ -68,7 +73,9 @@ export abstract class Ball extends Physics.Arcade.Sprite {
         if (this._fadingOut) {
             this.scale -= 0.25;
             if (this.scale <= 0) {
-                this.destroy();
+                this.setActive(false);
+                this.setVisible(false);
+                this.disableBody();
             }
             return;
         } else if (this.scale < 1) {

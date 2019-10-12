@@ -11,6 +11,7 @@ export enum EnemyType {
 export class Enemy extends Physics.Arcade.Sprite {
     private _player: Player;
     private _speed: number = 50;
+    private _diagonalSpeed: number = this._speed / 1.5;
 
     constructor(parentScene: Scene, private _kind: EnemyType) {
         super(parentScene, 0, 0, _kind);
@@ -26,27 +27,33 @@ export class Enemy extends Physics.Arcade.Sprite {
     }
 
     public update(): void {
-        if (!isUndefined(this._player)) {
-            if (this._player.x > this.x) {
-                this.setVelocityX(this._speed);
-            } else if (this._player.x < this.x) {
-                this.setVelocityX(-1 * this._speed);
-            } else {
-                this.setVelocityX(0);
-            }
+        let currentSpeed: number;
+        if (this._player.x === this.x || this._player.y === this.y) {
+            currentSpeed = this._speed;
+        } else {
+            currentSpeed = this._diagonalSpeed;
+        }
 
-            if (this._player.y > this.y) {
-                this.setVelocityY(this._speed);
-            } else if (this._player.y < this.y) {
-                this.setVelocityY(-1 * this._speed);
-            } else {
-                this.setVelocityY(0);
-            }
+        if (this._player.x > this.x) {
+            this.setVelocityX(currentSpeed);
+        } else if (this._player.x < this.x) {
+            this.setVelocityX(-1 * currentSpeed);
+        } else {
+            this.setVelocityX(0);
+        }
+
+        if (this._player.y > this.y) {
+            this.setVelocityY(currentSpeed);
+        } else if (this._player.y < this.y) {
+            this.setVelocityY(-1 * currentSpeed);
+        } else {
+            this.setVelocityY(0);
         }
     }
 
     public spawn(player: Player) {
         this._player = player;
+        this.setCollideWorldBounds(true);
         this.setRandomPosition(0, 108, 800, 452);
         this.anims.play(`run_${this._kind}`, true);
         this.setScale(2);
