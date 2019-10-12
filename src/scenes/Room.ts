@@ -32,7 +32,8 @@ export class Room extends Scene {
             frameWidth: 48,
             frameHeight: 48,
         });
-        this.load.audio('battle', 'assets/sounds/battle.mp3');
+        this.load.audio('battle-intro', 'assets/sounds/battle_intro.mp3');
+        this.load.audio('battle-main', 'assets/sounds/battle_main.mp3');
         this.load.audio(
             'element-switch',
             'assets/sounds/effects/sfx_wpn_dagger.wav'
@@ -78,8 +79,11 @@ export class Room extends Scene {
         this._player = new Player(this);
         this.physics.world.setBounds(0, 108, 800, 452);
 
-        this._music = this.sound.add('battle', { volume: 0.5 });
+        this._music = this.sound.add('battle-intro', { volume: 0.5 });
         this._music.play();
+        this._music.once('complete', () =>
+            this.sound.add('battle-main', { volume: 0.5, loop: true }).play()
+        );
         this._firespirits = this.physics.add.group({
             classType: FireSpirit,
             runChildUpdate: true,
