@@ -18,7 +18,7 @@ export class Start extends Scene {
     }
 
     public create(): void {
-        this._music = this.sound.add('intro');
+        this._music = this.sound.add('intro', { loop: true });
         this._music.play();
         Button.create(
             this,
