@@ -55,8 +55,9 @@ export class Enemy extends Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true);
         while (!this._hasSufficientDistanceToPlayer) {}
         this.anims.play(`run_${this._kind}`, true);
-        this.setScale(2);
         this.setSize(10, 20);
+        this.setOffset(-1, 5);
+        this.setScale(2);
         this.setDataEnabled();
         this.setData('type', this._kind);
     }
