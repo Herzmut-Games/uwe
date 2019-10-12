@@ -33,6 +33,7 @@ export class EnemyController {
                 this._spiritGroups[Phaser.Math.Between(0, 2)]
                     .get()
                     .setActive(true)
+                    .setVisible(true)
                     .spawn(this._player);
             }
         }

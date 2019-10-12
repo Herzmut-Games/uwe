@@ -11,10 +11,12 @@ import {
 } from '../objects/Enemy';
 import { BallType, Ball } from '../objects/Ball';
 import { EnemyController } from '../objects/EnemyController';
+import { Healthbar } from '../objects/Healthbar';
 
 export class Room extends Scene {
     private _score: Score;
     private _player: Player;
+    private _healthbar: Healthbar;
     private _music: Phaser.Sound.BaseSound;
     private _enemyController: EnemyController;
     private _firespirits: Phaser.Physics.Arcade.Group;
@@ -77,13 +79,8 @@ export class Room extends Scene {
 
         this._score = new Score(this);
         this._player = new Player(this);
-        this.physics.world.setBounds(0, 108, 800, 452);
+        this._healthbar = new Healthbar(this);
 
-        this._music = this.sound.add('battle-intro', { volume: 0.5 });
-        this._music.play();
-        this._music.once('complete', () =>
-            this.sound.add('battle-main', { volume: 0.5, loop: true }).play()
-        );
         this._firespirits = this.physics.add.group({
             classType: FireSpirit,
             runChildUpdate: true,
@@ -97,10 +94,26 @@ export class Room extends Scene {
             runChildUpdate: true,
         });
 
+        this._enemyController = new EnemyController(this, this._player, [
+            this._earthspirits,
+            this._firespirits,
+            this._waterspirits,
+        ]);
+
+        this.physics.add.collider(
+            this._player.gameObject,
+            [this._waterspirits, this._firespirits, this._earthspirits],
+            (_: GameObjects.GameObject, spirit: GameObjects.GameObject) => {
+                spirit.destroy();
+                this._healthbar.ouch();
+            }
+        );
+
         this.physics.add.collider(
             [this._waterspirits, this._firespirits, this._earthspirits],
             [this._waterspirits, this._firespirits, this._earthspirits]
         );
+
         this.physics.add.collider(
             [this._waterspirits, this._firespirits, this._earthspirits],
             [
@@ -108,7 +121,7 @@ export class Room extends Scene {
                 this._player.fireballs,
                 this._player.waterballs,
             ],
-            (spirit: GameObjects.GameObject, ball: Ball) => {
+            (spirit: GameObjects.Sprite, ball: Ball) => {
                 const spiritType: EnemyType = spirit.getData('type');
                 const ballType: BallType = ball.getData('type');
 
@@ -131,15 +144,27 @@ export class Room extends Scene {
                 }
             }
         );
-        this._enemyController = new EnemyController(this, this._player, [
-            this._earthspirits,
-            this._firespirits,
-            this._waterspirits,
-        ]);
+
+        this.physics.world.setBounds(0, 108, 800, 452);
+
+        this._music = this.sound.add('battle-intro', { volume: 0.5 });
+        this._music.play();
+        this._music.once('complete', () =>
+            this.sound.add('battle-main', { volume: 0.5, loop: true }).play()
+        );
     }
 
     public update(): void {
         this._score.update();
         this._player.update();
+        this._healthbar.update();
+        this._checkGameEnd();
+    }
+
+    private _checkGameEnd(): void {
+        if (this._healthbar.health <= 0) {
+            this.scene.stop();
+            this.scene.start('Death', { score: this._score.score });
+        }
     }
 }
