@@ -16,7 +16,7 @@ export class Room extends Scene {
             frameWidth: 64,
             frameHeight: 64,
         });
-        this.load.audio('battle', 'assets/sounds/battle1.mp3');
+        this.load.audio('battle', 'assets/sounds/battle.mp3');
     }
 
     public create() {
