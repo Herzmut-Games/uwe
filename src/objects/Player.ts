@@ -45,6 +45,10 @@ export class Player {
         return this._player.y;
     }
 
+    get element(): Element {
+        return this._currentElement;
+    }
+
     get gameObject(): Physics.Arcade.Sprite {
         return this._player;
     }
@@ -139,7 +143,6 @@ export class Player {
     public update(): void {
         this._move();
         this._animate();
-        this._setElementColor();
     }
 
     public removeShootListeners(): void {
@@ -147,10 +150,6 @@ export class Player {
         this._keys.Up.removeAllListeners();
         this._keys.Left.removeAllListeners();
         this._keys.Right.removeAllListeners();
-    }
-
-    private _setElementColor(): void {
-        this._player.tint = this._currentElement;
     }
 
     private _animate(): void {
