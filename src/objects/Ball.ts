@@ -1,4 +1,4 @@
-import { Physics } from 'phaser';
+import { Physics, Scene } from 'phaser';
 import { Direction } from './Player';
 
 export enum BallType {
@@ -16,7 +16,7 @@ export abstract class Ball extends Physics.Arcade.Sprite {
     private _shootSpeed: number = 9;
     private _direction: Direction;
 
-    constructor(protected parentScene, protected ballType: BallType) {
+    constructor(protected parentScene: Scene, protected ballType: BallType) {
         super(parentScene, 0, 0, ballType);
 
         parentScene.anims.create({
@@ -31,6 +31,7 @@ export abstract class Ball extends Physics.Arcade.Sprite {
     }
 
     public shoot(player: Physics.Arcade.Sprite, direction: Direction) {
+        this.setCollideWorldBounds(true);
         this._direction = direction;
 
         switch (direction) {

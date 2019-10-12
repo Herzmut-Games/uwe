@@ -94,17 +94,14 @@ export class Room extends Scene {
         this._earthspirits
             .get()
             .setActive(true)
-            .setVisible(true)
             .spawn(this._player);
         this._waterspirits
             .get()
             .setActive(true)
-            .setVisible(true)
             .spawn(this._player);
         this._firespirits
             .get()
             .setActive(true)
-            .setVisible(true)
             .spawn(this._player);
 
         this.physics.add.collider(this._earthspirits, this._waterspirits);
