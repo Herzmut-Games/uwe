@@ -165,23 +165,10 @@ export class Room extends Scene {
                 const spiritType: EnemyType = spirit.getData('type');
                 const ballType: BallType = ball.getData('type');
 
-                if (
-                    (spiritType === EnemyType.FIRE &&
-                        ballType === BallType.WATER) ||
-                    (spiritType === EnemyType.EARTH &&
-                        ballType === BallType.FIRE) ||
-                    (spiritType === EnemyType.WATER &&
-                        ballType === BallType.EARTH)
-                ) {
-                    this._score.add(100);
+                ball.fadeOut();
 
-                    spirit.kill();
-                    this.sound.add('enemy-death').play();
-                    if (Math.random() > 0.3) {
-                        ball.fadeOut();
-                    }
-                } else {
-                    ball.fadeOut();
+                if (spirit.hit(ballType)) {
+                    this._score.add(100);
                 }
             }
         );

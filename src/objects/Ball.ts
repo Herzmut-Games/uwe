@@ -16,6 +16,7 @@ export abstract class Ball extends Physics.Arcade.Sprite {
     private _shootSpeed: number = 7;
     private _direction: Direction;
     private _fadingOut: boolean = false;
+    private _size: number = 1.5;
 
     constructor(protected parentScene: Scene, protected ballType: BallType) {
         super(parentScene, 0, 0, ballType);
@@ -83,11 +84,11 @@ export abstract class Ball extends Physics.Arcade.Sprite {
                 this.disableBody();
             }
             return;
-        } else if (this.scale < 1) {
+        } else if (this.scale < this._size) {
             this.scale += 0.1;
         } else {
             // just in case...
-            this.scale = 1;
+            this.scale = this._size;
         }
 
         switch (this._direction) {
