@@ -1,13 +1,18 @@
-import { Scene, GameObjects, Physics } from 'phaser';
-import { screenHeight, screenWidth } from '../config';
+import { Scene, Physics } from 'phaser';
 import { Player } from './Player';
 import { isUndefined } from 'util';
+
+export enum EnemyType {
+    WATER = 'waterspirit',
+    EARTH = 'earthspirit',
+    FIRE = 'firespirit',
+}
 
 export class Enemy extends Physics.Arcade.Sprite {
     private _player: Player;
     private _speed: number = 50;
 
-    constructor(parentScene: Scene, private _kind: string) {
+    constructor(parentScene: Scene, private _kind: EnemyType) {
         super(parentScene, 0, 0, _kind);
 
         parentScene.anims.create({
@@ -46,23 +51,25 @@ export class Enemy extends Physics.Arcade.Sprite {
         this.anims.play(`run_${this._kind}`, true);
         this.setScale(2);
         this.setCircle(5);
+        this.setDataEnabled();
+        this.setData('type', this._kind);
     }
 }
 
 export class FireSpirit extends Enemy {
     constructor(parentScene: Scene) {
-        super(parentScene, 'firespirit');
+        super(parentScene, EnemyType.FIRE);
     }
 }
 
 export class EarthSpirit extends Enemy {
     constructor(parentScene: Scene) {
-        super(parentScene, 'earthspirit');
+        super(parentScene, EnemyType.EARTH);
     }
 }
 
 export class WaterSpirit extends Enemy {
     constructor(parentScene: Scene) {
-        super(parentScene, 'waterspirit');
+        super(parentScene, EnemyType.WATER);
     }
 }

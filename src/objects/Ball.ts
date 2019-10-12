@@ -45,6 +45,8 @@ export abstract class Ball extends Physics.Arcade.Sprite {
                 this.setAngle(180);
                 break;
         }
+        this.setDataEnabled();
+        this.data.set('type', this.ballType);
         this.setPosition(player.x, player.y);
         this.anims.play(getBallAnimation(this.ballType), true);
     }
