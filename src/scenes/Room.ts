@@ -22,6 +22,14 @@ export class Room extends Scene {
             frameHeight: 48,
         });
         this.load.audio('battle', 'assets/sounds/battle.mp3');
+        this.load.audio(
+            'element-switch',
+            'assets/sounds/effects/sfx_wpn_dagger.wav'
+        );
+        this.load.audio(
+            'footsteps',
+            'assets/sounds/effects/sfx_movement_footstepsloop4_fast.wav'
+        );
         this.load.spritesheet('firespirit', 'assets/objects/firespirit.png', {
             frameWidth: 10,
             frameHeight: 26,
@@ -56,7 +64,7 @@ export class Room extends Scene {
         this._player = new Player(this);
         this.physics.world.setBounds(0, 108, 800, 452);
 
-        this._music = this.sound.add('battle');
+        this._music = this.sound.add('battle', { volume: 0.5 });
         this._music.play();
         this._earthspirits = this.physics.add.group({
             classType: Fireball,

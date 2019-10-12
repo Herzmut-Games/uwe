@@ -49,6 +49,7 @@ export class Player {
     private _fireballs: GameObjects.Group;
     private _waterballs: GameObjects.Group;
     private _earthballs: GameObjects.Group;
+    private _footsteps: Phaser.Sound.BaseSound;
 
     private get movementDirection(): Direction {
         switch (true) {
@@ -75,6 +76,10 @@ export class Player {
 
     constructor(private parentScene: Scene) {
         const cursorKeys = this.parentScene.input.keyboard.createCursorKeys();
+        this._footsteps = this.parentScene.sound.add('footsteps', {
+            rate: 1.5,
+            volume: 0.5,
+        });
 
         this._keys = {
             One: this.parentScene.input.keyboard.addKey('ONE'),
@@ -146,6 +151,9 @@ export class Player {
         this._player.anims.pause();
 
         if (this._isMoving) {
+            if (!this._footsteps.isPlaying) {
+                this._footsteps.play();
+            }
             this._player.anims.resume();
         }
     }
@@ -238,6 +246,7 @@ export class Player {
         this._keys.Three.onDown = () => (this._currentElement = Element.Earth);
 
         this._keys.Space.onDown = () => {
+            this.parentScene.sound.add('element-switch').play();
             switch (this._currentElement) {
                 case Element.Fire:
                     this._currentElement = Element.Water;

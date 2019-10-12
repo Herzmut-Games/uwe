@@ -10,15 +10,18 @@ export class Start extends Scene {
 
     public preload() {
         this.load.audio('intro', 'assets/sounds/intro.mp3');
+        this.load.audio(
+            'menu-select',
+            'assets/sounds/effects/sfx_menu_select1.wav'
+        );
     }
 
     public destroy(): void {
-        console.log('destroy');
         this._music.stop();
     }
 
     public create(): void {
-        this._music = this.sound.add('intro', { loop: true });
+        this._music = this.sound.add('intro', { volume: 0.5, loop: true });
         this._music.play();
 
         this.add
@@ -54,6 +57,7 @@ export class Start extends Scene {
             '#D50C2D',
             () => {
                 this.scene.start('Room');
+                this.sound.add('menu-select').play();
                 this.destroy();
             }
         );
