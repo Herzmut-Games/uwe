@@ -9,7 +9,7 @@ import {
     Enemy,
     EnemyType,
 } from '../objects/Enemy';
-import { BallType } from '../objects/Ball';
+import { BallType, Ball } from '../objects/Ball';
 import { EnemyController } from '../objects/EnemyController';
 
 export class Room extends Scene {
@@ -108,7 +108,7 @@ export class Room extends Scene {
                 this._player.fireballs,
                 this._player.waterballs,
             ],
-            (spirit: GameObjects.GameObject, ball: GameObjects.GameObject) => {
+            (spirit: GameObjects.GameObject, ball: Ball) => {
                 const spiritType: EnemyType = spirit.getData('type');
                 const ballType: BallType = ball.getData('type');
 
@@ -124,10 +124,10 @@ export class Room extends Scene {
 
                     spirit.destroy();
                     if (Math.random() > 0.3) {
-                        ball.destroy();
+                        ball.fadeOut();
                     }
                 } else {
-                    ball.destroy();
+                    ball.fadeOut();
                 }
             }
         );
