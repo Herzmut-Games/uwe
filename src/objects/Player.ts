@@ -12,37 +12,54 @@ enum Direction {
     None,
 }
 
+enum Element {
+    Fire = 0xd50c2d,
+    Water = 0x0000ff,
+    Grass = 0x00ff00,
+}
+
+interface ControlKeys {
+    One: Input.Keyboard.Key;
+    Two: Input.Keyboard.Key;
+    Three: Input.Keyboard.Key;
+    W: Input.Keyboard.Key;
+    A: Input.Keyboard.Key;
+    S: Input.Keyboard.Key;
+    D: Input.Keyboard.Key;
+    Up: Input.Keyboard.Key;
+    Down: Input.Keyboard.Key;
+    Left: Input.Keyboard.Key;
+    Right: Input.Keyboard.Key;
+    Space: Input.Keyboard.Key;
+}
+
 export class Player {
     private _player: Physics.Arcade.Sprite;
     private _speed = 6;
     private _diagonalSpeed = this._speed / 1.5;
     private _animationSpeed = 15;
-
-    private _keyW: Input.Keyboard.Key;
-    private _keyA: Input.Keyboard.Key;
-    private _keyS: Input.Keyboard.Key;
-    private _keyD: Input.Keyboard.Key;
+    private _keys: ControlKeys;
 
     private _isMoving: boolean = false;
-    private _cursorKeys: Types.Input.Keyboard.CursorKeys;
+    private _currentElement: Element = Element.Fire;
 
     private get movementDirection(): Direction {
         switch (true) {
-            case this._keyW.isDown && this._keyD.isDown:
+            case this._keys.W.isDown && this._keys.D.isDown:
                 return Direction.UpRight;
-            case this._keyW.isDown && this._keyA.isDown:
+            case this._keys.W.isDown && this._keys.A.isDown:
                 return Direction.UpLeft;
-            case this._keyS.isDown && this._keyD.isDown:
+            case this._keys.S.isDown && this._keys.D.isDown:
                 return Direction.DownRight;
-            case this._keyS.isDown && this._keyA.isDown:
+            case this._keys.S.isDown && this._keys.A.isDown:
                 return Direction.DownLeft;
-            case this._keyW.isDown:
+            case this._keys.W.isDown:
                 return Direction.Up;
-            case this._keyS.isDown:
+            case this._keys.S.isDown:
                 return Direction.Down;
-            case this._keyA.isDown:
+            case this._keys.A.isDown:
                 return Direction.Left;
-            case this._keyD.isDown:
+            case this._keys.D.isDown:
                 return Direction.Right;
             default:
                 return Direction.None;
@@ -50,10 +67,22 @@ export class Player {
     }
 
     constructor(private parentScene: Scene) {
-        this._keyW = this.parentScene.input.keyboard.addKey('W');
-        this._keyA = this.parentScene.input.keyboard.addKey('A');
-        this._keyS = this.parentScene.input.keyboard.addKey('S');
-        this._keyD = this.parentScene.input.keyboard.addKey('D');
+        const cursorKeys = this.parentScene.input.keyboard.createCursorKeys();
+
+        this._keys = {
+            One: this.parentScene.input.keyboard.addKey('ONE'),
+            Two: this.parentScene.input.keyboard.addKey('TWO'),
+            Three: this.parentScene.input.keyboard.addKey('THREE'),
+            W: this.parentScene.input.keyboard.addKey('W'),
+            A: this.parentScene.input.keyboard.addKey('A'),
+            S: this.parentScene.input.keyboard.addKey('S'),
+            D: this.parentScene.input.keyboard.addKey('D'),
+            Up: cursorKeys.up,
+            Left: cursorKeys.left,
+            Right: cursorKeys.right,
+            Down: cursorKeys.down,
+            Space: cursorKeys.space,
+        };
 
         this._player = parentScene.physics.add.sprite(100, 450, 'player');
         this._player.setScale(1.3);
@@ -62,28 +91,32 @@ export class Player {
 
         parentScene.physics.world.enableBody(this._player);
 
-        this._cursorKeys = this.parentScene.input.keyboard.createCursorKeys();
-
         this._addAnimations();
+        this._addElementListeners();
     }
 
     public update(): void {
         this._move();
         this._animate();
+        this._setElementColor();
+    }
+
+    private _setElementColor(): void {
+        this._player.tint = this._currentElement;
     }
 
     private _animate(): void {
         switch (true) {
-            case this._cursorKeys.up.isDown:
+            case this._keys.Up.isDown:
                 this._player.anims.play('up', true);
                 break;
-            case this._cursorKeys.down.isDown:
+            case this._keys.Down.isDown:
                 this._player.anims.play('down', true);
                 break;
-            case this._cursorKeys.left.isDown:
+            case this._keys.Left.isDown:
                 this._player.anims.play('left', true);
                 break;
-            case this._cursorKeys.right.isDown:
+            case this._keys.Right.isDown:
                 this._player.anims.play('right', true);
                 break;
         }
@@ -176,5 +209,25 @@ export class Player {
 
         this._player.anims.play('down');
         this._player.anims.pause();
+    }
+
+    private _addElementListeners(): void {
+        this._keys.One.onDown = () => (this._currentElement = Element.Fire);
+        this._keys.Two.onDown = () => (this._currentElement = Element.Water);
+        this._keys.Three.onDown = () => (this._currentElement = Element.Grass);
+
+        this._keys.Space.onUp = () => {
+            switch (this._currentElement) {
+                case Element.Fire:
+                    this._currentElement = Element.Water;
+                    break;
+                case Element.Water:
+                    this._currentElement = Element.Grass;
+                    break;
+                case Element.Grass:
+                    this._currentElement = Element.Fire;
+                    break;
+            }
+        };
     }
 }
