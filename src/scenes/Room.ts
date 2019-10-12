@@ -123,7 +123,9 @@ export class Room extends Scene {
                     this._score.add(100);
 
                     spirit.destroy();
-                    ball.destroy();
+                    if (Math.random() > 0.3) {
+                        ball.destroy();
+                    }
                 } else {
                     ball.destroy();
                 }
