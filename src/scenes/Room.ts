@@ -11,7 +11,7 @@ import {
 } from '../objects/Enemy';
 import { BallType, Ball } from '../objects/Ball';
 import { EnemyController } from '../objects/EnemyController';
-import { Healthbar } from '../objects/Healtbar';
+import { Healthbar } from '../objects/Healthbar';
 
 export class Room extends Scene {
     private _score: Score;
