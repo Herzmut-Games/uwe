@@ -1,6 +1,7 @@
 import { Scene } from 'phaser';
 import { screenWidth, screenHeight } from '../config';
 import { Button } from '../objects/Button';
+import { fonts } from '../objects/Fonts';
 
 export class Start extends Scene {
     private _music: Phaser.Sound.BaseSound;
@@ -28,6 +29,7 @@ export class Start extends Scene {
             .text(screenWidth / 2, screenHeight / 4, 'UWE', {
                 fill: '#D50C2D',
                 fontSize: 100,
+                fontFamily: fonts.primary,
             })
             .setOrigin(0.5, 0.5);
         this.add
@@ -38,6 +40,7 @@ export class Start extends Scene {
                 {
                     fill: '#D50C2D',
                     fontSize: 25,
+                    fontFamily: fonts.primary,
                 }
             )
             .setOrigin(0.5, 0.5);
@@ -45,6 +48,7 @@ export class Start extends Scene {
             .text(screenWidth / 1.5, screenHeight / 5, 'Bist du auch dabei?', {
                 fill: '#FFFF00',
                 fontSize: 20,
+                fontFamily: fonts.primary,
             })
             .setOrigin(0.5, 0.5)
             .setAngle(30);
