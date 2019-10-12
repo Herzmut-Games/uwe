@@ -46,6 +46,7 @@ export abstract class Ball extends Physics.Arcade.Sprite {
             );
         }
         this.setCollideWorldBounds(true);
+        this.setImmovable(true);
         this.setDataEnabled();
         this.data.set('type', this.ballType);
         this._fadingOut = false;

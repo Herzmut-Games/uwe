@@ -75,18 +75,18 @@ export class Enemy extends Physics.Arcade.Sprite {
             if (this._health <= 1) {
                 this._parentScene.sound.add('enemy-death').play();
                 this.kill();
+                return true;
             } else {
                 this._health -= 1;
                 this._setScale();
+                return false;
             }
-
-            return true;
         } else if (
             (this._kind === EnemyType.FIRE && ballType === BallType.FIRE) ||
             (this._kind === EnemyType.EARTH && ballType === BallType.EARTH) ||
             (this._kind === EnemyType.WATER && ballType === BallType.WATER)
         ) {
-            if (this._health < 5) {
+            if (this._health < 3) {
                 this._health += 1;
                 this._setScale();
             }
@@ -104,7 +104,7 @@ export class Enemy extends Physics.Arcade.Sprite {
     }
 
     private _setScale() {
-        this.setScale(3 + this._health - 1);
+        this.setScale(2 + this._health * 1.25);
     }
 
     private get _hasSufficientDistanceToPlayer(): boolean {
