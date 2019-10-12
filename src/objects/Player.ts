@@ -110,6 +110,7 @@ export class Player {
         this._player = parentScene.physics.add.sprite(100, 450, 'player');
         this._player.setScale(1.3);
         this._player.setCollideWorldBounds(true);
+        this._player.setImmovable(true);
 
         parentScene.physics.world.enableBody(this._player);
 
