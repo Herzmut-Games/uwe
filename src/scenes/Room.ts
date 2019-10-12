@@ -162,7 +162,6 @@ export class Room extends Scene {
                 this._player.waterballs,
             ],
             (spirit: Enemy, ball: Ball) => {
-                const spiritType: EnemyType = spirit.getData('type');
                 const ballType: BallType = ball.getData('type');
                 ball.fadeOut();
 
