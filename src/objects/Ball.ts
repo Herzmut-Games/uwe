@@ -13,6 +13,8 @@ export function getBallAnimation(ballType: BallType): string {
 
 export abstract class Ball extends Physics.Arcade.Sprite {
     private _animationSpeed: number = 10;
+    private _shootSpeed: number = 9;
+    private _direction: Direction;
 
     constructor(protected parentScene, protected ballType: BallType) {
         super(parentScene, 0, 0, ballType);
@@ -29,6 +31,8 @@ export abstract class Ball extends Physics.Arcade.Sprite {
     }
 
     public shoot(player: Physics.Arcade.Sprite, direction: Direction) {
+        this._direction = direction;
+
         switch (direction) {
             // sprite has left orientation by default
             case Direction.Up:
@@ -45,5 +49,20 @@ export abstract class Ball extends Physics.Arcade.Sprite {
         this.anims.play(getBallAnimation(this.ballType), true);
     }
 
-    public update() {}
+    public update() {
+        switch (this._direction) {
+            case Direction.Left:
+                this.x -= this._shootSpeed;
+                break;
+            case Direction.Up:
+                this.y -= this._shootSpeed;
+                break;
+            case Direction.Down:
+                this.y += this._shootSpeed;
+                break;
+            case Direction.Right:
+                this.x += this._shootSpeed;
+                break;
+        }
+    }
 }
