@@ -12,11 +12,13 @@ import {
 import { BallType, Ball } from '../objects/Ball';
 import { EnemyController } from '../objects/EnemyController';
 import { Healthbar } from '../objects/Healthbar';
+import { WeaponStatus } from '../objects/WeaponStatus';
 
 export class Room extends Scene {
     private _score: Score;
     private _player: Player;
     private _healthbar: Healthbar;
+    private _weaponStatus: WeaponStatus;
     private _music: Phaser.Sound.BaseSound;
     private _enemyController: EnemyController;
     private _firespirits: Phaser.Physics.Arcade.Group;
@@ -78,6 +80,18 @@ export class Room extends Scene {
             frameWidth: 84,
             frameHeight: 9,
         });
+        this.load.spritesheet('earthstatus', 'assets/objects/earthstatus.png', {
+            frameWidth: 13,
+            frameHeight: 40,
+        });
+        this.load.spritesheet('firestatus', 'assets/objects/firestatus.png', {
+            frameWidth: 14,
+            frameHeight: 45,
+        });
+        this.load.spritesheet('waterstatus', 'assets/objects/waterstatus.png', {
+            frameWidth: 14,
+            frameHeight: 41,
+        });
     }
 
     public create() {
@@ -90,6 +104,7 @@ export class Room extends Scene {
         this._score = new Score(this);
         this._player = new Player(this);
         this._healthbar = new Healthbar(this);
+        this._weaponStatus = new WeaponStatus(this);
 
         this._firespirits = this.physics.add.group({
             classType: FireSpirit,
@@ -173,6 +188,7 @@ export class Room extends Scene {
     public update(): void {
         this._score.update();
         this._player.update();
+        this._weaponStatus.update(this._player.element);
         this._checkGameEnd();
     }
 
