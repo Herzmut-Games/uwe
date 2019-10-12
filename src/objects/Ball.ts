@@ -31,7 +31,7 @@ export abstract class Ball extends Physics.Arcade.Sprite {
     }
 
     public shoot(player: Physics.Arcade.Sprite, direction: Direction) {
-        this.setCollideWorldBounds(true);
+        // this.setCollideWorldBounds(true);
         this._direction = direction;
 
         switch (direction) {
