@@ -1,15 +1,16 @@
-import { Scene, GameObjects } from 'phaser';
+import { Scene, GameObjects, Physics } from 'phaser';
 import { Score } from '../objects/Score';
 import { Player } from '../objects/Player';
 import { Fireball } from '../objects/Fireball';
+import { FireSpirit, WaterSpirit, EarthSpirit, Enemy } from '../objects/Enemy';
 
 export class Room extends Scene {
     private _score: Score;
     private _player: Player;
     private _music: Phaser.Sound.BaseSound;
-    private _firespirits: GameObjects.Group;
-    private _waterspirits: GameObjects.Group;
-    private _earthspirits: GameObjects.Group;
+    private _firespirits: Phaser.Physics.Arcade.Group;
+    private _waterspirits: Phaser.Physics.Arcade.Group;
+    private _earthspirits: Phaser.Physics.Arcade.Group;
 
     constructor() {
         super({ key: 'Room' });
@@ -17,6 +18,7 @@ export class Room extends Scene {
 
     public preload() {
         this.load.image('background', 'assets/backgrounds/map.png');
+        this.load.image('topbar', 'assets/backgrounds/topbar.png');
         this.load.spritesheet('player', 'assets/georg.png', {
             frameWidth: 48,
             frameHeight: 48,
@@ -60,24 +62,59 @@ export class Room extends Scene {
         const background = this.add.image(0, 88, 'background');
         background.setOrigin(0, 0).setDisplaySize(800, 512);
 
+        const topbar = this.add.image(0, 0, 'topbar');
+        topbar.setOrigin(0, 0).setDisplaySize(800, 112);
+
         this._score = new Score(this);
         this._player = new Player(this);
         this.physics.world.setBounds(0, 108, 800, 452);
 
         this._music = this.sound.add('battle', { volume: 0.5 });
         this._music.play();
-        this._earthspirits = this.physics.add.group({
-            classType: Fireball,
+        this._firespirits = this.physics.add.group({
+            classType: FireSpirit,
             runChildUpdate: true,
         });
         this._waterspirits = this.physics.add.group({
-            classType: Fireball,
+            classType: WaterSpirit,
             runChildUpdate: true,
         });
-        this._firespirits = this.physics.add.group({
-            classType: Fireball,
+        this._earthspirits = this.physics.add.group({
+            classType: EarthSpirit,
             runChildUpdate: true,
         });
+
+        this._earthspirits
+            .get()
+            .setActive(true)
+            .setVisible(true)
+            .spawn(this._player);
+        this._waterspirits
+            .get()
+            .setActive(true)
+            .setVisible(true)
+            .spawn(this._player);
+        this._firespirits
+            .get()
+            .setActive(true)
+            .setVisible(true)
+            .spawn(this._player);
+
+        this.physics.add.collider(this._earthspirits, this._waterspirits);
+        this.physics.add.collider(this._earthspirits, this._firespirits);
+        this.physics.add.collider(this._waterspirits, this._firespirits);
+        this.physics.add.collider(
+            this._player.gameObject,
+            [this._earthspirits, this._waterspirits, this._firespirits],
+            (
+                player: GameObjects.GameObject,
+                spirit: GameObjects.GameObject
+            ) => {
+                spirit.destroy();
+            },
+            null,
+            this
+        );
     }
 
     public update(): void {

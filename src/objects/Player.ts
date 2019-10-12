@@ -15,7 +15,7 @@ export enum Direction {
     None,
 }
 
-enum Element {
+export enum Element {
     Fire = 0xd50c2d,
     Water = 0x0000ff,
     Earth = 0x00ff00,
@@ -37,6 +37,18 @@ interface ControlKeys {
 }
 
 export class Player {
+    get x(): number {
+        return this._player.x;
+    }
+
+    get y(): number {
+        return this._player.y;
+    }
+
+    get gameObject(): Physics.Arcade.Sprite {
+        return this._player;
+    }
+
     private _player: Physics.Arcade.Sprite;
     private _speed = 6;
     private _diagonalSpeed = this._speed / 1.5;
@@ -98,8 +110,8 @@ export class Player {
 
         this._player = parentScene.physics.add.sprite(100, 450, 'player');
         this._player.setScale(1.3);
-        this._player.setBounce(0.2);
         this._player.setCollideWorldBounds(true);
+        this._player.setImmovable(true);
 
         parentScene.physics.world.enableBody(this._player);
 
