@@ -13,7 +13,7 @@ export function getBallAnimation(ballType: BallType): string {
 
 export abstract class Ball extends Physics.Arcade.Sprite {
     private _animationSpeed: number = 10;
-    private _shootSpeed: number = 5;
+    private _shootSpeed: number = 7;
     private _direction: Direction;
     private _fadingOut: boolean = false;
 
