@@ -39,6 +39,14 @@ export class Room extends Scene {
         this.load.audio('battle-intro', 'assets/sounds/battle_intro.mp3');
         this.load.audio('battle-main', 'assets/sounds/battle_main.mp3');
         this.load.audio(
+            'enemy-death',
+            'assets/sounds/effects/sfx_deathscream_alien4.wav'
+        );
+        this.load.audio(
+            'player-impact',
+            'assets/sounds/effects/sfx_deathscream_human12.wav'
+        );
+        this.load.audio(
             'element-switch',
             'assets/sounds/effects/sfx_wpn_dagger.wav'
         );
@@ -108,6 +116,7 @@ export class Room extends Scene {
             (_: GameObjects.GameObject, spirit: Enemy) => {
                 spirit.kill();
                 this._healthbar.ouch();
+                this.sound.add('player-impact', { volume: 2 }).play();
             }
         );
 
@@ -138,6 +147,7 @@ export class Room extends Scene {
                     this._score.add(100);
 
                     spirit.kill();
+                    this.sound.add('enemy-death').play();
                     if (Math.random() > 0.3) {
                         ball.fadeOut();
                     }
@@ -151,9 +161,13 @@ export class Room extends Scene {
 
         this._music = this.sound.add('battle-intro', { volume: 0.5 });
         this._music.play();
-        this._music.once('complete', () =>
-            this.sound.add('battle-main', { volume: 0.5, loop: true }).play()
-        );
+        this._music.once('complete', () => {
+            this._music = this.sound.add('battle-main', {
+                volume: 0.5,
+                loop: true,
+            });
+            this._music.play();
+        });
     }
 
     public update(): void {
@@ -164,6 +178,7 @@ export class Room extends Scene {
 
     private _checkGameEnd(): void {
         if (this._healthbar.health <= 0) {
+            this._music.stop();
             this.scene.stop();
             this.scene.start('Death', { score: this._score.score });
             this._player.removeShootListeners();
