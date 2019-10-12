@@ -5,6 +5,14 @@ export class EnemyController {
     private _timer: Time.TimerEvent;
     private _round: number = 1;
 
+    private get enemyCount(): number {
+        return (
+            this._spiritGroups[0].getLength() +
+            this._spiritGroups[1].getLength() +
+            this._spiritGroups[2].getLength()
+        );
+    }
+
     constructor(
         parentScene: Scene,
         private _player: Player,
@@ -20,15 +28,13 @@ export class EnemyController {
     }
 
     private _spawnSpirits(): void {
-        console.log('testi');
-
-        for (let i = 0, l = this._round; i < l; i++) {
-            console.log('testi' + i);
-            this._spiritGroups[Phaser.Math.Between(0, 2)]
-                .get()
-                .setActive(true)
-                .setVisible(true)
-                .spawn(this._player);
+        if (this.enemyCount < 30) {
+            for (let i = 0, l = this._round; i < l; i++) {
+                this._spiritGroups[Phaser.Math.Between(0, 2)]
+                    .get()
+                    .setActive(true)
+                    .spawn(this._player);
+            }
         }
 
         if (this._round < 10) {
