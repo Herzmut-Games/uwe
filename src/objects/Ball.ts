@@ -24,7 +24,7 @@ export abstract class Ball extends Physics.Arcade.Sprite {
             key: getBallAnimation(ballType),
             frames: parentScene.anims.generateFrameNumbers(ballType, {
                 start: 0,
-                end: 59,
+                end: -1,
             }),
             frameRate: this._animationSpeed,
             repeat: -1,
@@ -50,19 +50,24 @@ export abstract class Ball extends Physics.Arcade.Sprite {
         this._fadingOut = false;
         this.scale = 0.1;
         this._direction = direction;
+        this.setSize(20, 20);
 
         switch (direction) {
             case Direction.Left:
                 this.setAngle(0);
+                this.setOffset(0, -5);
                 break;
             case Direction.Up:
                 this.setAngle(90);
+                this.setOffset(25, -30);
                 break;
             case Direction.Down:
                 this.setAngle(270);
+                this.setOffset(25, 20);
                 break;
             case Direction.Right:
                 this.setAngle(180);
+                this.setOffset(48, -5);
                 break;
         }
         this.setPosition(player.x, player.y);

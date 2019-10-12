@@ -1,6 +1,5 @@
 import { Scene, Physics } from 'phaser';
 import { Player } from './Player';
-import { isUndefined } from 'util';
 
 export enum EnemyType {
     WATER = 'waterspirit',
@@ -57,7 +56,7 @@ export class Enemy extends Physics.Arcade.Sprite {
         while (!this._hasSufficientDistanceToPlayer) {}
         this.anims.play(`run_${this._kind}`, true);
         this.setScale(2);
-        this.setCircle(5);
+        this.setSize(10, 20);
         this.setDataEnabled();
         this.setData('type', this._kind);
     }
