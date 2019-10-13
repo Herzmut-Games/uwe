@@ -1,6 +1,7 @@
 import { Scene, GameObjects } from 'phaser';
 import { screenWidth, screenHeight } from '../config';
 import { fonts } from '../objects/Fonts';
+import { colors } from '../objects/Colors';
 
 export class Intro extends Scene {
     private _logo: Phaser.GameObjects.Image;
@@ -119,7 +120,7 @@ export class Intro extends Scene {
             .setOrigin(0.5, 0.5);
         this.add
             .text(400, 255, 'Games', {
-                fill: '#D50C2D',
+                fill: colors.red,
                 fontFamily: fonts.primary,
                 fontSize: '38px',
             })

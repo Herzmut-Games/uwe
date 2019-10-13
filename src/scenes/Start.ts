@@ -2,6 +2,7 @@ import { Scene } from 'phaser';
 import { screenWidth } from '../config';
 import { Button } from '../objects/Button';
 import { fonts } from '../objects/Fonts';
+import { colors } from '../objects/Colors';
 
 export class Start extends Scene {
     private _music: Phaser.Sound.BaseSound;
@@ -16,6 +17,7 @@ export class Start extends Scene {
     private _aboutBackButton: Button;
     private _moonWalkEnabled: boolean = false;
     private _background_dark: Phaser.GameObjects.TileSprite;
+    private _helpButton: Button;
     constructor() {
         super({ key: 'Start' });
     }
@@ -48,6 +50,7 @@ export class Start extends Scene {
         if (this._playerRunAway) {
             this._runAwayModifier += 0.4;
             this._startButton.setAlpha(1 - this._runAwayModifier * 0.1);
+            this._helpButton.setAlpha(1 - this._runAwayModifier * 0.1);
             this._aboutButton.setAlpha(1 - this._runAwayModifier * 0.1);
         }
         this._menuPlayer.x += this._runAwayModifier;
@@ -160,14 +163,14 @@ export class Start extends Scene {
     private _displayHeader(): void {
         this.add
             .text(screenWidth / 2, 80, 'UWE', {
-                fill: '#D50C2D',
+                fill: colors.red,
                 fontSize: 120,
                 fontFamily: fonts.primary,
             })
             .setOrigin(0.5, 0.5);
         this.add
             .text(screenWidth / 2, 140, '(E wie Elemente, wa?)', {
-                fill: '#D50C2D',
+                fill: colors.red,
                 fontSize: 25,
                 fontFamily: fonts.primary,
             })
@@ -177,6 +180,7 @@ export class Start extends Scene {
     private _hideMenu(): void {
         this._startButton.remove();
         this._aboutButton.remove();
+        this._helpButton.remove();
     }
 
     private _hideAbout(): void {
@@ -187,7 +191,7 @@ export class Start extends Scene {
     private _displayAbout(): void {
         this._aboutText = this.add
             .text(570, 350, 'Christopher\nMarvin\nPatrick\nRobert', {
-                fill: '#FFF',
+                fill: colors.white,
                 fontSize: '58px',
                 fontFamily: fonts.primary,
             })
@@ -197,8 +201,8 @@ export class Start extends Scene {
             580,
             570,
             'Back',
-            '#FFF',
-            '#D50C2D',
+            colors.white,
+            colors.red,
             '58px',
             () => {
                 this._hideAbout();
@@ -211,10 +215,10 @@ export class Start extends Scene {
         this._startButton = Button.create(
             this,
             580,
-            510,
+            460,
             'Start',
-            '#FFF',
-            '#D50C2D',
+            colors.white,
+            colors.red,
             '58px',
             () => {
                 this._disableMoonwalk();
@@ -224,13 +228,28 @@ export class Start extends Scene {
             }
         );
 
+        this._helpButton = Button.create(
+            this,
+            580,
+            510,
+            'Hilfe',
+            colors.white,
+            colors.red,
+            '58px',
+            () => {
+                this.scene.run('Help');
+                this.scene.bringToTop('Help');
+                this.scene.setActive(false);
+            }
+        );
+
         this._aboutButton = Button.create(
             this,
             580,
-            570,
+            560,
             'Credits',
-            '#FFF',
-            '#D50C2D',
+            colors.white,
+            colors.red,
             '58px',
             () => {
                 this._hideMenu();
