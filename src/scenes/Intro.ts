@@ -24,7 +24,7 @@ export class Intro extends Scene {
         });
 
         this.cameras.main.setBackgroundColor('#FFF');
-        this.load.image('logo', 'assets/herzmut_logo.png');
+        this.load.image('logo', 'assets/herzmut.png');
         this.load.audio('bling', 'assets/sounds/bling.mp3');
         this.load.image('menu-background', 'assets/backgrounds/menu.png');
         this.load.image(
@@ -108,7 +108,7 @@ export class Intro extends Scene {
 
     private _displayLogo(): void {
         this._logo = this.add.image(screenWidth / 2, 200, 'logo');
-        this._logo.setScale(2);
+        // this._logo.setScale(2);
         this._logo.setOrigin(0.5, 0.5);
         this.add
             .text(screenWidth / 2, screenHeight / 1.5, 'Hetzner GameJam 2019', {
