@@ -37,12 +37,11 @@ interface ControlKeys {
 }
 
 export class Player {
-    get x(): number {
-        return this._player.x;
+    get bodyX(): number {
+        return this._player.x + this._player.displayWidth / 2;
     }
-
-    get y(): number {
-        return this._player.y;
+    get bodyY(): number {
+        return this._player.y + this._player.displayHeight / 2;
     }
 
     get element(): Element {
