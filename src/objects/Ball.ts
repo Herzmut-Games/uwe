@@ -12,11 +12,12 @@ export function getBallAnimation(ballType: BallType): string {
 }
 
 export abstract class Ball extends Physics.Arcade.Sprite {
-    private _animationSpeed: number = 10;
-    private _shootSpeed: number = 7;
+    private readonly _animationSpeed: number = 10;
+    private readonly _shootSpeed: number = 7;
+    private readonly _size: number = 1.5;
     private _direction: Direction;
     private _fadingOut: boolean = false;
-    private _size: number = 1.5;
+    private _collidedWithWorldBounds: boolean = false;
 
     constructor(protected parentScene: Scene, protected ballType: BallType) {
         super(parentScene, 0, 0, ballType);
@@ -39,6 +40,7 @@ export abstract class Ball extends Physics.Arcade.Sprite {
                 'worldbounds',
                 body => {
                     if (body.gameObject === this) {
+                        this._collidedWithWorldBounds = true;
                         this.fadeOut(false);
                     }
                 },
@@ -50,6 +52,7 @@ export abstract class Ball extends Physics.Arcade.Sprite {
         this.setDataEnabled();
         this.data.set('type', this.ballType);
         this._fadingOut = false;
+        this._collidedWithWorldBounds = false;
         this.scale = 0.1;
         this._direction = direction;
         this.setSize(5, 5);
@@ -62,9 +65,12 @@ export abstract class Ball extends Physics.Arcade.Sprite {
     }
 
     public update() {
-        const currentSpeed: number = this._fadingOut
-            ? this._shootSpeed * 2
-            : this._shootSpeed;
+        let currentSpeed: number = this._shootSpeed;
+        if (this._collidedWithWorldBounds) {
+            currentSpeed *= 2;
+        } else if (this._fadingOut) {
+            currentSpeed /= 2;
+        }
 
         if (this._fadingOut) {
             this.scale -= 0.25;
