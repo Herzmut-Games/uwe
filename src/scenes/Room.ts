@@ -128,16 +128,20 @@ export class Room extends Scene {
         this._score.update();
         this._player.update();
         this._weaponStatus.update(this._player.element);
-        this._checkGameEnd();
+        if (!this._checkGameEnd()) {
+            this._enemyController.update();
+        }
     }
 
-    private _checkGameEnd(): void {
+    private _checkGameEnd(): boolean {
         if (this._healthbar.health <= 0) {
             this._music.stop();
             this.scene.stop();
             this.scene.start('Death', { score: this._score.score });
             this._player.removeShootListeners();
+            return true;
         }
+        return false;
     }
 
     private _displayStartCountdown(): void {

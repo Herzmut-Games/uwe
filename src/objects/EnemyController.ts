@@ -1,9 +1,16 @@
-import { Scene, Time, Physics } from 'phaser';
+import { Scene, Time, Physics, Types } from 'phaser';
 import { Player } from './Player';
 
 export class EnemyController {
     private _timer: Time.TimerEvent;
     private _round: number = 1;
+    private readonly _timerConfig: Types.Time.TimerEventConfig = {
+        loop: true,
+        startAt: 0,
+        delay: 5000,
+        callback: this._spawnSpirits,
+        callbackScope: this,
+    };
 
     private get enemyCount(): number {
         return (
@@ -14,17 +21,19 @@ export class EnemyController {
     }
 
     constructor(
-        parentScene: Scene,
+        private _parentScene: Scene,
         private _player: Player,
         private _spiritGroups: Physics.Arcade.Group[]
     ) {
-        this._timer = parentScene.time.addEvent({
-            loop: true,
-            startAt: 0,
-            delay: 5000,
-            callback: this._spawnSpirits,
-            callbackScope: this,
-        });
+        this._timer = _parentScene.time.addEvent(this._timerConfig);
+    }
+
+    public update(): void {
+        if (this.enemyCount === 0 && this._round > 1) {
+            this._timer.destroy();
+            this._timer = this._parentScene.time.addEvent(this._timerConfig);
+            this._spawnSpirits();
+        }
     }
 
     private _spawnSpirits(): void {
