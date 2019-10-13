@@ -35,7 +35,7 @@ export class EnemyController {
                     .setActive(true)
                     .setVisible(true)
                     .enableBody()
-                    .spawn(this._player, Phaser.Math.Between(0, 2));
+                    .spawn(this._player, Phaser.Math.Between(1, 2));
             }
         }
 
