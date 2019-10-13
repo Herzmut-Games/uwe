@@ -7,4 +7,5 @@ const primary = {
 export const colors = {
     primary,
     white: '#fff',
+    red: '#D50C2D',
 };

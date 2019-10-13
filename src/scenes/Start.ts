@@ -16,6 +16,7 @@ export class Start extends Scene {
     private _aboutBackButton: Button;
     private _moonWalkEnabled: boolean = false;
     private _background_dark: Phaser.GameObjects.TileSprite;
+    private _helpButton: Button;
     constructor() {
         super({ key: 'Start' });
     }
@@ -48,6 +49,7 @@ export class Start extends Scene {
         if (this._playerRunAway) {
             this._runAwayModifier += 0.4;
             this._startButton.setAlpha(1 - this._runAwayModifier * 0.1);
+            this._helpButton.setAlpha(1 - this._runAwayModifier * 0.1);
             this._aboutButton.setAlpha(1 - this._runAwayModifier * 0.1);
         }
         this._menuPlayer.x += this._runAwayModifier;
@@ -177,6 +179,7 @@ export class Start extends Scene {
     private _hideMenu(): void {
         this._startButton.remove();
         this._aboutButton.remove();
+        this._helpButton.remove();
     }
 
     private _hideAbout(): void {
@@ -211,7 +214,7 @@ export class Start extends Scene {
         this._startButton = Button.create(
             this,
             580,
-            510,
+            460,
             'Start',
             '#FFF',
             '#D50C2D',
@@ -224,10 +227,25 @@ export class Start extends Scene {
             }
         );
 
+        this._helpButton = Button.create(
+            this,
+            580,
+            510,
+            'Hilfe',
+            '#FFF',
+            '#D50C2D',
+            '58px',
+            () => {
+                this.scene.run('Help');
+                this.scene.bringToTop('Help');
+                this.scene.setActive(false);
+            }
+        );
+
         this._aboutButton = Button.create(
             this,
             580,
-            570,
+            560,
             'Credits',
             '#FFF',
             '#D50C2D',
