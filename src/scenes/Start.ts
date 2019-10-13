@@ -25,8 +25,7 @@ export class Start extends Scene {
     }
 
     public create(): void {
-        this._background = this.add.tileSprite(0, 250, 0, 0, 'menu-background');
-        this._background.setScale(1.2);
+        this._background = this.add.tileSprite(0, 300, 0, 0, 'menu-background');
 
         this._background_dark = this.add.tileSprite(
             0,
@@ -35,7 +34,6 @@ export class Start extends Scene {
             0,
             'menu-background-dark'
         );
-        this._background_dark.setScale(1.2);
         this._background_dark.setAlpha(0);
 
         this._music = this.sound.add('intro', { volume: 0.5, loop: true });
@@ -114,7 +112,7 @@ export class Start extends Scene {
             repeat: -1,
         });
 
-        this._menuPlayer = this.physics.add.sprite(200, 350, 'player');
+        this._menuPlayer = this.physics.add.sprite(200, 370, 'player');
         this._menuPlayer.on('pointerup', () => this._toggleMoonWalk());
         this._menuPlayer.setInteractive();
         this._menuPlayer.setOrigin(0.5, 0.5);
