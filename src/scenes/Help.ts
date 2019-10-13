@@ -59,7 +59,7 @@ export class Help extends Scene {
                 key: type + '-help',
                 frames: this.anims.generateFrameNumbers(type, {
                     start: 0,
-                    end: 59,
+                    end: -1,
                 }),
                 frameRate: 20,
                 repeat: -1,
