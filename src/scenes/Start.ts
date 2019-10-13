@@ -32,7 +32,7 @@ export class Start extends Scene {
             'menu-select',
             'assets/sounds/effects/sfx_menu_select1.wav'
         );
-        this.load.spritesheet('player', 'assets/georg.png', {
+        this.load.spritesheet('player', 'assets/uwe.png', {
             frameWidth: 48,
             frameHeight: 48,
         });
@@ -43,7 +43,7 @@ export class Start extends Scene {
     }
 
     public create(): void {
-        this._background = this.add.tileSprite(100, 0, 0, 0, 'menu-background');
+        this._background = this.add.tileSprite(0, 250, 0, 0, 'menu-background');
         this._background.setScale(1.2);
 
         this._background_dark = this.add.tileSprite(

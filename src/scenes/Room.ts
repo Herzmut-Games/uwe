@@ -47,7 +47,7 @@ export class Room extends Scene {
         this.load.image('topbar', 'assets/backgrounds/topbar.png');
         this.load.image('fullHeart', 'assets/heart.png');
         this.load.image('halfHeart', 'assets/heart_half.png');
-        this.load.spritesheet('player', 'assets/georg.png', {
+        this.load.spritesheet('player', 'assets/uwe.png', {
             frameWidth: 48,
             frameHeight: 48,
         });

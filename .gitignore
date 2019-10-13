@@ -2,3 +2,4 @@ node_modules
 phaser3-docs
 yarn-error.log
 dist
+.DS_Store
