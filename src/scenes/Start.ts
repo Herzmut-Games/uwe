@@ -169,7 +169,7 @@ export class Start extends Scene {
             })
             .setOrigin(0.5, 0.5);
         this.add
-            .text(screenWidth / 2, 140, '(E wie Elemente, wa?)', {
+            .text(screenWidth / 2, 140, '(E wie Elemente)', {
                 fill: colors.red,
                 fontSize: 25,
                 fontFamily: fonts.primary,
@@ -215,7 +215,7 @@ export class Start extends Scene {
         this._startButton = Button.create(
             this,
             580,
-            460,
+            495,
             'Start',
             colors.white,
             colors.red,
@@ -231,11 +231,11 @@ export class Start extends Scene {
         this._helpButton = Button.create(
             this,
             580,
-            510,
+            535,
             'Hilfe',
             colors.white,
             colors.red,
-            '58px',
+            '36px',
             () => {
                 this.scene.run('Help');
                 this.scene.bringToTop('Help');
@@ -246,11 +246,11 @@ export class Start extends Scene {
         this._aboutButton = Button.create(
             this,
             580,
-            560,
+            570,
             'Credits',
             colors.white,
             colors.red,
-            '58px',
+            '36px',
             () => {
                 this._hideMenu();
                 this._displayAbout();
