@@ -25,7 +25,7 @@ export abstract class Ball extends Physics.Arcade.Sprite {
             key: getBallAnimation(ballType),
             frames: parentScene.anims.generateFrameNumbers(ballType, {
                 start: 0,
-                end: -1,
+                end: 59,
             }),
             frameRate: this._animationSpeed,
             repeat: -1,
@@ -52,26 +52,11 @@ export abstract class Ball extends Physics.Arcade.Sprite {
         this._fadingOut = false;
         this.scale = 0.1;
         this._direction = direction;
-        this.setSize(20, 20);
+        this.setSize(5, 5);
 
-        switch (direction) {
-            case Direction.Left:
-                this.setAngle(0);
-                this.setOffset(0, -5);
-                break;
-            case Direction.Up:
-                this.setAngle(90);
-                this.setOffset(25, -30);
-                break;
-            case Direction.Down:
-                this.setAngle(270);
-                this.setOffset(25, 20);
-                break;
-            case Direction.Right:
-                this.setAngle(180);
-                this.setOffset(48, -5);
-                break;
-        }
+        this._setDirection();
+        this._setOffset();
+
         this.setPosition(player.x, player.y);
         this.anims.play(getBallAnimation(this.ballType), true);
     }
@@ -110,5 +95,87 @@ export abstract class Ball extends Physics.Arcade.Sprite {
 
     public fadeOut() {
         this._fadingOut = true;
+    }
+
+    private _setDirection(): void {
+        switch (this._direction) {
+            case Direction.Left:
+                this.setAngle(0);
+                break;
+            case Direction.Up:
+                this.setAngle(90);
+                break;
+            case Direction.Down:
+                this.setAngle(270);
+                break;
+            case Direction.Right:
+                this.setAngle(180);
+                break;
+        }
+    }
+
+    private _setOffset() {
+        switch (this.ballType) {
+            case BallType.EARTH:
+                this._setOffsetEarth();
+                break;
+            case BallType.FIRE:
+                this._setOffsetFire();
+                break;
+            case BallType.WATER:
+                this._setOffsetWater();
+                break;
+        }
+    }
+
+    private _setOffsetEarth() {
+        switch (this._direction) {
+            case Direction.Left:
+                this.setOffset(3, 2);
+                break;
+            case Direction.Up:
+                this.setOffset(30, -26);
+                break;
+            case Direction.Down:
+                this.setOffset(30, 30);
+                break;
+            case Direction.Right:
+                this.setOffset(58, 2);
+                break;
+        }
+    }
+
+    private _setOffsetFire() {
+        switch (this._direction) {
+            case Direction.Left:
+                this.setOffset(3, 2);
+                break;
+            case Direction.Up:
+                this.setOffset(32, -27);
+                break;
+            case Direction.Down:
+                this.setOffset(31, 31);
+                break;
+            case Direction.Right:
+                this.setOffset(61, 2);
+                break;
+        }
+    }
+
+    private _setOffsetWater() {
+        switch (this._direction) {
+            case Direction.Left:
+                this.setOffset(3, 2);
+                break;
+            case Direction.Up:
+                this.setOffset(40, -35);
+                break;
+            case Direction.Down:
+                this.setOffset(39, 39);
+                break;
+            case Direction.Right:
+                this.setOffset(77, 2);
+                break;
+        }
     }
 }
