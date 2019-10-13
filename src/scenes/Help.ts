@@ -31,10 +31,10 @@ export class Help extends Scene {
         Button.create(
             this,
             720,
-            50,
+            60,
             'Menu',
-            colors.red,
             colors.white,
+            colors.red,
             '46px',
             () => {
                 this.scene.setActive(true, 'Start');
@@ -124,7 +124,7 @@ export class Help extends Scene {
             fontSize: '40px',
             fill: colors.white,
         });
-        this.add.text(300, 460, 'Feuern mit: den Pfeiltasten', {
+        this.add.text(370, 460, 'Feuern mit: Pfeiltasten', {
             fontFamily: fonts.primary,
             fontSize: '40px',
             fill: colors.white,
