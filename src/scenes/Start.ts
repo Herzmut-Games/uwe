@@ -20,24 +20,6 @@ export class Start extends Scene {
         super({ key: 'Start' });
     }
 
-    public preload() {
-        this.load.image('menu-background', 'assets/backgrounds/menu.png');
-        this.load.image(
-            'menu-background-dark',
-            'assets/backgrounds/menu_dark.png'
-        );
-        this.load.audio('intro', 'assets/sounds/intro.mp3');
-        this.load.audio('thriller', 'assets/sounds/thriller.mp3');
-        this.load.audio(
-            'menu-select',
-            'assets/sounds/effects/sfx_menu_select1.wav'
-        );
-        this.load.spritesheet('player', 'assets/uwe.png', {
-            frameWidth: 48,
-            frameHeight: 48,
-        });
-    }
-
     public destroy(): void {
         this._music.stop();
     }
