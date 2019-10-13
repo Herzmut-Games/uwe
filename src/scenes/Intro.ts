@@ -38,7 +38,6 @@ export class Intro extends Scene {
             'assets/sounds/effects/sfx_menu_select1.wav'
         );
         this.load.image('background', 'assets/backgrounds/map.png');
-        this.load.image('topbar', 'assets/backgrounds/topbar.png');
         this.load.image('fullHeart', 'assets/heart.png');
         this.load.image('halfHeart', 'assets/heart_half.png');
         this.load.spritesheet('player', 'assets/uwe.png', {
