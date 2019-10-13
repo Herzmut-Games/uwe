@@ -79,6 +79,7 @@ export class Room extends Scene {
             (_: GameObjects.GameObject, spirit: Enemy) => {
                 spirit.kill();
                 this._healthbar.ouch();
+                this._player.onHit();
                 this.cameras.main.shake(100, 0.01);
                 this.sound.add('player-impact', { volume: 2 }).play();
             }
