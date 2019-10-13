@@ -145,24 +145,10 @@ export class Room extends Scene {
     }
 
     private _displayStartCountdown(): void {
-        this._countdownPre = this.add
-            .text(400, 250, 'Mach dich ma fertich', {
-                fill: colors.white,
-                fontSize: 30,
-                fontFamily: fonts.primary,
-            })
-            .setOrigin(0.5, 0.5);
         this._countdownText = this.add
             .text(400, 300, this._countdownTexts[this._currentCountdown], {
                 fill: colors.white,
                 fontSize: 68,
-                fontFamily: fonts.primary,
-            })
-            .setOrigin(0.5, 0.5);
-        this._countdownPost = this.add
-            .text(400, 350, 'geht gleich los', {
-                fill: colors.white,
-                fontSize: 30,
                 fontFamily: fonts.primary,
             })
             .setOrigin(0.5, 0.5);
@@ -179,8 +165,6 @@ export class Room extends Scene {
             this.time.delayedCall(1000, this._countDown, [], this);
         } else {
             this._countdownText.destroy();
-            this._countdownPost.destroy();
-            this._countdownPre.destroy();
             this._currentCountdown = 4;
         }
     }
