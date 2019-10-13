@@ -174,14 +174,6 @@ export class Start extends Scene {
                 fontFamily: fonts.primary,
             })
             .setOrigin(0.5, 0.5);
-        this.add
-            .text(screenWidth / 1.5, 60, 'Bist du auch dabei?', {
-                fill: '#FFFF00',
-                fontSize: 20,
-                fontFamily: fonts.primary,
-            })
-            .setOrigin(0.5, 0.5)
-            .setAngle(30);
     }
 
     private _hideMenu(): void {

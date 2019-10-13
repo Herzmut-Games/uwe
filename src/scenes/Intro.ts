@@ -109,18 +109,18 @@ export class Intro extends Scene {
 
     private _displayLogo(): void {
         this._logo = this.add.image(screenWidth / 2, 200, 'logo');
+        this._logo.setScale(2);
         this._logo.setOrigin(0.5, 0.5);
         this.add
             .text(screenWidth / 2, screenHeight / 1.5, 'Hetzner GameJam 2019', {
                 fill: '#000',
             })
             .setOrigin(0.5, 0.5);
-
         this.add
-            .text(400, 225, 'Games', {
+            .text(400, 255, 'Games', {
                 fill: '#D50C2D',
                 fontFamily: fonts.primary,
-                fontSize: '30px',
+                fontSize: '38px',
             })
             .setOrigin(0.5, 0.5);
     }
