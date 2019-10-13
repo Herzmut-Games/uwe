@@ -66,6 +66,14 @@ export class Player {
     private _currentElement: Element = Element.Fire;
     private _footsteps: Phaser.Sound.BaseSound;
     private _swap: Phaser.Sound.BaseSound;
+    private _hitTimer: Phaser.Time.TimerEvent;
+    private readonly _hitTimerConfig: Types.Time.TimerEventConfig = {
+        repeat: 3,
+        startAt: 100,
+        delay: 100,
+        callback: this._onHit,
+        callbackScope: this,
+    };
 
     private get movementDirection(): Direction {
         switch (true) {
@@ -150,6 +158,28 @@ export class Player {
         this._keys.Up.removeAllListeners();
         this._keys.Left.removeAllListeners();
         this._keys.Right.removeAllListeners();
+    }
+
+    public onHit(): void {
+        if (!this._hitTimer) {
+            this._hitTimer = this.parentScene.time.addEvent(
+                this._hitTimerConfig
+            );
+        } else {
+            this._hitTimer.destroy();
+            this._player.clearTint();
+            this._hitTimer = this.parentScene.time.addEvent(
+                this._hitTimerConfig
+            );
+        }
+    }
+
+    private _onHit(): void {
+        if (!this._player.isTinted) {
+            this._player.tint = Element.Fire;
+        } else {
+            this._player.clearTint();
+        }
     }
 
     private _animate(): void {
