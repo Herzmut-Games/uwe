@@ -112,6 +112,11 @@ export class Intro extends Scene {
         this._logo.setScale(2);
         this._logo.setOrigin(0.5, 0.5);
         this.add
+            .text(screenWidth / 2, screenHeight / 1.5, 'Hetzner GameJam 2019', {
+                fill: '#000',
+            })
+            .setOrigin(0.5, 0.5);
+        this.add
             .text(400, 255, 'Games', {
                 fill: '#D50C2D',
                 fontFamily: fonts.primary,
