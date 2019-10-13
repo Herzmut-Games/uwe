@@ -152,11 +152,12 @@ export class Player {
         this._animate();
     }
 
-    public removeShootListeners(): void {
+    public removeListeners(): void {
         this._keys.Down.removeAllListeners();
         this._keys.Up.removeAllListeners();
         this._keys.Left.removeAllListeners();
         this._keys.Right.removeAllListeners();
+        this._keys.Space.removeAllListeners();
     }
 
     public onHit(): void {
@@ -295,7 +296,7 @@ export class Player {
         this._keys.Two.onDown = () => (this._currentElement = Element.Water);
         this._keys.Three.onDown = () => (this._currentElement = Element.Earth);
 
-        this._keys.Space.onDown = () => {
+        this._keys.Space.on('down', () => {
             this._swap.play();
             switch (this._currentElement) {
                 case Element.Fire:
@@ -308,7 +309,7 @@ export class Player {
                     this._currentElement = Element.Fire;
                     break;
             }
-        };
+        });
     }
 
     private _addShootListeners(): void {

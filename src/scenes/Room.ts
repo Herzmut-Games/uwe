@@ -138,7 +138,7 @@ export class Room extends Scene {
             this._music.stop();
             this.scene.stop();
             this.scene.start('Death', { score: this._score.score });
-            this._player.removeShootListeners();
+            this._player.removeListeners();
             return true;
         }
         return false;
