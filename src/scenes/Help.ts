@@ -123,12 +123,12 @@ export class Help extends Scene {
             fontSize: '40px',
             fill: colors.white,
         });
-        this.add.text(310, 460, 'Feuern mit den Pfeiltasten', {
+        this.add.text(300, 460, 'Feuern mit: den Pfeiltasten', {
             fontFamily: fonts.primary,
             fontSize: '40px',
             fill: colors.white,
         });
-        this.add.text(225, 510, 'Element wechseln mit Leertaste', {
+        this.add.text(215, 510, 'Element wechseln mit: Leertaste', {
             fontFamily: fonts.primary,
             fontSize: '40px',
             fill: colors.white,
