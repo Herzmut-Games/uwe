@@ -9,6 +9,7 @@ export const config: Types.Core.GameConfig = {
     type: Phaser.AUTO,
     width: screenWidth,
     height: screenHeight,
+    parent: document.getElementById('game'),
     physics: {
         default: 'arcade',
         arcade: {
