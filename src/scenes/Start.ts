@@ -29,8 +29,8 @@ export class Start extends Scene {
         this._background.setScale(1.2);
 
         this._background_dark = this.add.tileSprite(
-            100,
             0,
+            250,
             0,
             0,
             'menu-background-dark'
