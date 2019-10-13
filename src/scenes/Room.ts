@@ -109,7 +109,7 @@ export class Room extends Scene {
             }
         );
 
-        this.physics.world.setBounds(0, 108, 800, 452);
+        this.physics.world.setBounds(10, 131, 780, 429);
 
         this._music = this.sound.add('battle-intro', { volume: 0.5 });
         this._music.play();
