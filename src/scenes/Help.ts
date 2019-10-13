@@ -40,6 +40,7 @@ export class Help extends Scene {
                 this.scene.setActive(true, 'Start');
                 this.scene.setActive(false);
                 this.scene.bringToTop('Start');
+                this.scene.stop();
             }
         );
 
