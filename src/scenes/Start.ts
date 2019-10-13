@@ -82,7 +82,7 @@ export class Start extends Scene {
 
     private _displayMenuPlayer(): void {
         this.anims.create({
-            key: 'left',
+            key: 'menu_player_left',
             frames: this.anims.generateFrameNumbers('player', {
                 frames: [1, 5, 9, 13],
             }),
@@ -90,7 +90,7 @@ export class Start extends Scene {
             repeat: -1,
         });
         this.anims.create({
-            key: 'right',
+            key: 'menu_player_right',
             frames: this.anims.generateFrameNumbers('player', {
                 frames: [3, 7, 11, 15],
             }),
@@ -98,7 +98,7 @@ export class Start extends Scene {
             repeat: -1,
         });
         this.anims.create({
-            key: 'down',
+            key: 'menu_player_down',
             frames: this.anims.generateFrameNumbers('player', {
                 frames: [0],
             }),
@@ -106,7 +106,7 @@ export class Start extends Scene {
             repeat: 0,
         });
         this.anims.create({
-            key: 'right-fast',
+            key: 'menu_player_right-fast',
             frames: this.anims.generateFrameNumbers('player', {
                 frames: [3, 7, 11, 15],
             }),
@@ -119,7 +119,7 @@ export class Start extends Scene {
         this._menuPlayer.setInteractive();
         this._menuPlayer.setOrigin(0.5, 0.5);
         this._menuPlayer.setScale(7);
-        this._menuPlayer.play('right');
+        this._menuPlayer.anims.play('menu_player_right');
     }
 
     private _toggleMoonWalk(): void {
@@ -135,14 +135,14 @@ export class Start extends Scene {
         this._moonWalkEnabled = true;
         this._music.stop();
         this._music = this.sound.add('thriller', { loop: true });
-        this._menuPlayer.anims.play('down');
+        this._menuPlayer.anims.play('menu_player_down');
         this._backgroundModifier = 0;
         this._music.play();
         this.time.delayedCall(
             934,
             () => {
                 if (this._moonWalkEnabled) {
-                    this._menuPlayer.anims.play('left');
+                    this._menuPlayer.anims.play('menu_player_left');
                 }
                 this._backgroundModifier = 2.75;
             },
@@ -153,7 +153,7 @@ export class Start extends Scene {
 
     private _disableMoonwalk(): void {
         this._moonWalkEnabled = false;
-        this._menuPlayer.anims.play('right');
+        this._menuPlayer.anims.play('menu_player_right');
         this._music.stop();
         this._music = this.sound.add('intro', { volume: 0.5, loop: true });
         this._music.play();
@@ -221,7 +221,7 @@ export class Start extends Scene {
             () => {
                 this._disableMoonwalk();
                 this.sound.add('menu-select').play();
-                this._menuPlayer.anims.play('right-fast');
+                this._menuPlayer.anims.play('menu_player_right-fast');
                 this._playerRunAway = true;
             }
         );
