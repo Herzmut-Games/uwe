@@ -63,8 +63,8 @@ export class Player {
     private _keys: ControlKeys;
     private _isMoving: boolean = false;
     private _currentElement: Element = Element.Fire;
-    private _footsteps: Phaser.Sound.BaseSound;
-    private _swap: Phaser.Sound.BaseSound;
+    private _soundFootsteps: Phaser.Sound.BaseSound;
+    private _soundSwap: Phaser.Sound.BaseSound;
     private _hitTimer: Phaser.Time.TimerEvent;
     private readonly _hitTimerConfig: Types.Time.TimerEventConfig = {
         repeat: 3,
@@ -99,11 +99,11 @@ export class Player {
 
     constructor(private parentScene: Scene) {
         const cursorKeys = this.parentScene.input.keyboard.createCursorKeys();
-        this._footsteps = this.parentScene.sound.add('footsteps', {
+        this._soundFootsteps = this.parentScene.sound.add('footsteps', {
             rate: 1.5,
             volume: 0.3,
         });
-        this._swap = this.parentScene.sound.add('element-switch');
+        this._soundSwap = this.parentScene.sound.add('element-switch');
 
         this._keys = {
             One: this.parentScene.input.keyboard.addKey('ONE'),
@@ -202,8 +202,8 @@ export class Player {
         this._player.anims.pause();
 
         if (this._isMoving) {
-            if (!this._footsteps.isPlaying) {
-                this._footsteps.play();
+            if (!this._soundFootsteps.isPlaying) {
+                this._soundFootsteps.play();
             }
             this._player.anims.resume();
         }
@@ -297,7 +297,7 @@ export class Player {
         this._keys.Three.onDown = () => (this._currentElement = Element.Earth);
 
         this._keys.Space.on('down', () => {
-            this._swap.play();
+            this._soundSwap.play();
             switch (this._currentElement) {
                 case Element.Fire:
                     this._currentElement = Element.Water;
