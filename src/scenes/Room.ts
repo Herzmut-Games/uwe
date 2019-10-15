@@ -79,9 +79,9 @@ export class Room extends Scene {
         });
 
         this.physics.add.overlap(
-            this._player.gameObject,
+            this._player,
             [this._waterspirits, this._firespirits, this._earthspirits],
-            (_: GameObjects.GameObject, spirit: Enemy) => {
+            (_: Player, spirit: Enemy) => {
                 spirit.kill();
                 this._healthbar.ouch();
                 this._player.onHit();
