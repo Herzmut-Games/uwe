@@ -1,6 +1,7 @@
 import { Scene, Physics, Sound } from 'phaser';
 import { Player } from './Player';
 import { BallType } from './Ball';
+import { GameAudio } from '../configs/Resources';
 
 export enum EnemyType {
     WATER = 'waterspirit',
@@ -25,7 +26,7 @@ export class Enemy extends Physics.Arcade.Sprite {
     constructor(private _parentScene: Scene, private _kind: EnemyType) {
         super(_parentScene, 0, 0, _kind);
 
-        this._soundDeath = this._parentScene.sound.add('enemy-death');
+        this._soundDeath = this._parentScene.sound.add(GameAudio.ENEMY_DEATH);
 
         _parentScene.anims.create({
             key: `run_${_kind}`,

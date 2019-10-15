@@ -2,6 +2,7 @@ import { Scene, Physics, Input, Types, Sound, Time } from 'phaser';
 import { Fireball } from './Fireball';
 import { Waterball } from './Waterball';
 import { Earthball } from './Earthball';
+import { GameAudio, GameSpritesheet } from '../configs/Resources';
 
 export enum Direction {
     Up,
@@ -16,25 +17,26 @@ export enum Direction {
 }
 
 export enum Element {
-    Fire = 0xff7e7e,
-    Water = 0x7e84ff,
-    Earth = 0x7eff84,
+    Fire,
+    Water,
+    Earth,
 }
 
-interface ControlKeys {
-    One: Input.Keyboard.Key;
-    Two: Input.Keyboard.Key;
-    Three: Input.Keyboard.Key;
-    W: Input.Keyboard.Key;
-    A: Input.Keyboard.Key;
-    S: Input.Keyboard.Key;
-    D: Input.Keyboard.Key;
-    Up: Input.Keyboard.Key;
-    Down: Input.Keyboard.Key;
-    Left: Input.Keyboard.Key;
-    Right: Input.Keyboard.Key;
-    Space: Input.Keyboard.Key;
-}
+type Keys =
+    | 'One'
+    | 'Two'
+    | 'Three'
+    | 'W'
+    | 'A'
+    | 'S'
+    | 'D'
+    | 'Up'
+    | 'Down'
+    | 'Left'
+    | 'Right'
+    | 'Space';
+
+type ControlKeys = { [k in Keys]: Input.Keyboard.Key };
 
 export class Player {
     get bodyX(): number {
@@ -99,11 +101,11 @@ export class Player {
 
     constructor(private parentScene: Scene) {
         const cursorKeys = this.parentScene.input.keyboard.createCursorKeys();
-        this._soundFootsteps = this.parentScene.sound.add('footsteps', {
+        this._soundFootsteps = this.parentScene.sound.add(GameAudio.FOOTSTEPS, {
             rate: 1.5,
             volume: 0.3,
         });
-        this._soundSwap = this.parentScene.sound.add('element-switch');
+        this._soundSwap = this.parentScene.sound.add(GameAudio.ELEMENT_SWITCH);
 
         this._keys = {
             One: this.parentScene.input.keyboard.addKey('ONE'),
@@ -120,7 +122,11 @@ export class Player {
             Space: cursorKeys.space,
         };
 
-        this._player = parentScene.physics.add.sprite(100, 450, 'player');
+        this._player = parentScene.physics.add.sprite(
+            100,
+            450,
+            GameSpritesheet.PLAYER
+        );
         this._player.setSize(29, 32);
         this._player.setOffset(10, 10);
         this._player.setScale(1.3);
@@ -251,41 +257,28 @@ export class Player {
     }
 
     private _addAnimations(): void {
-        this.parentScene.anims.create({
-            key: 'left',
-            frames: this.parentScene.anims.generateFrameNumbers('player', {
-                frames: [1, 5, 9, 13],
-            }),
-            frameRate: this._animationSpeed,
-            repeat: -1,
-        });
+        const addAnimation = (key: string, offset: number) => {
+            this.parentScene.anims.create({
+                key,
+                frames: this.parentScene.anims.generateFrameNumbers(
+                    GameSpritesheet.PLAYER,
+                    {
+                        frames: [
+                            // Frames are set up top -> down
+                            // the offset picks the correct frame
+                            offset + 4 * 0,
+                            offset + 4 * 1,
+                            offset + 4 * 2,
+                            offset + 4 * 3,
+                        ],
+                    }
+                ),
+                frameRate: this._animationSpeed,
+                repeat: -1,
+            });
+        };
 
-        this.parentScene.anims.create({
-            key: 'right',
-            frames: this.parentScene.anims.generateFrameNumbers('player', {
-                frames: [3, 7, 11, 15],
-            }),
-            frameRate: this._animationSpeed,
-            repeat: -1,
-        });
-
-        this.parentScene.anims.create({
-            key: 'up',
-            frames: this.parentScene.anims.generateFrameNumbers('player', {
-                frames: [2, 6, 10, 14],
-            }),
-            frameRate: this._animationSpeed,
-            repeat: -1,
-        });
-
-        this.parentScene.anims.create({
-            key: 'down',
-            frames: this.parentScene.anims.generateFrameNumbers('player', {
-                frames: [0, 4, 8, 12],
-            }),
-            frameRate: this._animationSpeed,
-            repeat: -1,
-        });
+        ['down', 'left', 'up', 'right'].forEach(addAnimation);
 
         this._player.anims.play('down');
         this._player.anims.pause();

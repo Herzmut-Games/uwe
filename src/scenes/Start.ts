@@ -3,6 +3,7 @@ import { screenWidth } from '../config';
 import { Button } from '../objects/Button';
 import { fonts } from '../objects/Fonts';
 import { colors } from '../objects/Colors';
+import { GameImage, GameAudio, GameSpritesheet } from '../configs/Resources';
 
 export class Start extends Scene {
     private _background: GameObjects.TileSprite;
@@ -31,20 +32,31 @@ export class Start extends Scene {
     }
 
     public create(): void {
-        this._background = this.add.tileSprite(0, 300, 0, 0, 'menu-background');
+        this._background = this.add.tileSprite(
+            0,
+            300,
+            0,
+            0,
+            GameImage.MENU_BACKGROUND
+        );
 
         this._background_dark = this.add.tileSprite(
             0,
             300,
             0,
             0,
-            'menu-background-dark'
+            GameImage.MENU_BACKGROUND_DARK
         );
         this._background_dark.setAlpha(0);
 
-        this._soundIntro = this.sound.add('intro', { volume: 0.5, loop: true });
-        this._soundThriller = this.sound.add('thriller', { loop: true });
-        this._soundMenuSelect = this.sound.add('menu-select');
+        this._soundIntro = this.sound.add(GameAudio.INTRO, {
+            volume: 0.5,
+            loop: true,
+        });
+        this._soundThriller = this.sound.add(GameAudio.THRILLER, {
+            loop: true,
+        });
+        this._soundMenuSelect = this.sound.add(GameAudio.MENU_SELECT);
 
         this._soundIntro.play();
 
@@ -91,7 +103,7 @@ export class Start extends Scene {
     private _displayMenuPlayer(): void {
         this.anims.create({
             key: 'menu_player_left',
-            frames: this.anims.generateFrameNumbers('player', {
+            frames: this.anims.generateFrameNumbers(GameSpritesheet.PLAYER, {
                 frames: [1, 5, 9, 13],
             }),
             frameRate: 4,
@@ -99,7 +111,7 @@ export class Start extends Scene {
         });
         this.anims.create({
             key: 'menu_player_right',
-            frames: this.anims.generateFrameNumbers('player', {
+            frames: this.anims.generateFrameNumbers(GameSpritesheet.PLAYER, {
                 frames: [3, 7, 11, 15],
             }),
             frameRate: 5.2,
@@ -107,7 +119,7 @@ export class Start extends Scene {
         });
         this.anims.create({
             key: 'menu_player_down',
-            frames: this.anims.generateFrameNumbers('player', {
+            frames: this.anims.generateFrameNumbers(GameSpritesheet.PLAYER, {
                 frames: [0],
             }),
             frameRate: 5.2,
@@ -115,14 +127,18 @@ export class Start extends Scene {
         });
         this.anims.create({
             key: 'menu_player_right-fast',
-            frames: this.anims.generateFrameNumbers('player', {
+            frames: this.anims.generateFrameNumbers(GameSpritesheet.PLAYER, {
                 frames: [3, 7, 11, 15],
             }),
             frameRate: 15,
             repeat: -1,
         });
 
-        this._menuPlayer = this.physics.add.sprite(200, 370, 'player');
+        this._menuPlayer = this.physics.add.sprite(
+            200,
+            370,
+            GameSpritesheet.PLAYER
+        );
         this._menuPlayer.on('pointerup', () => this._toggleMoonWalk());
         this._menuPlayer.setInteractive();
         this._menuPlayer.setOrigin(0.5, 0.5);

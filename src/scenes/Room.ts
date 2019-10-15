@@ -8,6 +8,7 @@ import { Healthbar } from '../objects/Healthbar';
 import { WeaponStatus } from '../objects/WeaponStatus';
 import { fonts } from '../objects/Fonts';
 import { colors } from '../objects/Colors';
+import { GameAudio, GameImage } from '../configs/Resources';
 
 export class Room extends Scene {
     private _score: Score;
@@ -36,7 +37,7 @@ export class Room extends Scene {
     }
 
     public create() {
-        const background = this.add.image(0, 88, 'background');
+        const background = this.add.image(0, 88, GameImage.ROOM_BACKGROUND);
         background.setOrigin(0, 0).setDisplaySize(800, 512);
 
         this.add
@@ -68,11 +69,11 @@ export class Room extends Scene {
             this._waterspirits,
         ]);
 
-        this._soundPlayerImpact = this.sound.add('player-impact');
-        this._soundBattleIntro = this.sound.add('battle-intro', {
+        this._soundPlayerImpact = this.sound.add(GameAudio.PLAYER_IMPACT);
+        this._soundBattleIntro = this.sound.add(GameAudio.BATTLE_INTRO, {
             volume: 0.5,
         });
-        this._soundBattleMain = this.sound.add('battle-main', {
+        this._soundBattleMain = this.sound.add(GameAudio.BATTLE_MAIN, {
             volume: 0.5,
             loop: true,
         });

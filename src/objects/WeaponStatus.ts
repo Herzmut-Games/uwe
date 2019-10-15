@@ -1,64 +1,62 @@
 import { Scene, Physics } from 'phaser';
 import { Element } from './Player';
+import { GameSpritesheet } from '../configs/Resources';
 
 export class WeaponStatus {
     private _speed: number = 120;
     private _weapon: Physics.Arcade.Sprite;
 
-    constructor(parentScene: Scene) {
-        parentScene.anims.create({
-            key: 'earthstatus_ani',
-            frames: parentScene.anims.generateFrameNumbers('earthstatus', {
-                start: 0,
-                end: -1,
-            }),
-            frameRate: this._speed,
-            repeat: -1,
-        });
+    constructor(private _parentScene: Scene) {
+        this._addAnimations();
 
-        parentScene.anims.create({
-            key: 'firestatus_ani',
-            frames: parentScene.anims.generateFrameNumbers('firestatus', {
-                start: 0,
-                end: -1,
-            }),
-            frameRate: this._speed,
-            repeat: -1,
-        });
-
-        parentScene.anims.create({
-            key: 'waterstatus_ani',
-            frames: parentScene.anims.generateFrameNumbers('waterstatus', {
-                start: 0,
-                end: -1,
-            }),
-            frameRate: this._speed,
-            repeat: -1,
-        });
-
-        this._weapon = parentScene.physics.add.staticSprite(
+        this._weapon = _parentScene.physics.add.staticSprite(
             350,
             60,
-            'firestatus'
+            GameSpritesheet.STATUS_FIRE
         );
 
         this._weapon.setScale(4);
         this._weapon.setAngle(90);
-
-        this._weapon.anims.play('firestatus_ani');
     }
 
     public update(element: Element): void {
         switch (element) {
             case Element.Fire:
-                this._weapon.anims.play('firestatus_ani', true);
+                this._weapon.anims.play(
+                    `${GameSpritesheet.STATUS_FIRE}-animation`,
+                    true
+                );
                 break;
             case Element.Water:
-                this._weapon.anims.play('waterstatus_ani', true);
+                this._weapon.anims.play(
+                    `${GameSpritesheet.STATUS_WATER}-animation`,
+                    true
+                );
                 break;
             case Element.Earth:
-                this._weapon.anims.play('earthstatus_ani', true);
+                this._weapon.anims.play(
+                    `${GameSpritesheet.STATUS_EARTH}-animation`,
+                    true
+                );
                 break;
         }
+    }
+
+    private _addAnimations(): void {
+        [
+            GameSpritesheet.STATUS_EARTH,
+            GameSpritesheet.STATUS_FIRE,
+            GameSpritesheet.STATUS_WATER,
+        ].forEach(status => {
+            this._parentScene.anims.create({
+                key: `${status}-animation`,
+                frames: this._parentScene.anims.generateFrameNumbers(status, {
+                    start: 0,
+                    end: -1,
+                }),
+                frameRate: this._speed,
+                repeat: -1,
+            });
+        });
     }
 }
