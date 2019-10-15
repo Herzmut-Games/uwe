@@ -6,6 +6,7 @@ import { colors } from '../objects/Colors';
 export class Intro extends Scene {
     private _logo: Phaser.GameObjects.Image;
     private _progressBar: GameObjects.Graphics;
+    private _soundBling: Phaser.Sound.BaseSound;
 
     constructor() {
         super({ key: 'Intro' });
@@ -104,7 +105,8 @@ export class Intro extends Scene {
     public create(): void {
         this.time.delayedCall(847, this._displayLogo, [], this);
         this.time.delayedCall(2000, this._startMenu, [], this);
-        this.sound.add('bling').play();
+        this._soundBling = this.sound.add('bling');
+        this._soundBling.play();
     }
 
     private _displayLogo(): void {

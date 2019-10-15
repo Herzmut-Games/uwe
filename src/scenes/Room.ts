@@ -21,14 +21,11 @@ export class Room extends Scene {
     private _player: Player;
     private _healthbar: Healthbar;
     private _weaponStatus: WeaponStatus;
-    private _music: Phaser.Sound.BaseSound;
     private _enemyController: EnemyController;
     private _firespirits: Phaser.Physics.Arcade.Group;
     private _waterspirits: Phaser.Physics.Arcade.Group;
     private _earthspirits: Phaser.Physics.Arcade.Group;
     private _countdownText: GameObjects.Text;
-    private _countdownPost: GameObjects.Text;
-    private _countdownPre: GameObjects.Text;
     private _countdownTexts: string[] = [
         'und ab',
         'eins',
@@ -37,6 +34,9 @@ export class Room extends Scene {
         'vier',
     ];
     private _currentCountdown: number = 4;
+    private _soundPlayerImpact: Phaser.Sound.BaseSound;
+    private _soundBattleIntro: Phaser.Sound.BaseSound;
+    private _soundBattleMain: Phaser.Sound.BaseSound;
 
     constructor() {
         super({ key: 'Room' });
@@ -75,6 +75,15 @@ export class Room extends Scene {
             this._waterspirits,
         ]);
 
+        this._soundPlayerImpact = this.sound.add('player-impact');
+        this._soundBattleIntro = this.sound.add('battle-intro', {
+            volume: 0.5,
+        });
+        this._soundBattleMain = this.sound.add('battle-main', {
+            volume: 0.5,
+            loop: true,
+        });
+
         this.physics.add.overlap(
             this._player.gameObject,
             [this._waterspirits, this._firespirits, this._earthspirits],
@@ -83,7 +92,7 @@ export class Room extends Scene {
                 this._healthbar.ouch();
                 this._player.onHit();
                 this.cameras.main.shake(100, 0.01);
-                this.sound.add('player-impact').play();
+                this._soundPlayerImpact.play();
             }
         );
 
@@ -111,14 +120,9 @@ export class Room extends Scene {
 
         this.physics.world.setBounds(10, 131, 780, 429);
 
-        this._music = this.sound.add('battle-intro', { volume: 0.5 });
-        this._music.play();
-        this._music.once('complete', () => {
-            this._music = this.sound.add('battle-main', {
-                volume: 0.5,
-                loop: true,
-            });
-            this._music.play();
+        this._soundBattleIntro.play();
+        this._soundBattleIntro.once('complete', () => {
+            this._soundBattleMain.play();
         });
 
         this._displayStartCountdown();
@@ -135,7 +139,7 @@ export class Room extends Scene {
 
     private _checkGameEnd(): boolean {
         if (this._healthbar.health <= 0) {
-            this._music.stop();
+            this._soundBattleMain.stop();
             this.scene.stop();
             this.scene.start('Death', { score: this._score.score });
             this._player.removeListeners();

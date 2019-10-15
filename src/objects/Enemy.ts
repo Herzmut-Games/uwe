@@ -13,6 +13,7 @@ export class Enemy extends Physics.Arcade.Sprite {
     private _speed: number = 100;
     private _diagonalSpeed: number = this._speed / 1.5;
     private _health: number = 1;
+    private _soundDeath: Phaser.Sound.BaseSound;
 
     private get _bodyX(): number {
         return this.x + this.displayWidth / 2;
@@ -23,6 +24,8 @@ export class Enemy extends Physics.Arcade.Sprite {
     }
     constructor(private _parentScene: Scene, private _kind: EnemyType) {
         super(_parentScene, 0, 0, _kind);
+
+        this._soundDeath = this._parentScene.sound.add('enemy-death');
 
         _parentScene.anims.create({
             key: `run_${_kind}`,
@@ -83,7 +86,7 @@ export class Enemy extends Physics.Arcade.Sprite {
             (this._kind === EnemyType.WATER && ballType === BallType.EARTH)
         ) {
             if (this._health <= 1) {
-                this._parentScene.sound.add('enemy-death').play();
+                this._soundDeath.play();
                 this.kill();
                 return true;
             } else {

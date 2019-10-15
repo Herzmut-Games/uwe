@@ -5,7 +5,6 @@ import { fonts } from '../objects/Fonts';
 import { colors } from '../objects/Colors';
 
 export class Start extends Scene {
-    private _music: Phaser.Sound.BaseSound;
     private _background: Phaser.GameObjects.TileSprite;
     private _menuPlayer: Phaser.Physics.Arcade.Sprite;
     private _playerRunAway: boolean;
@@ -18,12 +17,17 @@ export class Start extends Scene {
     private _moonWalkEnabled: boolean = false;
     private _background_dark: Phaser.GameObjects.TileSprite;
     private _helpButton: Button;
+    private _soundIntro: Phaser.Sound.BaseSound;
+    private _soundThriller: Phaser.Sound.BaseSound;
+    private _soundMenuSelect: Phaser.Sound.BaseSound;
+
     constructor() {
         super({ key: 'Start' });
     }
 
     public destroy(): void {
-        this._music.stop();
+        this._soundIntro.stop();
+        this._soundThriller.stop();
     }
 
     public create(): void {
@@ -38,8 +42,11 @@ export class Start extends Scene {
         );
         this._background_dark.setAlpha(0);
 
-        this._music = this.sound.add('intro', { volume: 0.5, loop: true });
-        this._music.play();
+        this._soundIntro = this.sound.add('intro', { volume: 0.5, loop: true });
+        this._soundThriller = this.sound.add('thriller', { loop: true });
+        this._soundMenuSelect = this.sound.add('menu-select');
+
+        this._soundIntro.play();
 
         this._displayMenuPlayer();
         this._displayHeader();
@@ -134,11 +141,10 @@ export class Start extends Scene {
 
     private _enableMoonwalk(): void {
         this._moonWalkEnabled = true;
-        this._music.stop();
-        this._music = this.sound.add('thriller', { loop: true });
         this._menuPlayer.anims.play('menu_player_down');
         this._backgroundModifier = 0;
-        this._music.play();
+        this._soundIntro.stop();
+        this._soundThriller.play();
         this.time.delayedCall(
             934,
             () => {
@@ -155,9 +161,8 @@ export class Start extends Scene {
     private _disableMoonwalk(): void {
         this._moonWalkEnabled = false;
         this._menuPlayer.anims.play('menu_player_right');
-        this._music.stop();
-        this._music = this.sound.add('intro', { volume: 0.5, loop: true });
-        this._music.play();
+        this._soundThriller.stop();
+        this._soundIntro.play();
     }
 
     private _displayHeader(): void {
@@ -222,7 +227,7 @@ export class Start extends Scene {
             '58px',
             () => {
                 this._disableMoonwalk();
-                this.sound.add('menu-select').play();
+                this._soundMenuSelect.play();
                 this._menuPlayer.anims.play('menu_player_right-fast');
                 this._playerRunAway = true;
             }
