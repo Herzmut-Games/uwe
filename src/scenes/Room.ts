@@ -1,14 +1,7 @@
-import { Scene, GameObjects, Physics } from 'phaser';
+import { Scene, GameObjects, Physics, Sound } from 'phaser';
 import { Score } from '../objects/Score';
-import { Player, Element } from '../objects/Player';
-import { Fireball } from '../objects/Fireball';
-import {
-    FireSpirit,
-    WaterSpirit,
-    EarthSpirit,
-    Enemy,
-    EnemyType,
-} from '../objects/Enemy';
+import { Player } from '../objects/Player';
+import { FireSpirit, WaterSpirit, EarthSpirit, Enemy } from '../objects/Enemy';
 import { BallType, Ball } from '../objects/Ball';
 import { EnemyController } from '../objects/EnemyController';
 import { Healthbar } from '../objects/Healthbar';
@@ -22,9 +15,9 @@ export class Room extends Scene {
     private _healthbar: Healthbar;
     private _weaponStatus: WeaponStatus;
     private _enemyController: EnemyController;
-    private _firespirits: Phaser.Physics.Arcade.Group;
-    private _waterspirits: Phaser.Physics.Arcade.Group;
-    private _earthspirits: Phaser.Physics.Arcade.Group;
+    private _firespirits: Physics.Arcade.Group;
+    private _waterspirits: Physics.Arcade.Group;
+    private _earthspirits: Physics.Arcade.Group;
     private _countdownText: GameObjects.Text;
     private _countdownTexts: string[] = [
         'und ab',
@@ -34,9 +27,9 @@ export class Room extends Scene {
         'vier',
     ];
     private _currentCountdown: number = 4;
-    private _soundPlayerImpact: Phaser.Sound.BaseSound;
-    private _soundBattleIntro: Phaser.Sound.BaseSound;
-    private _soundBattleMain: Phaser.Sound.BaseSound;
+    private _soundPlayerImpact: Sound.BaseSound;
+    private _soundBattleIntro: Sound.BaseSound;
+    private _soundBattleMain: Sound.BaseSound;
 
     constructor() {
         super({ key: 'Room' });

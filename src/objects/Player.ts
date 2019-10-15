@@ -1,4 +1,4 @@
-import { Scene, Physics, Input, Types, GameObjects } from 'phaser';
+import { Scene, Physics, Input, Types, Sound, Time } from 'phaser';
 import { Fireball } from './Fireball';
 import { Waterball } from './Waterball';
 import { Earthball } from './Earthball';
@@ -52,9 +52,9 @@ export class Player {
         return this._player;
     }
 
-    public fireballs: Phaser.Physics.Arcade.Group;
-    public waterballs: Phaser.Physics.Arcade.Group;
-    public earthballs: Phaser.Physics.Arcade.Group;
+    public fireballs: Physics.Arcade.Group;
+    public waterballs: Physics.Arcade.Group;
+    public earthballs: Physics.Arcade.Group;
 
     private _player: Physics.Arcade.Sprite;
     private _speed = 6;
@@ -63,9 +63,9 @@ export class Player {
     private _keys: ControlKeys;
     private _isMoving: boolean = false;
     private _currentElement: Element = Element.Fire;
-    private _soundFootsteps: Phaser.Sound.BaseSound;
-    private _soundSwap: Phaser.Sound.BaseSound;
-    private _hitTimer: Phaser.Time.TimerEvent;
+    private _soundFootsteps: Sound.BaseSound;
+    private _soundSwap: Sound.BaseSound;
+    private _hitTimer: Time.TimerEvent;
     private readonly _hitTimerConfig: Types.Time.TimerEventConfig = {
         repeat: 3,
         startAt: 100,
