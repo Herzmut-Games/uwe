@@ -79,10 +79,8 @@ export class Help extends Scene {
             colors.red,
             '46px',
             () => {
-                this.scene.setActive(true, 'Start');
-                this.scene.setActive(false);
-                this.scene.bringToTop('Start');
                 this.scene.stop();
+                this.scene.start('Selection');
             }
         );
 

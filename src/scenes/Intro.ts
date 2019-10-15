@@ -60,7 +60,7 @@ export class Intro extends Scene {
     }
 
     private _startMenu(): void {
-        this.scene.start('Start');
+        this.scene.start('Menu');
     }
 
     private _loadAudio() {
