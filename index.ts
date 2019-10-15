@@ -21,6 +21,9 @@ export const config: Types.Core.GameConfig = {
     render: {
         pixelArt: true,
     },
+    audio: {
+        disableWebAudio: true,
+    },
 };
 
 const game = new Game(config);

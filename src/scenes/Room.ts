@@ -83,7 +83,7 @@ export class Room extends Scene {
                 this._healthbar.ouch();
                 this._player.onHit();
                 this.cameras.main.shake(100, 0.01);
-                this.sound.add('player-impact', { volume: 2 }).play();
+                this.sound.add('player-impact').play();
             }
         );
 

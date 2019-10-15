@@ -36,7 +36,7 @@ export class Intro extends Scene {
         this.load.audio('thriller', 'assets/sounds/thriller.mp3');
         this.load.audio(
             'menu-select',
-            'assets/sounds/effects/sfx_menu_select1.wav'
+            'assets/sounds/effects/sfx_menu_select1.mp3'
         );
         this.load.image('background', 'assets/backgrounds/map.png');
         this.load.image('fullHeart', 'assets/heart.png');
@@ -49,19 +49,19 @@ export class Intro extends Scene {
         this.load.audio('battle-main', 'assets/sounds/battle_main.mp3');
         this.load.audio(
             'enemy-death',
-            'assets/sounds/effects/sfx_deathscream_alien4.wav'
+            'assets/sounds/effects/sfx_deathscream_alien4.mp3'
         );
         this.load.audio(
             'player-impact',
-            'assets/sounds/effects/sfx_deathscream_human12.wav'
+            'assets/sounds/effects/sfx_deathscream_human12.mp3'
         );
         this.load.audio(
             'element-switch',
-            'assets/sounds/effects/sfx_wpn_dagger.wav'
+            'assets/sounds/effects/sfx_wpn_dagger.mp3'
         );
         this.load.audio(
             'footsteps',
-            'assets/sounds/effects/sfx_movement_footstepsloop4_fast.wav'
+            'assets/sounds/effects/sfx_movement_footstepsloop4_fast.mp3'
         );
         this.load.spritesheet('firespirit', 'assets/objects/firespirit.png', {
             frameWidth: 10,
