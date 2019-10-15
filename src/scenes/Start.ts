@@ -1,25 +1,25 @@
-import { Scene } from 'phaser';
+import { Scene, GameObjects, Physics, Sound } from 'phaser';
 import { screenWidth } from '../config';
 import { Button } from '../objects/Button';
 import { fonts } from '../objects/Fonts';
 import { colors } from '../objects/Colors';
 
 export class Start extends Scene {
-    private _background: Phaser.GameObjects.TileSprite;
-    private _menuPlayer: Phaser.Physics.Arcade.Sprite;
+    private _background: GameObjects.TileSprite;
+    private _menuPlayer: Physics.Arcade.Sprite;
     private _playerRunAway: boolean;
     private _runAwayModifier: number = 0;
     private _backgroundModifier: number = 2.75;
     private _startButton: Button;
     private _aboutButton: Button;
-    private _aboutText: Phaser.GameObjects.Text;
+    private _aboutText: GameObjects.Text;
     private _aboutBackButton: Button;
     private _moonWalkEnabled: boolean = false;
-    private _background_dark: Phaser.GameObjects.TileSprite;
+    private _background_dark: GameObjects.TileSprite;
     private _helpButton: Button;
-    private _soundIntro: Phaser.Sound.BaseSound;
-    private _soundThriller: Phaser.Sound.BaseSound;
-    private _soundMenuSelect: Phaser.Sound.BaseSound;
+    private _soundIntro: Sound.BaseSound;
+    private _soundThriller: Sound.BaseSound;
+    private _soundMenuSelect: Sound.BaseSound;
 
     constructor() {
         super({ key: 'Start' });

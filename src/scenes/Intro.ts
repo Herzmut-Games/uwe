@@ -1,12 +1,12 @@
-import { Scene, GameObjects } from 'phaser';
+import { Scene, GameObjects, Sound } from 'phaser';
 import { screenWidth, screenHeight } from '../config';
 import { fonts } from '../objects/Fonts';
 import { colors } from '../objects/Colors';
 
 export class Intro extends Scene {
-    private _logo: Phaser.GameObjects.Image;
+    private _logo: GameObjects.Image;
     private _progressBar: GameObjects.Graphics;
-    private _soundBling: Phaser.Sound.BaseSound;
+    private _soundBling: Sound.BaseSound;
 
     constructor() {
         super({ key: 'Intro' });

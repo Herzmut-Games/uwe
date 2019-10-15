@@ -1,4 +1,4 @@
-import { Scene, Time, Physics, Types } from 'phaser';
+import { Scene, Time, Physics, Types, Math } from 'phaser';
 import { Player } from './Player';
 
 export class EnemyController {
@@ -39,12 +39,12 @@ export class EnemyController {
     private _spawnSpirits(): void {
         if (this.enemyCount < 10) {
             for (let i = 0, l = this._round; i < l; i++) {
-                this._spiritGroups[Phaser.Math.Between(0, 2)]
+                this._spiritGroups[Math.Between(0, 2)]
                     .get()
                     .setActive(true)
                     .setVisible(true)
                     .enableBody()
-                    .spawn(this._player, Phaser.Math.Between(1, 2));
+                    .spawn(this._player, Math.Between(1, 2));
             }
         }
 

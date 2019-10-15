@@ -1,4 +1,4 @@
-import { Scene, Physics } from 'phaser';
+import { Scene, Physics, Sound } from 'phaser';
 import { Player } from './Player';
 import { BallType } from './Ball';
 
@@ -13,7 +13,7 @@ export class Enemy extends Physics.Arcade.Sprite {
     private _speed: number = 100;
     private _diagonalSpeed: number = this._speed / 1.5;
     private _health: number = 1;
-    private _soundDeath: Phaser.Sound.BaseSound;
+    private _soundDeath: Sound.BaseSound;
 
     private get _bodyX(): number {
         return this.x + this.displayWidth / 2;

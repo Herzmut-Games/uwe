@@ -1,11 +1,11 @@
-import { Scene, GameObjects, Physics } from 'phaser';
+import { Scene, GameObjects } from 'phaser';
 import { fonts } from './Fonts';
 import { colors } from './Colors';
 
 export class Healthbar {
     private _health: number = 6;
     private _xPos: number = 650;
-    private _hearts: Phaser.GameObjects.Sprite[] = [];
+    private _hearts: GameObjects.Sprite[] = [];
 
     constructor(parentScene: Scene) {
         this._render(parentScene);
