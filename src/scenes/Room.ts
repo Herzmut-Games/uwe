@@ -7,7 +7,7 @@ import { EnemyController } from '../objects/EnemyController';
 import { Healthbar } from '../objects/Healthbar';
 import { WeaponStatus } from '../objects/WeaponStatus';
 import { fonts } from '../objects/Fonts';
-import { colors } from '../objects/Colors';
+import { colors, hexColors } from '../objects/Colors';
 import { GameAudio, GameImage } from '../configs/Resources';
 
 export class Room extends Scene {
@@ -42,7 +42,7 @@ export class Room extends Scene {
 
         this.add
             .graphics()
-            .fillStyle(0x3b3332, 1)
+            .fillStyle(hexColors.primary.dark, 1)
             .fillRect(0, 0, 800, 112);
 
         this._score = new Score(this);

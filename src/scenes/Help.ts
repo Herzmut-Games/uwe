@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 import { fonts } from '../objects/Fonts';
-import { colors } from '../objects/Colors';
+import { colors, hexColors } from '../objects/Colors';
 import { Button } from '../objects/Button';
 import { GameImage, GameSpritesheet } from '../configs/Resources';
 
@@ -67,7 +67,7 @@ export class Help extends Scene {
     private _renderTopBar() {
         this.add
             .graphics()
-            .fillStyle(0x3b3332, 1)
+            .fillStyle(hexColors.primary.dark, 1)
             .fillRect(0, 0, 800, 112);
 
         Button.create(

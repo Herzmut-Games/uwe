@@ -3,6 +3,7 @@ import { Fireball } from './Fireball';
 import { Waterball } from './Waterball';
 import { Earthball } from './Earthball';
 import { GameAudio, GameSpritesheet } from '../configs/Resources';
+import { hexColors } from './Colors';
 
 export enum Direction {
     Up,
@@ -174,7 +175,7 @@ export class Player extends Physics.Arcade.Sprite {
 
     private _onHit(): void {
         if (!this.isTinted) {
-            this.tint = 0xd50c2d;
+            this.tint = hexColors.red;
         } else {
             this.clearTint();
         }

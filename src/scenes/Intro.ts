@@ -1,7 +1,7 @@
 import { Scene, GameObjects, Sound } from 'phaser';
 import { screenWidth, screenHeight } from '../config';
 import { fonts } from '../objects/Fonts';
-import { colors } from '../objects/Colors';
+import { colors, hexColors } from '../objects/Colors';
 import { GameAudio, GameImage, GameSpritesheet } from '../configs/Resources';
 
 export class Intro extends Scene {
@@ -18,7 +18,7 @@ export class Intro extends Scene {
 
         this.load.on('progress', value => {
             this._progressBar.clear();
-            this._progressBar.fillStyle(0xd50c2d, 1);
+            this._progressBar.fillStyle(hexColors.red, 1);
             this._progressBar.fillRect(250, 280, 300 * value, 10);
         });
 
