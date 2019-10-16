@@ -1,6 +1,7 @@
 import { Scene, GameObjects } from 'phaser';
 import { fonts } from './Fonts';
 import { colors } from './Colors';
+import { GameImage } from '../configs/Resources';
 
 export class Healthbar {
     private _health: number = 6;
@@ -41,11 +42,11 @@ export class Healthbar {
             const offset = heartWidth * i;
 
             const halfHeart = parentScene.add
-                .sprite(this._xPos + offset, 54, 'halfHeart')
+                .sprite(this._xPos + offset, 54, GameImage.HALF_HEART)
                 .setOrigin(0, 0);
 
             const fullHeart = parentScene.add
-                .sprite(this._xPos + offset, 54, 'fullHeart')
+                .sprite(this._xPos + offset, 54, GameImage.FULL_HEART)
                 .setOrigin(0, 0);
 
             this._hearts.push(halfHeart);

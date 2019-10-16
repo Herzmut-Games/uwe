@@ -40,7 +40,7 @@ export class Death extends Scene {
             '#FFF',
             '#D50C2D',
             '40px',
-            () => this.scene.start('Start')
+            () => this.scene.start('Menu')
         );
     }
 }

@@ -1,10 +1,12 @@
 import { screenWidth, screenHeight } from './src/config';
 import { Game, Types } from 'phaser';
-import { Start } from './src/scenes/Start';
+import { Menu } from './src/scenes/menu/Menu';
 import { Room } from './src/scenes/Room';
 import { Death } from './src/scenes/Death';
 import { Intro } from './src/scenes/Intro';
 import { Help } from './src/scenes/Help';
+import { About } from './src/scenes/menu/About';
+import { Selection } from './src/scenes/menu/Selection';
 
 export const config: Types.Core.GameConfig = {
     type: Phaser.AUTO,
@@ -17,7 +19,7 @@ export const config: Types.Core.GameConfig = {
             gravity: { y: 0 },
         },
     },
-    scene: [Intro, Start, Death, Room, Help],
+    scene: [Intro, About, Selection, Menu, Death, Room, Help],
     render: {
         pixelArt: true,
     },

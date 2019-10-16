@@ -1,74 +1,79 @@
 import { Scene, GameObjects, Physics, Sound } from 'phaser';
-import { screenWidth } from '../config';
-import { Button } from '../objects/Button';
-import { fonts } from '../objects/Fonts';
-import { colors } from '../objects/Colors';
+import { screenWidth } from '../../config';
+import { fonts } from '../../objects/Fonts';
+import { colors } from '../../objects/Colors';
+import { GameImage, GameAudio, GameSpritesheet } from '../../configs/Resources';
 
-export class Start extends Scene {
+export class Menu extends Scene {
+    public playerRunAway: boolean;
+    public runAwayModifier: number = 0;
     private _background: GameObjects.TileSprite;
     private _menuPlayer: Physics.Arcade.Sprite;
-    private _playerRunAway: boolean;
-    private _runAwayModifier: number = 0;
     private _backgroundModifier: number = 2.75;
-    private _startButton: Button;
-    private _aboutButton: Button;
-    private _aboutText: GameObjects.Text;
-    private _aboutBackButton: Button;
     private _moonWalkEnabled: boolean = false;
     private _background_dark: GameObjects.TileSprite;
-    private _helpButton: Button;
     private _soundIntro: Sound.BaseSound;
     private _soundThriller: Sound.BaseSound;
     private _soundMenuSelect: Sound.BaseSound;
 
     constructor() {
-        super({ key: 'Start' });
+        super({ key: 'Menu' });
     }
 
     public destroy(): void {
         this._soundIntro.stop();
         this._soundThriller.stop();
+        this.scene.stop('Selection');
     }
 
     public create(): void {
-        this._background = this.add.tileSprite(0, 300, 0, 0, 'menu-background');
+        this._background = this.add.tileSprite(
+            0,
+            300,
+            0,
+            0,
+            GameImage.MENU_BACKGROUND
+        );
 
         this._background_dark = this.add.tileSprite(
             0,
             300,
             0,
             0,
-            'menu-background-dark'
+            GameImage.MENU_BACKGROUND_DARK
         );
         this._background_dark.setAlpha(0);
 
-        this._soundIntro = this.sound.add('intro', { volume: 0.5, loop: true });
-        this._soundThriller = this.sound.add('thriller', { loop: true });
-        this._soundMenuSelect = this.sound.add('menu-select');
+        this._soundIntro = this.sound.add(GameAudio.INTRO, {
+            volume: 0.5,
+            loop: true,
+        });
+        this._soundThriller = this.sound.add(GameAudio.THRILLER, {
+            loop: true,
+        });
+        this._soundMenuSelect = this.sound.add(GameAudio.MENU_SELECT);
 
         this._soundIntro.play();
 
         this._displayMenuPlayer();
         this._displayHeader();
-        this._displayMenu();
+        this.scene.launch('Selection');
     }
 
     public update(): void {
-        if (this._playerRunAway) {
-            this._runAwayModifier += 0.4;
-            this._startButton.setAlpha(1 - this._runAwayModifier * 0.1);
-            this._helpButton.setAlpha(1 - this._runAwayModifier * 0.1);
-            this._aboutButton.setAlpha(1 - this._runAwayModifier * 0.1);
+        if (this.playerRunAway) {
+            this.runAwayModifier += 0.4;
         }
-        this._menuPlayer.x += this._runAwayModifier;
+
+        this._menuPlayer.x += this.runAwayModifier;
         this._background.tilePositionX +=
-            this._backgroundModifier + this._runAwayModifier;
+            this._backgroundModifier + this.runAwayModifier;
         this._background_dark.tilePositionX +=
-            this._backgroundModifier + this._runAwayModifier;
+            this._backgroundModifier + this.runAwayModifier;
 
         if (this._menuPlayer.x >= 900) {
-            this._playerRunAway = false;
-            this._runAwayModifier = 0;
+            this.playerRunAway = false;
+            this.runAwayModifier = 0;
             this.scene.start('Room');
             this.destroy();
         }
@@ -88,10 +93,17 @@ export class Start extends Scene {
         }
     }
 
+    public startGame(): void {
+        this._disableMoonwalk();
+        this._soundMenuSelect.play();
+        this._menuPlayer.anims.play('menu_player_right-fast');
+        this.playerRunAway = true;
+    }
+
     private _displayMenuPlayer(): void {
         this.anims.create({
             key: 'menu_player_left',
-            frames: this.anims.generateFrameNumbers('player', {
+            frames: this.anims.generateFrameNumbers(GameSpritesheet.PLAYER, {
                 frames: [1, 5, 9, 13],
             }),
             frameRate: 4,
@@ -99,7 +111,7 @@ export class Start extends Scene {
         });
         this.anims.create({
             key: 'menu_player_right',
-            frames: this.anims.generateFrameNumbers('player', {
+            frames: this.anims.generateFrameNumbers(GameSpritesheet.PLAYER, {
                 frames: [3, 7, 11, 15],
             }),
             frameRate: 5.2,
@@ -107,7 +119,7 @@ export class Start extends Scene {
         });
         this.anims.create({
             key: 'menu_player_down',
-            frames: this.anims.generateFrameNumbers('player', {
+            frames: this.anims.generateFrameNumbers(GameSpritesheet.PLAYER, {
                 frames: [0],
             }),
             frameRate: 5.2,
@@ -115,14 +127,18 @@ export class Start extends Scene {
         });
         this.anims.create({
             key: 'menu_player_right-fast',
-            frames: this.anims.generateFrameNumbers('player', {
+            frames: this.anims.generateFrameNumbers(GameSpritesheet.PLAYER, {
                 frames: [3, 7, 11, 15],
             }),
             frameRate: 15,
             repeat: -1,
         });
 
-        this._menuPlayer = this.physics.add.sprite(200, 370, 'player');
+        this._menuPlayer = this.physics.add.sprite(
+            200,
+            370,
+            GameSpritesheet.PLAYER
+        );
         this._menuPlayer.on('pointerup', () => this._toggleMoonWalk());
         this._menuPlayer.setInteractive();
         this._menuPlayer.setOrigin(0.5, 0.5);
@@ -180,86 +196,5 @@ export class Start extends Scene {
                 fontFamily: fonts.primary,
             })
             .setOrigin(0.5, 0.5);
-    }
-
-    private _hideMenu(): void {
-        this._startButton.remove();
-        this._aboutButton.remove();
-        this._helpButton.remove();
-    }
-
-    private _hideAbout(): void {
-        this._aboutText.destroy();
-        this._aboutBackButton.remove();
-    }
-
-    private _displayAbout(): void {
-        this._aboutText = this.add
-            .text(570, 350, 'Christopher\nMarvin\nPatrick\nRobert', {
-                fill: colors.white,
-                fontSize: '58px',
-                fontFamily: fonts.primary,
-            })
-            .setOrigin(0.5, 0.5);
-        this._aboutBackButton = Button.create(
-            this,
-            580,
-            570,
-            'Back',
-            colors.white,
-            colors.red,
-            '58px',
-            () => {
-                this._hideAbout();
-                this._displayMenu();
-            }
-        );
-    }
-
-    private _displayMenu(): void {
-        this._startButton = Button.create(
-            this,
-            580,
-            495,
-            'Start',
-            colors.white,
-            colors.red,
-            '58px',
-            () => {
-                this._disableMoonwalk();
-                this._soundMenuSelect.play();
-                this._menuPlayer.anims.play('menu_player_right-fast');
-                this._playerRunAway = true;
-            }
-        );
-
-        this._helpButton = Button.create(
-            this,
-            580,
-            535,
-            'Hilfe',
-            colors.white,
-            colors.red,
-            '36px',
-            () => {
-                this.scene.run('Help');
-                this.scene.bringToTop('Help');
-                this.scene.setActive(false);
-            }
-        );
-
-        this._aboutButton = Button.create(
-            this,
-            580,
-            570,
-            'Credits',
-            colors.white,
-            colors.red,
-            '36px',
-            () => {
-                this._hideMenu();
-                this._displayAbout();
-            }
-        );
     }
 }

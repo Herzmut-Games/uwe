@@ -1,7 +1,8 @@
 import { Scene } from 'phaser';
 import { fonts } from '../objects/Fonts';
-import { colors } from '../objects/Colors';
+import { colors, hexColors } from '../objects/Colors';
 import { Button } from '../objects/Button';
+import { GameImage, GameSpritesheet } from '../configs/Resources';
 
 export class Help extends Scene {
     constructor() {
@@ -9,24 +10,65 @@ export class Help extends Scene {
     }
 
     public create() {
-        const background = this.add.image(0, 88, 'background');
+        const background = this.add.image(0, 88, GameImage.ROOM_BACKGROUND);
         background.setOrigin(0, 0).setDisplaySize(800, 512);
 
+        this._renderTopBar();
+
+        [
+            GameSpritesheet.BALL_FIRE,
+            GameSpritesheet.BALL_EARTH,
+            GameSpritesheet.BALL_WATER,
+        ].forEach(type => {
+            this._addAnimation(type, 0, 59);
+        });
+
+        [
+            GameSpritesheet.SPIRIT_FIRE,
+            GameSpritesheet.SPIRIT_EARTH,
+            GameSpritesheet.SPIRIT_WATER,
+        ].forEach(type => {
+            this._addAnimation(type, 0, -1);
+        });
+
+        this._addSpriteAt(555, 210, GameSpritesheet.BALL_WATER);
+        this._addSpriteAt(580, 280, GameSpritesheet.BALL_EARTH);
+        this._addSpriteAt(580, 350, GameSpritesheet.BALL_FIRE);
+        this._addSpriteAt(730, 200, GameSpritesheet.SPIRIT_FIRE);
+        this._addSpriteAt(730, 270, GameSpritesheet.SPIRIT_WATER);
+        this._addSpriteAt(730, 340, GameSpritesheet.SPIRIT_EARTH);
+
+        const textSecondary: object = {
+            fontFamily: fonts.primary,
+            fontSize: '40px',
+            fill: colors.white,
+        };
+
+        this.add.text(85, 180, 'Wasser besiegt Feuer', textSecondary);
+        this.add.text(100, 250, 'Erde besiegt Wasser', textSecondary);
+        this.add.text(130, 320, 'Feuer besiegt Erde', textSecondary);
+        this.add.text(420, 410, 'Bewegen mit: W,A,S,D', textSecondary);
+        this.add.text(370, 460, 'Feuern mit: Pfeiltasten', textSecondary);
+        this.add.text(
+            215,
+            510,
+            'Element wechseln mit: Leertaste',
+            textSecondary
+        );
+        this.add
+            .text(15, 555, '(Eigentlich wie bei Pokemon, ne?)', {
+                fontFamily: fonts.primary,
+                fontSize: '20px',
+                fill: colors.white,
+            })
+            .setAngle(270);
+    }
+
+    private _renderTopBar() {
         this.add
             .graphics()
-            .fillStyle(0x3b3332, 1)
+            .fillStyle(hexColors.primary.dark, 1)
             .fillRect(0, 0, 800, 112);
-
-        this.add.text(20, 5, 'Hilfe', {
-            fontFamily: fonts.primary,
-            fontSize: '46px',
-            fill: colors.white,
-        });
-        this.add.text(20, 48, "Wenn's mal klemmt", {
-            fontFamily: fonts.primary,
-            fontSize: '38px',
-            fill: colors.primary.light,
-        });
 
         Button.create(
             this,
@@ -37,102 +79,41 @@ export class Help extends Scene {
             colors.red,
             '46px',
             () => {
-                this.scene.setActive(true, 'Start');
-                this.scene.setActive(false);
-                this.scene.bringToTop('Start');
                 this.scene.stop();
+                this.scene.start('Selection');
             }
         );
 
-        ['fireball', 'earthball', 'waterball'].forEach(type => {
-            this.anims.create({
-                key: type + '-help',
-                frames: this.anims.generateFrameNumbers(type, {
-                    start: 0,
-                    end: 59,
-                }),
-                frameRate: 20,
-                repeat: -1,
-            });
-        });
-        ['firespirit', 'earthspirit', 'waterspirit'].forEach(type => {
-            this.anims.create({
-                key: type + '-help',
-                frames: this.anims.generateFrameNumbers(type, {
-                    start: 0,
-                    end: -1,
-                }),
-                frameRate: 20,
-                repeat: -1,
-            });
+        this.add.text(20, 5, 'Hilfe', {
+            fontFamily: fonts.primary,
+            fontSize: '46px',
+            fill: colors.white,
         });
 
-        this.add.text(85, 180, 'Wasser besiegt Feuer', {
+        this.add.text(20, 48, "Wenn's mal klemmt", {
             fontFamily: fonts.primary,
-            fontSize: '40px',
-            fill: colors.white,
+            fontSize: '38px',
+            fill: colors.primary.light,
         });
-        this.add.text(100, 250, 'Erde besiegt Wasser', {
-            fontFamily: fonts.primary,
-            fontSize: '40px',
-            fill: colors.white,
-        });
-        this.add.text(130, 320, 'Feuer besiegt Erde', {
-            fontFamily: fonts.primary,
-            fontSize: '40px',
-            fill: colors.white,
-        });
+    }
+
+    private _addSpriteAt(x: number, y: number, sprite: GameSpritesheet): void {
         this.physics.add
-            .sprite(555, 210, 'waterball')
-            .play('waterball-help')
+            .sprite(x, y, sprite)
+            .play(`${sprite}-help`)
             .setAngle(180)
             .setScale(3);
-        this.physics.add
-            .sprite(580, 280, 'earthball')
-            .play('earthball-help')
-            .setAngle(180)
-            .setScale(3);
-        this.physics.add
-            .sprite(580, 350, 'fireball')
-            .play('fireball-help')
-            .setAngle(180)
-            .setScale(3);
+    }
 
-        this.physics.add
-            .sprite(730, 200, 'firespirit')
-            .play('firespirit-help')
-            .setScale(3);
-        this.physics.add
-            .sprite(730, 270, 'waterspirit')
-            .play('waterspirit-help')
-            .setScale(3);
-        this.physics.add
-            .sprite(730, 340, 'earthspirit')
-            .play('earthspirit-help')
-            .setScale(3);
-
-        this.add
-            .text(15, 555, '(Eigentlich wie bei Pokemon, ne?)', {
-                fontFamily: fonts.primary,
-                fontSize: '20px',
-                fill: colors.white,
-            })
-            .setAngle(270);
-
-        this.add.text(420, 410, 'Bewegen mit: W,A,S,D', {
-            fontFamily: fonts.primary,
-            fontSize: '40px',
-            fill: colors.white,
-        });
-        this.add.text(370, 460, 'Feuern mit: Pfeiltasten', {
-            fontFamily: fonts.primary,
-            fontSize: '40px',
-            fill: colors.white,
-        });
-        this.add.text(215, 510, 'Element wechseln mit: Leertaste', {
-            fontFamily: fonts.primary,
-            fontSize: '40px',
-            fill: colors.white,
+    private _addAnimation(type: GameSpritesheet, start: number, end: number) {
+        this.anims.create({
+            key: `${type}-help`,
+            frames: this.anims.generateFrameNumbers(type, {
+                start,
+                end,
+            }),
+            frameRate: 20,
+            repeat: -1,
         });
     }
 }

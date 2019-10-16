@@ -2,6 +2,8 @@ import { Scene, Physics, Input, Types, Sound, Time } from 'phaser';
 import { Fireball } from './Fireball';
 import { Waterball } from './Waterball';
 import { Earthball } from './Earthball';
+import { GameAudio, GameSpritesheet } from '../configs/Resources';
+import { hexColors } from './Colors';
 
 export enum Direction {
     Up,
@@ -16,47 +18,43 @@ export enum Direction {
 }
 
 export enum Element {
-    Fire = 0xff7e7e,
-    Water = 0x7e84ff,
-    Earth = 0x7eff84,
+    Fire,
+    Water,
+    Earth,
 }
 
-interface ControlKeys {
-    One: Input.Keyboard.Key;
-    Two: Input.Keyboard.Key;
-    Three: Input.Keyboard.Key;
-    W: Input.Keyboard.Key;
-    A: Input.Keyboard.Key;
-    S: Input.Keyboard.Key;
-    D: Input.Keyboard.Key;
-    Up: Input.Keyboard.Key;
-    Down: Input.Keyboard.Key;
-    Left: Input.Keyboard.Key;
-    Right: Input.Keyboard.Key;
-    Space: Input.Keyboard.Key;
-}
+type Keys =
+    | 'One'
+    | 'Two'
+    | 'Three'
+    | 'W'
+    | 'A'
+    | 'S'
+    | 'D'
+    | 'Up'
+    | 'Down'
+    | 'Left'
+    | 'Right'
+    | 'Space';
 
-export class Player {
+type ControlKeys = { [k in Keys]: Input.Keyboard.Key };
+
+export class Player extends Physics.Arcade.Sprite {
     get bodyX(): number {
-        return this._player.x + this._player.displayWidth / 2;
+        return this.x + this.displayWidth / 2;
     }
     get bodyY(): number {
-        return this._player.y + this._player.displayHeight / 2;
+        return this.y + this.displayHeight / 2;
     }
 
     get element(): Element {
         return this._currentElement;
     }
 
-    get gameObject(): Physics.Arcade.Sprite {
-        return this._player;
-    }
-
     public fireballs: Physics.Arcade.Group;
     public waterballs: Physics.Arcade.Group;
     public earthballs: Physics.Arcade.Group;
 
-    private _player: Physics.Arcade.Sprite;
     private _speed = 6;
     private _diagonalSpeed = this._speed / 1.5;
     private _animationSpeed = 15;
@@ -98,12 +96,15 @@ export class Player {
     }
 
     constructor(private parentScene: Scene) {
+        super(parentScene, 100, 450, GameSpritesheet.PLAYER);
+        parentScene.add.existing(this);
+
         const cursorKeys = this.parentScene.input.keyboard.createCursorKeys();
-        this._soundFootsteps = this.parentScene.sound.add('footsteps', {
+        this._soundFootsteps = this.parentScene.sound.add(GameAudio.FOOTSTEPS, {
             rate: 1.5,
             volume: 0.3,
         });
-        this._soundSwap = this.parentScene.sound.add('element-switch');
+        this._soundSwap = this.parentScene.sound.add(GameAudio.ELEMENT_SWITCH);
 
         this._keys = {
             One: this.parentScene.input.keyboard.addKey('ONE'),
@@ -120,14 +121,12 @@ export class Player {
             Space: cursorKeys.space,
         };
 
-        this._player = parentScene.physics.add.sprite(100, 450, 'player');
-        this._player.setSize(29, 32);
-        this._player.setOffset(10, 10);
-        this._player.setScale(1.3);
-        this._player.setCollideWorldBounds(true);
-        this._player.setImmovable(true);
-
-        parentScene.physics.world.enableBody(this._player);
+        parentScene.physics.world.enableBody(this);
+        this.setSize(29, 32);
+        this.setOffset(10, 10);
+        this.setScale(1.3);
+        this.setCollideWorldBounds(true);
+        this.setImmovable(true);
 
         this.earthballs = parentScene.physics.add.group({
             classType: Earthball,
@@ -167,7 +166,7 @@ export class Player {
             );
         } else {
             this._hitTimer.destroy();
-            this._player.clearTint();
+            this.clearTint();
             this._hitTimer = this.parentScene.time.addEvent(
                 this._hitTimerConfig
             );
@@ -175,37 +174,37 @@ export class Player {
     }
 
     private _onHit(): void {
-        if (!this._player.isTinted) {
-            this._player.tint = Element.Fire;
+        if (!this.isTinted) {
+            this.tint = hexColors.red;
         } else {
-            this._player.clearTint();
+            this.clearTint();
         }
     }
 
     private _animate(): void {
         switch (true) {
             case this._keys.Up.isDown:
-                this._player.anims.play('up', true);
+                this.anims.play('up', true);
                 break;
             case this._keys.Down.isDown:
-                this._player.anims.play('down', true);
+                this.anims.play('down', true);
                 break;
             case this._keys.Left.isDown:
-                this._player.anims.play('left', true);
+                this.anims.play('left', true);
                 break;
             case this._keys.Right.isDown:
-                this._player.anims.play('right', true);
+                this.anims.play('right', true);
                 break;
         }
 
-        this._player.anims.resume();
-        this._player.anims.pause();
+        this.anims.resume();
+        this.anims.pause();
 
         if (this._isMoving) {
             if (!this._soundFootsteps.isPlaying) {
                 this._soundFootsteps.play();
             }
-            this._player.anims.resume();
+            this.anims.resume();
         }
     }
 
@@ -213,32 +212,32 @@ export class Player {
         if (this.movementDirection !== Direction.None) {
             switch (this.movementDirection) {
                 case Direction.Up:
-                    this._player.y -= this._speed;
+                    this.y -= this._speed;
                     break;
                 case Direction.Down:
-                    this._player.y += this._speed;
+                    this.y += this._speed;
                     break;
                 case Direction.Left:
-                    this._player.x -= this._speed;
+                    this.x -= this._speed;
                     break;
                 case Direction.Right:
-                    this._player.x += this._speed;
+                    this.x += this._speed;
                     break;
                 case Direction.UpRight:
-                    this._player.y -= this._diagonalSpeed;
-                    this._player.x += this._diagonalSpeed;
+                    this.y -= this._diagonalSpeed;
+                    this.x += this._diagonalSpeed;
                     break;
                 case Direction.UpLeft:
-                    this._player.y -= this._diagonalSpeed;
-                    this._player.x -= this._diagonalSpeed;
+                    this.y -= this._diagonalSpeed;
+                    this.x -= this._diagonalSpeed;
                     break;
                 case Direction.DownRight:
-                    this._player.y += this._diagonalSpeed;
-                    this._player.x += this._diagonalSpeed;
+                    this.y += this._diagonalSpeed;
+                    this.x += this._diagonalSpeed;
                     break;
                 case Direction.DownLeft:
-                    this._player.y += this._diagonalSpeed;
-                    this._player.x -= this._diagonalSpeed;
+                    this.y += this._diagonalSpeed;
+                    this.x -= this._diagonalSpeed;
                     break;
                 default:
                     break;
@@ -251,44 +250,31 @@ export class Player {
     }
 
     private _addAnimations(): void {
-        this.parentScene.anims.create({
-            key: 'left',
-            frames: this.parentScene.anims.generateFrameNumbers('player', {
-                frames: [1, 5, 9, 13],
-            }),
-            frameRate: this._animationSpeed,
-            repeat: -1,
-        });
+        const addAnimation = (key: string, offset: number) => {
+            this.parentScene.anims.create({
+                key,
+                frames: this.parentScene.anims.generateFrameNumbers(
+                    GameSpritesheet.PLAYER,
+                    {
+                        frames: [
+                            // Frames are set up top -> down
+                            // the offset picks the correct frame
+                            offset + 4 * 0,
+                            offset + 4 * 1,
+                            offset + 4 * 2,
+                            offset + 4 * 3,
+                        ],
+                    }
+                ),
+                frameRate: this._animationSpeed,
+                repeat: -1,
+            });
+        };
 
-        this.parentScene.anims.create({
-            key: 'right',
-            frames: this.parentScene.anims.generateFrameNumbers('player', {
-                frames: [3, 7, 11, 15],
-            }),
-            frameRate: this._animationSpeed,
-            repeat: -1,
-        });
+        ['down', 'left', 'up', 'right'].forEach(addAnimation);
 
-        this.parentScene.anims.create({
-            key: 'up',
-            frames: this.parentScene.anims.generateFrameNumbers('player', {
-                frames: [2, 6, 10, 14],
-            }),
-            frameRate: this._animationSpeed,
-            repeat: -1,
-        });
-
-        this.parentScene.anims.create({
-            key: 'down',
-            frames: this.parentScene.anims.generateFrameNumbers('player', {
-                frames: [0, 4, 8, 12],
-            }),
-            frameRate: this._animationSpeed,
-            repeat: -1,
-        });
-
-        this._player.anims.play('down');
-        this._player.anims.pause();
+        this.anims.play('down');
+        this.anims.pause();
     }
 
     private _addElementListeners(): void {
@@ -335,7 +321,7 @@ export class Player {
                     .setActive(true)
                     .setVisible(true)
                     .enableBody()
-                    .shoot(this._player, direction);
+                    .shoot(this, direction);
                 break;
             case Element.Water:
                 this.waterballs
@@ -343,7 +329,7 @@ export class Player {
                     .setActive(true)
                     .setVisible(true)
                     .enableBody()
-                    .shoot(this._player, direction);
+                    .shoot(this, direction);
                 break;
             case Element.Earth:
                 this.earthballs
@@ -351,7 +337,7 @@ export class Player {
                     .setActive(true)
                     .setVisible(true)
                     .enableBody()
-                    .shoot(this._player, direction);
+                    .shoot(this, direction);
                 break;
         }
     }
