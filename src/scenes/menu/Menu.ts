@@ -3,6 +3,7 @@ import { screenWidth } from '../../config';
 import { fonts } from '../../objects/Fonts';
 import { colors } from '../../objects/Colors';
 import { GameImage, GameAudio, GameSpritesheet } from '../../configs/Resources';
+import { Room } from '../room/Room';
 
 export class Menu extends Scene {
     public playerRunAway: boolean;
@@ -57,7 +58,7 @@ export class Menu extends Scene {
 
         this._displayMenuPlayer();
         this._displayHeader();
-        this.scene.launch('Selection');
+        this.scene.launch(Selection.name);
     }
 
     public update(): void {
@@ -74,7 +75,7 @@ export class Menu extends Scene {
         if (this._menuPlayer.x >= 900) {
             this.playerRunAway = false;
             this.runAwayModifier = 0;
-            this.scene.start('Room');
+            this.scene.start(Room.name);
             this.destroy();
         }
 

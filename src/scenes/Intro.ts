@@ -3,6 +3,7 @@ import { screenWidth, screenHeight } from '../config';
 import { fonts } from '../objects/Fonts';
 import { colors, hexColors } from '../objects/Colors';
 import { GameAudio, GameImage, GameSpritesheet } from '../configs/Resources';
+import { Menu } from './menu/Menu';
 
 export class Intro extends Scene {
     private _logo: GameObjects.Image;
@@ -10,7 +11,7 @@ export class Intro extends Scene {
     private _soundBling: Sound.BaseSound;
 
     constructor() {
-        super({ key: 'Intro' });
+        super({ key: Intro.name });
     }
 
     public preload(): void {
@@ -60,7 +61,7 @@ export class Intro extends Scene {
     }
 
     private _startMenu(): void {
-        this.scene.start('Menu');
+        this.scene.start(Menu.name);
     }
 
     private _loadAudio() {

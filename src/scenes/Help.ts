@@ -6,7 +6,7 @@ import { GameImage, GameSpritesheet } from '../configs/Resources';
 
 export class Help extends Scene {
     constructor() {
-        super({ key: 'Help' });
+        super({ key: Help.name });
     }
 
     public create() {
@@ -80,7 +80,7 @@ export class Help extends Scene {
             '46px',
             () => {
                 this.scene.stop();
-                this.scene.start('Selection');
+                this.scene.start(Selection.name);
             }
         );
 

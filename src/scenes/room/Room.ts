@@ -14,6 +14,7 @@ import { WeaponStatus } from '../../objects/WeaponStatus';
 import { fonts } from '../../objects/Fonts';
 import { colors, hexColors } from '../../objects/Colors';
 import { GameAudio, GameImage } from '../../configs/Resources';
+import { Death } from '../Death';
 
 export class Room extends Scene {
     private _score: Score;
@@ -38,7 +39,7 @@ export class Room extends Scene {
     private _soundBattleMain: Sound.BaseSound;
 
     constructor() {
-        super({ key: 'Room' });
+        super({ key: Room.name });
     }
 
     public create() {
@@ -140,7 +141,7 @@ export class Room extends Scene {
         if (this._healthbar.health <= 0) {
             this._soundBattleMain.stop();
             this.scene.stop();
-            this.scene.start('Death', { score: this._score.score });
+            this.scene.start(Death.name, { score: this._score.score });
             this._player.removeListeners();
             return true;
         }

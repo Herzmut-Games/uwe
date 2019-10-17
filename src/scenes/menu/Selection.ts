@@ -2,6 +2,8 @@ import { Scene } from 'phaser';
 import { Button } from '../../objects/Button';
 import { colors } from '../../objects/Colors';
 import { Menu } from './Menu';
+import { Help } from '../Help';
+import { About } from './About';
 
 export class Selection extends Scene {
     private _startButton: Button;
@@ -40,7 +42,7 @@ export class Selection extends Scene {
             '36px',
             () => {
                 this.scene.stop();
-                this.scene.start('Help');
+                this.scene.start(Help.name);
             }
         );
 
@@ -54,7 +56,7 @@ export class Selection extends Scene {
             '36px',
             () => {
                 this.scene.stop();
-                this.scene.start('About');
+                this.scene.start(About.name);
             }
         );
     }

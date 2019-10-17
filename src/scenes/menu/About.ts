@@ -32,7 +32,7 @@ export class About extends Scene {
             '58px',
             () => {
                 this.scene.stop();
-                this.scene.start('Selection');
+                this.scene.start(Selection.name);
             }
         );
     }
