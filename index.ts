@@ -1,4 +1,4 @@
-import { screenWidth, screenHeight } from './src/config';
+import { screenWidth, screenHeight } from './src/configs/Screen';
 import { Game, Types } from 'phaser';
 import { Menu } from './src/scenes/menu/Menu';
 import { Room } from './src/scenes/room/Room';

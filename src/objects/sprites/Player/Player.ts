@@ -304,31 +304,22 @@ export class Player extends Physics.Arcade.Sprite {
     }
 
     private _shootIntoDirection(direction: Direction): void {
-        switch (this._currentElement) {
-            case PlayerElement.Fire:
-                this.fireballs
-                    .get()
-                    .setActive(true)
-                    .setVisible(true)
-                    .enableBody()
-                    .shoot(this, direction);
-                break;
-            case PlayerElement.Water:
-                this.waterballs
-                    .get()
-                    .setActive(true)
-                    .setVisible(true)
-                    .enableBody()
-                    .shoot(this, direction);
-                break;
-            case PlayerElement.Earth:
-                this.earthballs
-                    .get()
-                    .setActive(true)
-                    .setVisible(true)
-                    .enableBody()
-                    .shoot(this, direction);
-                break;
-        }
+        const elementGroup = () => {
+            switch (this._currentElement) {
+                case PlayerElement.Fire:
+                    return this.fireballs;
+                case PlayerElement.Water:
+                    return this.waterballs;
+                case PlayerElement.Earth:
+                    return this.earthballs;
+            }
+        };
+
+        elementGroup()
+            .get()
+            .setActive(true)
+            .setVisible(true)
+            .enableBody()
+            .shoot(this, direction);
     }
 }

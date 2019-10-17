@@ -1,5 +1,5 @@
 import { Scene, GameObjects, Physics, Sound } from 'phaser';
-import { screenWidth } from '../../config';
+import { screenWidth } from '../../configs/Screen';
 import { fonts } from '../../configs/Fonts';
 import { colors } from '../../configs/Colors';
 import { GameImage, GameAudio, GameSpritesheet } from '../../configs/Resources';

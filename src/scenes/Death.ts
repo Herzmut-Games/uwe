@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import { screenWidth, screenHeight } from '../config';
+import { screenWidth, screenHeight } from '../configs/Screen';
 import { Button } from '../objects/Button';
 import { fonts } from '../configs/Fonts';
 import { colors } from '../configs/Colors';
