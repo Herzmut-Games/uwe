@@ -1,7 +1,7 @@
 import { Scene, Physics, Sound } from 'phaser';
 import { Player } from './Player';
 import { BallType } from './Ball';
-import { GameAudio } from '../configs/Resources';
+import { GameAudio } from '../../configs/Resources';
 
 export enum EnemyType {
     WATER = 'waterspirit',

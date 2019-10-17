@@ -1,17 +1,17 @@
 import { Scene, Physics, Sound } from 'phaser';
-import { Player, PlayerEvent, Element } from '../../objects/Player';
 import {
     FireSpirit,
     WaterSpirit,
     EarthSpirit,
     Enemy,
-} from '../../objects/Enemy';
-import { BallType, Ball } from '../../objects/Ball';
+} from '../../objects/sprites/Enemy';
+import { BallType, Ball } from '../../objects/sprites/Ball';
 import { EnemyController } from '../../objects/EnemyController';
 import { GameAudio, GameImage } from '../../configs/Resources';
 import { Death } from '../Death';
 import { TopBar, TopBarEvent } from './TopBar';
 import { CountDown } from './CountDown';
+import { Player, PlayerEvent } from '../../objects/sprites/Player';
 
 export enum RoomEvent {
     Damage = 'room_dmg',

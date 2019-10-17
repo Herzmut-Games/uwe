@@ -4,7 +4,7 @@ import { Score } from '../../objects/Score';
 import { Healthbar } from '../../objects/Healthbar';
 import { WeaponStatus } from '../../objects/WeaponStatus';
 import { Room, RoomEvent } from './Room';
-import { Element } from '../../objects/Player';
+import { Element } from '../../objects/sprites/Player';
 
 export enum TopBarEvent {
     NoHealth = 'topbar_nohealth',

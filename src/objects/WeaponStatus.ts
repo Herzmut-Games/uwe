@@ -1,6 +1,6 @@
 import { Scene, Physics } from 'phaser';
-import { Element } from './Player';
 import { GameSpritesheet } from '../configs/Resources';
+import { Element } from './sprites/Player';
 
 export class WeaponStatus {
     private readonly _speed: number = 120;

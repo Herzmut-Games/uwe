@@ -1,5 +1,5 @@
 import { Scene, Time, Physics, Types, Math } from 'phaser';
-import { Player } from './Player';
+import { Player } from './sprites/Player';
 
 export class EnemyController {
     private _timer: Time.TimerEvent;

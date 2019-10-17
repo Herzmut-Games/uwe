@@ -2,8 +2,8 @@ import { Scene, Physics, Input, Types, Sound, Time } from 'phaser';
 import { Fireball } from './Fireball';
 import { Waterball } from './Waterball';
 import { Earthball } from './Earthball';
-import { GameAudio, GameSpritesheet } from '../configs/Resources';
-import { hexColors } from './Colors';
+import { GameSpritesheet, GameAudio } from '../../configs/Resources';
+import { hexColors } from '../Colors';
 
 export enum Direction {
     Up,
