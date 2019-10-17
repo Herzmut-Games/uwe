@@ -1,13 +1,8 @@
 import { Physics, Scene } from 'phaser';
-import { Direction } from './Direction';
+import { Direction } from '../Player/Direction';
+import { BallType } from './BallType';
 
-export enum BallType {
-    FIRE = 'fireball',
-    EARTH = 'earthball',
-    WATER = 'waterball',
-}
-
-export function getBallAnimation(ballType: BallType): string {
+function getBallAnimation(ballType: BallType): string {
     return `shoot${ballType}`;
 }
 

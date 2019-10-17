@@ -2,10 +2,7 @@ import { Scene, GameObjects, Time } from 'phaser';
 import { colors } from '../../configs/Colors';
 import { fonts } from '../../configs/Fonts';
 import { Room } from './Room';
-
-export enum CountDownEvent {
-    Done = 'countdown_done',
-}
+import { CountDownEvent } from './CountDown.event';
 
 export class CountDown extends Scene {
     private _timer: Time.TimerEvent;

@@ -1,16 +1,11 @@
 import { Scene, Physics, Input, Types, Sound, Time } from 'phaser';
-import { Fireball } from './Fireball';
-import { Waterball } from './Waterball';
-import { Earthball } from './Earthball';
-import { GameSpritesheet, GameAudio } from '../../configs/Resources';
-import { hexColors } from '../../configs/Colors';
+import { Fireball } from '../Ball/Fireball';
+import { Waterball } from '../Ball/Waterball';
+import { Earthball } from '../Ball/Earthball';
+import { GameSpritesheet, GameAudio } from '../../../configs/Resources';
+import { hexColors } from '../../../configs/Colors';
 import { Direction } from './Direction';
-
-export enum Element {
-    Fire,
-    Water,
-    Earth,
-}
+import { PlayerElement } from './PlayerElement';
 
 type Keys =
     | 'One'
@@ -45,7 +40,7 @@ export class Player extends Physics.Arcade.Sprite {
     public earthballs: Physics.Arcade.Group;
 
     private _isMoving: boolean = false;
-    private _currentElement: Element = Element.Fire;
+    private _currentElement: PlayerElement = PlayerElement.Fire;
     private _hitTimer: Time.TimerEvent;
 
     private readonly _speed = 6;
@@ -272,21 +267,24 @@ export class Player extends Physics.Arcade.Sprite {
     }
 
     private _addElementListeners(): void {
-        this._keys.One.onDown = () => (this._currentElement = Element.Fire);
-        this._keys.Two.onDown = () => (this._currentElement = Element.Water);
-        this._keys.Three.onDown = () => (this._currentElement = Element.Earth);
+        this._keys.One.onDown = () =>
+            (this._currentElement = PlayerElement.Fire);
+        this._keys.Two.onDown = () =>
+            (this._currentElement = PlayerElement.Water);
+        this._keys.Three.onDown = () =>
+            (this._currentElement = PlayerElement.Earth);
 
         this._keys.Space.on('down', () => {
             this._soundSwap.play();
             switch (this._currentElement) {
-                case Element.Fire:
-                    this._currentElement = Element.Water;
+                case PlayerElement.Fire:
+                    this._currentElement = PlayerElement.Water;
                     break;
-                case Element.Water:
-                    this._currentElement = Element.Earth;
+                case PlayerElement.Water:
+                    this._currentElement = PlayerElement.Earth;
                     break;
-                case Element.Earth:
-                    this._currentElement = Element.Fire;
+                case PlayerElement.Earth:
+                    this._currentElement = PlayerElement.Fire;
                     break;
             }
             this.emit(PlayerEvent.ChangeElement, this._currentElement);
@@ -310,7 +308,7 @@ export class Player extends Physics.Arcade.Sprite {
 
     private _shootIntoDirection(direction: Direction): void {
         switch (this._currentElement) {
-            case Element.Fire:
+            case PlayerElement.Fire:
                 this.fireballs
                     .get()
                     .setActive(true)
@@ -318,7 +316,7 @@ export class Player extends Physics.Arcade.Sprite {
                     .enableBody()
                     .shoot(this, direction);
                 break;
-            case Element.Water:
+            case PlayerElement.Water:
                 this.waterballs
                     .get()
                     .setActive(true)
@@ -326,7 +324,7 @@ export class Player extends Physics.Arcade.Sprite {
                     .enableBody()
                     .shoot(this, direction);
                 break;
-            case Element.Earth:
+            case PlayerElement.Earth:
                 this.earthballs
                     .get()
                     .setActive(true)

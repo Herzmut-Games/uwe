@@ -1,5 +1,6 @@
 import { Scene } from 'phaser';
-import { BallType, Ball } from './Ball';
+import { Ball } from './Ball';
+import { BallType } from './BallType';
 
 export class Waterball extends Ball {
     constructor(protected parentScene: Scene) {

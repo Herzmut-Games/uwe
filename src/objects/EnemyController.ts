@@ -1,6 +1,6 @@
 import { Scene, Time, Physics, Types, Math } from 'phaser';
-import { Player } from './sprites/Player';
-import { RoomEvent } from '../scenes/room/Room';
+import { Player } from './sprites/Player/Player';
+import { RoomEvent } from '../scenes/room/Room.event';
 
 export class EnemyController {
     private _timer: Time.TimerEvent;

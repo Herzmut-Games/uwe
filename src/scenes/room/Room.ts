@@ -1,23 +1,19 @@
 import { Scene, Physics, Sound } from 'phaser';
-import {
-    FireSpirit,
-    WaterSpirit,
-    EarthSpirit,
-    Enemy,
-} from '../../objects/sprites/Enemy';
-import { BallType, Ball } from '../../objects/sprites/Ball';
+import { Enemy } from '../../objects/sprites/Enemy/Enemy';
+import { WaterSpirit } from '../../objects/sprites/Enemy/WaterSpirit';
+import { EarthSpirit } from '../../objects/sprites/Enemy/EarthSpirit';
+import { FireSpirit } from '../../objects/sprites/Enemy/FireSpirit';
+import { Ball } from '../../objects/sprites/Ball/Ball';
+import { BallType } from '../../objects/sprites/Ball/BallType';
 import { EnemyController } from '../../objects/EnemyController';
 import { GameAudio, GameImage } from '../../configs/Resources';
 import { Death } from '../Death';
-import { TopBar, TopBarEvent } from './TopBar';
-import { CountDown, CountDownEvent } from './CountDown';
-import { Player, PlayerEvent } from '../../objects/sprites/Player';
-
-export enum RoomEvent {
-    Damage = 'room_dmg',
-    Kill = 'room_kill',
-    WeaponSwitch = 'room_switch',
-}
+import { TopBar } from './TopBar';
+import { TopBarEvent } from './TopBar.event';
+import { CountDown } from './CountDown';
+import { CountDownEvent } from './CountDown.event';
+import { Player, PlayerEvent } from '../../objects/sprites/Player/Player';
+import { RoomEvent } from './Room.event';
 
 export class Room extends Scene {
     private _player: Player;

@@ -1,15 +1,10 @@
 import { Scene, Physics, Sound } from 'phaser';
-import { Player } from './Player';
-import { BallType } from './Ball';
-import { GameAudio } from '../../configs/Resources';
+import { Player } from '../Player/Player';
+import { BallType } from '../Ball/BallType';
+import { GameAudio } from '../../../configs/Resources';
+import { EnemyType } from './EnemyType';
 
-export enum EnemyType {
-    WATER = 'waterspirit',
-    EARTH = 'earthspirit',
-    FIRE = 'firespirit',
-}
-
-export class Enemy extends Physics.Arcade.Sprite {
+export abstract class Enemy extends Physics.Arcade.Sprite {
     private _player: Player;
     private _health: number = 1;
     private readonly _speed: number = 100;
@@ -131,23 +126,5 @@ export class Enemy extends Physics.Arcade.Sprite {
             Math.abs(this._player.bodyX - this._bodyX) >= minDistance &&
             Math.abs(this._player.bodyY - this._bodyY) >= minDistance
         );
-    }
-}
-
-export class FireSpirit extends Enemy {
-    constructor(parentScene: Scene) {
-        super(parentScene, EnemyType.FIRE);
-    }
-}
-
-export class EarthSpirit extends Enemy {
-    constructor(parentScene: Scene) {
-        super(parentScene, EnemyType.EARTH);
-    }
-}
-
-export class WaterSpirit extends Enemy {
-    constructor(parentScene: Scene) {
-        super(parentScene, EnemyType.WATER);
     }
 }

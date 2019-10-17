@@ -3,12 +3,10 @@ import { hexColors } from '../../configs/Colors';
 import { Score } from '../../objects/Score';
 import { Healthbar } from '../../objects/Healthbar';
 import { WeaponStatus } from '../../objects/WeaponStatus';
-import { Room, RoomEvent } from './Room';
-import { Element } from '../../objects/sprites/Player';
-
-export enum TopBarEvent {
-    NoHealth = 'topbar_nohealth',
-}
+import { Room } from './Room';
+import { RoomEvent } from './Room.event';
+import { PlayerElement } from '../../objects/sprites/Player/PlayerElement';
+import { TopBarEvent } from './TopBar.event';
 
 export class TopBar extends Scene {
     private _score: Score;
@@ -38,7 +36,7 @@ export class TopBar extends Scene {
 
         this._roomScene.events.on(
             RoomEvent.WeaponSwitch,
-            (element: Element) => {
+            (element: PlayerElement) => {
                 this._weaponStatus.update(element);
             }
         );

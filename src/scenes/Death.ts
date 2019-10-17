@@ -6,7 +6,7 @@ import { colors } from '../configs/Colors';
 import { Room } from './room/Room';
 import { Menu } from './menu/Menu';
 
-export interface DeathSceneData {
+interface DeathSceneData {
     score: number;
 }
 

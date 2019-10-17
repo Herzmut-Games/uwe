@@ -1,6 +1,6 @@
 import { Scene, Physics } from 'phaser';
 import { GameSpritesheet } from '../configs/Resources';
-import { Element } from './sprites/Player';
+import { PlayerElement } from './sprites/Player/PlayerElement';
 
 export class WeaponStatus {
     private readonly _speed: number = 120;
@@ -24,21 +24,21 @@ export class WeaponStatus {
         this._weapon.setAngle(90);
     }
 
-    public update(element: Element): void {
+    public update(element: PlayerElement): void {
         switch (element) {
-            case Element.Fire:
+            case PlayerElement.Fire:
                 this._weapon.anims.play(
                     `${GameSpritesheet.STATUS_FIRE}-animation`,
                     true
                 );
                 break;
-            case Element.Water:
+            case PlayerElement.Water:
                 this._weapon.anims.play(
                     `${GameSpritesheet.STATUS_WATER}-animation`,
                     true
                 );
                 break;
-            case Element.Earth:
+            case PlayerElement.Earth:
                 this._weapon.anims.play(
                     `${GameSpritesheet.STATUS_EARTH}-animation`,
                     true
