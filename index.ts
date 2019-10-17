@@ -1,7 +1,7 @@
 import { screenWidth, screenHeight } from './src/config';
 import { Game, Types } from 'phaser';
 import { Menu } from './src/scenes/menu/Menu';
-import { Room } from './src/scenes/Room';
+import { Room } from './src/scenes/room/Room';
 import { Death } from './src/scenes/Death';
 import { Intro } from './src/scenes/Intro';
 import { Help } from './src/scenes/Help';

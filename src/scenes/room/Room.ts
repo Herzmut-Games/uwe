@@ -1,14 +1,19 @@
 import { Scene, GameObjects, Physics, Sound } from 'phaser';
-import { Score } from '../objects/Score';
-import { Player } from '../objects/Player';
-import { FireSpirit, WaterSpirit, EarthSpirit, Enemy } from '../objects/Enemy';
-import { BallType, Ball } from '../objects/Ball';
-import { EnemyController } from '../objects/EnemyController';
-import { Healthbar } from '../objects/Healthbar';
-import { WeaponStatus } from '../objects/WeaponStatus';
-import { fonts } from '../objects/Fonts';
-import { colors, hexColors } from '../objects/Colors';
-import { GameAudio, GameImage } from '../configs/Resources';
+import { Score } from '../../objects/Score';
+import { Player } from '../../objects/Player';
+import {
+    FireSpirit,
+    WaterSpirit,
+    EarthSpirit,
+    Enemy,
+} from '../../objects/Enemy';
+import { BallType, Ball } from '../../objects/Ball';
+import { EnemyController } from '../../objects/EnemyController';
+import { Healthbar } from '../../objects/Healthbar';
+import { WeaponStatus } from '../../objects/WeaponStatus';
+import { fonts } from '../../objects/Fonts';
+import { colors, hexColors } from '../../objects/Colors';
+import { GameAudio, GameImage } from '../../configs/Resources';
 
 export class Room extends Scene {
     private _score: Score;
