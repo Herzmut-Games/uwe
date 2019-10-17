@@ -1,6 +1,5 @@
 import { Scene, GameObjects, Physics, Sound } from 'phaser';
-import { Score } from '../../objects/Score';
-import { Player } from '../../objects/Player';
+import { Player, PlayerEvent, Element } from '../../objects/Player';
 import {
     FireSpirit,
     WaterSpirit,
@@ -9,18 +8,20 @@ import {
 } from '../../objects/Enemy';
 import { BallType, Ball } from '../../objects/Ball';
 import { EnemyController } from '../../objects/EnemyController';
-import { Healthbar } from '../../objects/Healthbar';
-import { WeaponStatus } from '../../objects/WeaponStatus';
 import { fonts } from '../../objects/Fonts';
-import { colors, hexColors } from '../../objects/Colors';
+import { colors } from '../../objects/Colors';
 import { GameAudio, GameImage } from '../../configs/Resources';
 import { Death } from '../Death';
+import { TopBar, TopBarEvent } from './TopBar';
+
+export enum RoomEvent {
+    Damage = 'room_dmg',
+    Kill = 'room_kill',
+    WeaponSwitch = 'room_switch',
+}
 
 export class Room extends Scene {
-    private _score: Score;
     private _player: Player;
-    private _healthbar: Healthbar;
-    private _weaponStatus: WeaponStatus;
     private _enemyController: EnemyController;
     private _firespirits: Physics.Arcade.Group;
     private _waterspirits: Physics.Arcade.Group;
@@ -37,25 +38,90 @@ export class Room extends Scene {
     private _soundPlayerImpact: Sound.BaseSound;
     private _soundBattleIntro: Sound.BaseSound;
     private _soundBattleMain: Sound.BaseSound;
+    private _topBarScene: TopBar;
 
     constructor() {
         super({ key: Room.name });
     }
 
     public create() {
+        console.log('Create Room', Room.name);
         const background = this.add.image(0, 88, GameImage.ROOM_BACKGROUND);
         background.setOrigin(0, 0).setDisplaySize(800, 512);
+        this.physics.world.setBounds(10, 131, 780, 429);
 
-        this.add
-            .graphics()
-            .fillStyle(hexColors.primary.dark, 1)
-            .fillRect(0, 0, 800, 112);
+        this.scene.launch(TopBar.name);
+        this._topBarScene = this.scene.get(TopBar.name) as TopBar;
 
-        this._score = new Score(this);
+        this._topBarScene.events.on(TopBarEvent.NoHealth, (score: number) =>
+            this._endGame(score)
+        );
+
         this._player = new Player(this);
-        this._healthbar = new Healthbar(this);
-        this._weaponStatus = new WeaponStatus(this);
+        this._player.on(PlayerEvent.ChangeElement, (element: Element) =>
+            this.events.emit(RoomEvent.WeaponSwitch, element)
+        );
 
+        this._setupSpirits();
+        this._setupSounds();
+        this._setupCollision();
+        this._displayStartCountdown();
+    }
+
+    public update(): void {
+        this._player.update();
+        this._enemyController.update();
+    }
+
+    private _setupCollision() {
+        this.physics.add.overlap(
+            this._player,
+            [this._waterspirits, this._firespirits, this._earthspirits],
+            (_: Player, spirit: Enemy) => {
+                spirit.kill();
+                this.events.emit(RoomEvent.Damage);
+                this._player.onHit();
+                this.cameras.main.shake(100, 0.01);
+                this._soundPlayerImpact.play();
+            }
+        );
+        this.physics.add.collider(
+            [this._waterspirits, this._firespirits, this._earthspirits],
+            [this._waterspirits, this._firespirits, this._earthspirits]
+        );
+        this.physics.add.overlap(
+            [this._waterspirits, this._firespirits, this._earthspirits],
+            [
+                this._player.earthballs,
+                this._player.fireballs,
+                this._player.waterballs,
+            ],
+            (spirit: Enemy, ball: Ball) => {
+                const ballType: BallType = ball.getData('type');
+                ball.fadeOut();
+                if (spirit.hit(ballType)) {
+                    this.events.emit(RoomEvent.Kill);
+                }
+            }
+        );
+    }
+
+    private _setupSounds() {
+        this._soundPlayerImpact = this.sound.add(GameAudio.PLAYER_IMPACT);
+        this._soundBattleIntro = this.sound.add(GameAudio.BATTLE_INTRO, {
+            volume: 0.5,
+        });
+        this._soundBattleMain = this.sound.add(GameAudio.BATTLE_MAIN, {
+            volume: 0.5,
+            loop: true,
+        });
+        this._soundBattleIntro.play();
+        this._soundBattleIntro.once('complete', () => {
+            this._soundBattleMain.play();
+        });
+    }
+
+    private _setupSpirits() {
         this._firespirits = this.physics.add.group({
             classType: FireSpirit,
             runChildUpdate: true,
@@ -74,78 +140,18 @@ export class Room extends Scene {
             this._firespirits,
             this._waterspirits,
         ]);
-
-        this._soundPlayerImpact = this.sound.add(GameAudio.PLAYER_IMPACT);
-        this._soundBattleIntro = this.sound.add(GameAudio.BATTLE_INTRO, {
-            volume: 0.5,
-        });
-        this._soundBattleMain = this.sound.add(GameAudio.BATTLE_MAIN, {
-            volume: 0.5,
-            loop: true,
-        });
-
-        this.physics.add.overlap(
-            this._player,
-            [this._waterspirits, this._firespirits, this._earthspirits],
-            (_: Player, spirit: Enemy) => {
-                spirit.kill();
-                this._healthbar.ouch();
-                this._player.onHit();
-                this.cameras.main.shake(100, 0.01);
-                this._soundPlayerImpact.play();
-            }
-        );
-
-        this.physics.add.collider(
-            [this._waterspirits, this._firespirits, this._earthspirits],
-            [this._waterspirits, this._firespirits, this._earthspirits]
-        );
-
-        this.physics.add.overlap(
-            [this._waterspirits, this._firespirits, this._earthspirits],
-            [
-                this._player.earthballs,
-                this._player.fireballs,
-                this._player.waterballs,
-            ],
-            (spirit: Enemy, ball: Ball) => {
-                const ballType: BallType = ball.getData('type');
-                ball.fadeOut();
-
-                if (spirit.hit(ballType)) {
-                    this._score.add(100);
-                }
-            }
-        );
-
-        this.physics.world.setBounds(10, 131, 780, 429);
-
-        this._soundBattleIntro.play();
-        this._soundBattleIntro.once('complete', () => {
-            this._soundBattleMain.play();
-        });
-
-        this._displayStartCountdown();
     }
 
-    public update(): void {
-        this._score.update();
-        this._player.update();
-        this._weaponStatus.update(this._player.element);
-        if (!this._checkGameEnd()) {
-            this._enemyController.update();
-        }
-    }
-
-    private _checkGameEnd(): boolean {
-        if (this._healthbar.health <= 0) {
-            this._soundBattleMain.stop();
-            this.scene.stop();
-            this.scene.start(Death.name, { score: this._score.score });
-            this._player.removeListeners();
-            return true;
-        }
-        return false;
+    private _endGame(score: number): void {
+        this._soundBattleMain.stop();
+        this.scene.stop();
+        this.scene.stop(TopBar.name);
+        this.scene.start(Death.name, { score });
+        this._topBarScene.cleanup();
+        this._player.cleanup();
+        this.events.removeListener(RoomEvent.Damage);
+        this.events.removeListener(RoomEvent.Kill);
+        this.events.removeListener(RoomEvent.WeaponSwitch);
     }
 
     private _displayStartCountdown(): void {

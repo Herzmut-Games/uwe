@@ -39,16 +39,16 @@ type Keys =
 
 type ControlKeys = { [k in Keys]: Input.Keyboard.Key };
 
+export enum PlayerEvent {
+    ChangeElement = 'player_change_element',
+}
+
 export class Player extends Physics.Arcade.Sprite {
     get bodyX(): number {
         return this.x + this.displayWidth / 2;
     }
     get bodyY(): number {
         return this.y + this.displayHeight / 2;
-    }
-
-    get element(): Element {
-        return this._currentElement;
     }
 
     public fireballs: Physics.Arcade.Group;
@@ -151,12 +151,13 @@ export class Player extends Physics.Arcade.Sprite {
         this._animate();
     }
 
-    public removeListeners(): void {
-        this._keys.Down.removeAllListeners();
-        this._keys.Up.removeAllListeners();
-        this._keys.Left.removeAllListeners();
-        this._keys.Right.removeAllListeners();
-        this._keys.Space.removeAllListeners();
+    public cleanup(): void {
+        this._keys.Down.removeListener('down');
+        this._keys.Up.removeListener('down');
+        this._keys.Left.removeListener('down');
+        this._keys.Right.removeListener('down');
+        this._keys.Space.removeListener('down');
+        this.removeListener(PlayerEvent.ChangeElement);
     }
 
     public onHit(): void {
@@ -295,6 +296,7 @@ export class Player extends Physics.Arcade.Sprite {
                     this._currentElement = Element.Fire;
                     break;
             }
+            this.emit(PlayerEvent.ChangeElement, this._currentElement);
         });
     }
 

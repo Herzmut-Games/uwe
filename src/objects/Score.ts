@@ -25,9 +25,6 @@ export class Score {
 
     public add(score: number): void {
         this._score += score;
-    }
-
-    public update(): void {
         this._subheadline.setText(`${this.score}`);
     }
 }

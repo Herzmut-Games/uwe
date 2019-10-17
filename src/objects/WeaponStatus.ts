@@ -15,6 +15,11 @@ export class WeaponStatus {
             GameSpritesheet.STATUS_FIRE
         );
 
+        this._weapon.anims.play(
+            `${GameSpritesheet.STATUS_FIRE}-animation`,
+            true
+        );
+
         this._weapon.setScale(4);
         this._weapon.setAngle(90);
     }

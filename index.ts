@@ -7,6 +7,7 @@ import { Intro } from './src/scenes/Intro';
 import { Help } from './src/scenes/Help';
 import { About } from './src/scenes/menu/About';
 import { Selection } from './src/scenes/menu/Selection';
+import { TopBar } from './src/scenes/room/TopBar';
 
 export const config: Types.Core.GameConfig = {
     type: Phaser.AUTO,
@@ -19,7 +20,7 @@ export const config: Types.Core.GameConfig = {
             gravity: { y: 0 },
         },
     },
-    scene: [Intro, About, Selection, Menu, Death, Room, Help],
+    scene: [Intro, About, Selection, Menu, Death, TopBar, Room, Help],
     render: {
         pixelArt: true,
     },
