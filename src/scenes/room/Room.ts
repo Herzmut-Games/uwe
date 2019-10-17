@@ -12,7 +12,8 @@ import { TopBar } from './TopBar';
 import { TopBarEvent } from './TopBar.event';
 import { CountDown } from './CountDown';
 import { CountDownEvent } from './CountDown.event';
-import { Player, PlayerEvent } from '../../objects/sprites/Player/Player';
+import { Player } from '../../objects/sprites/Player/Player';
+import { PlayerEvent } from '../../objects/sprites/Player/Player.event';
 import { RoomEvent } from './Room.event';
 
 export class Room extends Scene {

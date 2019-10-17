@@ -6,6 +6,7 @@ import { GameSpritesheet, GameAudio } from '../../../configs/Resources';
 import { hexColors } from '../../../configs/Colors';
 import { Direction } from './Direction';
 import { PlayerElement } from './PlayerElement';
+import { PlayerEvent } from './Player.event';
 
 type Keys =
     | 'One'
@@ -22,10 +23,6 @@ type Keys =
     | 'Space';
 
 type ControlKeys = { [k in Keys]: Input.Keyboard.Key };
-
-export enum PlayerEvent {
-    ChangeElement = 'player_change_element',
-}
 
 export class Player extends Physics.Arcade.Sprite {
     get bodyX(): number {
