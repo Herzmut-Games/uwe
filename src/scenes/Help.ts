@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
-import { fonts } from '../objects/Fonts';
-import { colors, hexColors } from '../objects/Colors';
+import { fonts } from '../configs/Fonts';
+import { colors, hexColors } from '../configs/Colors';
 import { Button } from '../objects/Button';
 import { GameImage, GameSpritesheet } from '../configs/Resources';
 

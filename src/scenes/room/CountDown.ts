@@ -1,6 +1,6 @@
 import { Scene, GameObjects, Time } from 'phaser';
-import { colors } from '../../objects/Colors';
-import { fonts } from '../../objects/Fonts';
+import { colors } from '../../configs/Colors';
+import { fonts } from '../../configs/Fonts';
 import { Room } from './Room';
 
 export class CountDown extends Scene {

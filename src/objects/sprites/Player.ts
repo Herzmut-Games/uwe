@@ -3,7 +3,7 @@ import { Fireball } from './Fireball';
 import { Waterball } from './Waterball';
 import { Earthball } from './Earthball';
 import { GameSpritesheet, GameAudio } from '../../configs/Resources';
-import { hexColors } from '../Colors';
+import { hexColors } from '../../configs/Colors';
 
 export enum Direction {
     Up,

@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 import { Button } from '../../objects/Button';
-import { colors } from '../../objects/Colors';
+import { colors } from '../../configs/Colors';
 import { Menu } from './Menu';
 import { Help } from '../Help';
 import { About } from './About';

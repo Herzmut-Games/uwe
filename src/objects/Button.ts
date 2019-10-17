@@ -1,5 +1,5 @@
 import { Scene, GameObjects } from 'phaser';
-import { fonts } from './Fonts';
+import { fonts } from '../configs/Fonts';
 
 export class Button {
     public static create(

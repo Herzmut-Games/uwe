@@ -1,7 +1,7 @@
 import { Scene, GameObjects, Sound } from 'phaser';
 import { screenWidth, screenHeight } from '../config';
-import { fonts } from '../objects/Fonts';
-import { colors, hexColors } from '../objects/Colors';
+import { fonts } from '../configs/Fonts';
+import { colors, hexColors } from '../configs/Colors';
 import { GameAudio, GameImage, GameSpritesheet } from '../configs/Resources';
 import { Menu } from './menu/Menu';
 

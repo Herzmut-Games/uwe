@@ -1,6 +1,6 @@
 import { Scene, GameObjects } from 'phaser';
-import { fonts } from './Fonts';
-import { colors } from './Colors';
+import { fonts } from '../configs/Fonts';
+import { colors } from '../configs/Colors';
 import { GameImage } from '../configs/Resources';
 
 export class Healthbar {

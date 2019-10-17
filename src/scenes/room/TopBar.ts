@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import { hexColors } from '../../objects/Colors';
+import { hexColors } from '../../configs/Colors';
 import { Score } from '../../objects/Score';
 import { Healthbar } from '../../objects/Healthbar';
 import { WeaponStatus } from '../../objects/WeaponStatus';

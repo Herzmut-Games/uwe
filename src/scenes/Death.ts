@@ -1,8 +1,8 @@
 import { Scene } from 'phaser';
 import { screenWidth, screenHeight } from '../config';
 import { Button } from '../objects/Button';
-import { fonts } from '../objects/Fonts';
-import { colors } from '../objects/Colors';
+import { fonts } from '../configs/Fonts';
+import { colors } from '../configs/Colors';
 import { Room } from './room/Room';
 import { Menu } from './menu/Menu';
 
