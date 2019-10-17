@@ -1,4 +1,4 @@
-import { Scene, GameObjects, Physics, Sound } from 'phaser';
+import { Scene, Physics, Sound } from 'phaser';
 import { Player, PlayerEvent, Element } from '../../objects/Player';
 import {
     FireSpirit,
@@ -8,11 +8,10 @@ import {
 } from '../../objects/Enemy';
 import { BallType, Ball } from '../../objects/Ball';
 import { EnemyController } from '../../objects/EnemyController';
-import { fonts } from '../../objects/Fonts';
-import { colors } from '../../objects/Colors';
 import { GameAudio, GameImage } from '../../configs/Resources';
 import { Death } from '../Death';
 import { TopBar, TopBarEvent } from './TopBar';
+import { CountDown } from './CountDown';
 
 export enum RoomEvent {
     Damage = 'room_dmg',
@@ -26,26 +25,17 @@ export class Room extends Scene {
     private _firespirits: Physics.Arcade.Group;
     private _waterspirits: Physics.Arcade.Group;
     private _earthspirits: Physics.Arcade.Group;
-    private _countdownText: GameObjects.Text;
-    private _countdownTexts: string[] = [
-        'und ab',
-        'eins',
-        'zwei',
-        'drei',
-        'vier',
-    ];
-    private _currentCountdown: number = 4;
     private _soundPlayerImpact: Sound.BaseSound;
     private _soundBattleIntro: Sound.BaseSound;
     private _soundBattleMain: Sound.BaseSound;
     private _topBarScene: TopBar;
+    private _countDownScene: CountDown;
 
     constructor() {
         super({ key: Room.name });
     }
 
     public create() {
-        console.log('Create Room', Room.name);
         const background = this.add.image(0, 88, GameImage.ROOM_BACKGROUND);
         background.setOrigin(0, 0).setDisplaySize(800, 512);
         this.physics.world.setBounds(10, 131, 780, 429);
@@ -65,12 +55,17 @@ export class Room extends Scene {
         this._setupSpirits();
         this._setupSounds();
         this._setupCollision();
-        this._displayStartCountdown();
+        this._startCountdown();
     }
 
     public update(): void {
         this._player.update();
         this._enemyController.update();
+    }
+
+    private _startCountdown() {
+        this.scene.launch(CountDown.name);
+        this._countDownScene = this.scene.get(CountDown.name) as CountDown;
     }
 
     private _setupCollision() {
@@ -152,30 +147,5 @@ export class Room extends Scene {
         this.events.removeListener(RoomEvent.Damage);
         this.events.removeListener(RoomEvent.Kill);
         this.events.removeListener(RoomEvent.WeaponSwitch);
-    }
-
-    private _displayStartCountdown(): void {
-        this._countdownText = this.add
-            .text(400, 300, this._countdownTexts[this._currentCountdown], {
-                fill: colors.white,
-                fontSize: 68,
-                fontFamily: fonts.primary,
-            })
-            .setOrigin(0.5, 0.5);
-
-        this._countDown();
-    }
-
-    private _countDown(): void {
-        this._currentCountdown -= 1;
-        if (this._currentCountdown >= 0) {
-            this._countdownText.setText(
-                this._countdownTexts[this._currentCountdown]
-            );
-            this.time.delayedCall(1000, this._countDown, [], this);
-        } else {
-            this._countdownText.destroy();
-            this._currentCountdown = 4;
-        }
     }
 }

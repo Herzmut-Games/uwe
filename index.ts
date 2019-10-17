@@ -8,6 +8,7 @@ import { Help } from './src/scenes/Help';
 import { About } from './src/scenes/menu/About';
 import { Selection } from './src/scenes/menu/Selection';
 import { TopBar } from './src/scenes/room/TopBar';
+import { CountDown } from './src/scenes/room/CountDown';
 
 export const config: Types.Core.GameConfig = {
     type: Phaser.AUTO,
@@ -20,7 +21,17 @@ export const config: Types.Core.GameConfig = {
             gravity: { y: 0 },
         },
     },
-    scene: [Intro, About, Selection, Menu, Death, TopBar, Room, Help],
+    scene: [
+        Intro,
+        About,
+        Selection,
+        Menu,
+        Death,
+        TopBar,
+        CountDown,
+        Room,
+        Help,
+    ],
     render: {
         pixelArt: true,
     },
