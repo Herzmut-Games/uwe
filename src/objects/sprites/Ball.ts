@@ -1,5 +1,5 @@
 import { Physics, Scene } from 'phaser';
-import { Direction } from './Player';
+import { Direction } from './Direction';
 
 export enum BallType {
     FIRE = 'fireball',
