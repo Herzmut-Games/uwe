@@ -1,5 +1,6 @@
 import { Scene, Time, Physics, Types, Math } from 'phaser';
 import { Player } from './sprites/Player';
+import { RoomEvent } from '../scenes/room/Room';
 
 export class EnemyController {
     private _timer: Time.TimerEvent;
@@ -26,9 +27,15 @@ export class EnemyController {
         private readonly _spiritGroups: Physics.Arcade.Group[]
     ) {
         this._timer = _parentScene.time.addEvent(this._timerConfig);
+        this._spawnSpirits();
+
+        // Respawn enemies early if last one was removed from room
+        // this can either happen on a kill or when taking damage
+        this._parentScene.events.on(RoomEvent.Damage, this._earlyRespawn, this);
+        this._parentScene.events.on(RoomEvent.Kill, this._earlyRespawn, this);
     }
 
-    public update(): void {
+    private _earlyRespawn(): void {
         if (this.enemyCount === 0 && this._round > 1) {
             this._timer.destroy();
             this._timer = this._parentScene.time.addEvent(this._timerConfig);

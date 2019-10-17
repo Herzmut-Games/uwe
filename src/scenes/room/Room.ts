@@ -10,7 +10,7 @@ import { EnemyController } from '../../objects/EnemyController';
 import { GameAudio, GameImage } from '../../configs/Resources';
 import { Death } from '../Death';
 import { TopBar, TopBarEvent } from './TopBar';
-import { CountDown } from './CountDown';
+import { CountDown, CountDownEvent } from './CountDown';
 import { Player, PlayerEvent } from '../../objects/sprites/Player';
 
 export enum RoomEvent {
@@ -36,8 +36,11 @@ export class Room extends Scene {
     }
 
     public create() {
-        const background = this.add.image(0, 88, GameImage.ROOM_BACKGROUND);
-        background.setOrigin(0, 0).setDisplaySize(800, 512);
+        this.add
+            .image(0, 88, GameImage.ROOM_BACKGROUND)
+            .setOrigin(0, 0)
+            .setDisplaySize(800, 512);
+
         this.physics.world.setBounds(10, 131, 780, 429);
 
         this.scene.launch(TopBar.name);
@@ -55,17 +58,20 @@ export class Room extends Scene {
         this._setupSpirits();
         this._setupSounds();
         this._setupCollision();
+
         this._startCountdown();
     }
 
     public update(): void {
         this._player.update();
-        this._enemyController.update();
     }
 
     private _startCountdown() {
         this.scene.launch(CountDown.name);
         this._countDownScene = this.scene.get(CountDown.name) as CountDown;
+        this._countDownScene.events.once(CountDownEvent.Done, () =>
+            this._spawnEnemies()
+        );
     }
 
     private _setupCollision() {
@@ -80,10 +86,12 @@ export class Room extends Scene {
                 this._soundPlayerImpact.play();
             }
         );
+
         this.physics.add.collider(
             [this._waterspirits, this._firespirits, this._earthspirits],
             [this._waterspirits, this._firespirits, this._earthspirits]
         );
+
         this.physics.add.overlap(
             [this._waterspirits, this._firespirits, this._earthspirits],
             [
@@ -129,7 +137,9 @@ export class Room extends Scene {
             classType: EarthSpirit,
             runChildUpdate: true,
         });
+    }
 
+    private _spawnEnemies(): void {
         this._enemyController = new EnemyController(this, this._player, [
             this._earthspirits,
             this._firespirits,

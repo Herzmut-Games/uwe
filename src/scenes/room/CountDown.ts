@@ -3,6 +3,10 @@ import { colors } from '../../configs/Colors';
 import { fonts } from '../../configs/Fonts';
 import { Room } from './Room';
 
+export enum CountDownEvent {
+    Done = 'countdown_done',
+}
+
 export class CountDown extends Scene {
     private _timer: Time.TimerEvent;
     private _countdownText: GameObjects.Text;
@@ -47,6 +51,7 @@ export class CountDown extends Scene {
                 this._countdownTexts[this._currentCountdown]
             );
         } else {
+            this.events.emit(CountDownEvent.Done);
             this.scene.stop();
             this._timer.destroy();
         }
