@@ -62,6 +62,7 @@ export class Intro extends Scene {
 
     private _startMenu(): void {
         this.scene.start(Menu.name);
+        this.scene.remove();
     }
 
     private _loadAudio() {

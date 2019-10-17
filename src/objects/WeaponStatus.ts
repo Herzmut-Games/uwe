@@ -3,10 +3,10 @@ import { Element } from './Player';
 import { GameSpritesheet } from '../configs/Resources';
 
 export class WeaponStatus {
-    private _speed: number = 120;
-    private _weapon: Physics.Arcade.Sprite;
+    private readonly _speed: number = 120;
+    private readonly _weapon: Physics.Arcade.Sprite;
 
-    constructor(private _parentScene: Scene) {
+    constructor(private readonly _parentScene: Scene) {
         this._addAnimations();
 
         this._weapon = _parentScene.physics.add.staticSprite(

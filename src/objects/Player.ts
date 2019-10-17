@@ -55,15 +55,16 @@ export class Player extends Physics.Arcade.Sprite {
     public waterballs: Physics.Arcade.Group;
     public earthballs: Physics.Arcade.Group;
 
-    private _speed = 6;
-    private _diagonalSpeed = this._speed / 1.5;
-    private _animationSpeed = 15;
-    private _keys: ControlKeys;
     private _isMoving: boolean = false;
     private _currentElement: Element = Element.Fire;
-    private _soundFootsteps: Sound.BaseSound;
-    private _soundSwap: Sound.BaseSound;
     private _hitTimer: Time.TimerEvent;
+
+    private readonly _speed = 6;
+    private readonly _diagonalSpeed = this._speed / 1.5;
+    private readonly _animationSpeed = 15;
+    private readonly _keys: ControlKeys;
+    private readonly _soundFootsteps: Sound.BaseSound;
+    private readonly _soundSwap: Sound.BaseSound;
     private readonly _hitTimerConfig: Types.Time.TimerEventConfig = {
         repeat: 3,
         startAt: 100,
@@ -95,25 +96,28 @@ export class Player extends Physics.Arcade.Sprite {
         }
     }
 
-    constructor(private parentScene: Scene) {
-        super(parentScene, 100, 450, GameSpritesheet.PLAYER);
-        parentScene.add.existing(this);
+    constructor(private readonly _parentScene: Scene) {
+        super(_parentScene, 100, 450, GameSpritesheet.PLAYER);
+        _parentScene.add.existing(this);
 
-        const cursorKeys = this.parentScene.input.keyboard.createCursorKeys();
-        this._soundFootsteps = this.parentScene.sound.add(GameAudio.FOOTSTEPS, {
-            rate: 1.5,
-            volume: 0.3,
-        });
-        this._soundSwap = this.parentScene.sound.add(GameAudio.ELEMENT_SWITCH);
+        const cursorKeys = this._parentScene.input.keyboard.createCursorKeys();
+        this._soundFootsteps = this._parentScene.sound.add(
+            GameAudio.FOOTSTEPS,
+            {
+                rate: 1.5,
+                volume: 0.3,
+            }
+        );
+        this._soundSwap = this._parentScene.sound.add(GameAudio.ELEMENT_SWITCH);
 
         this._keys = {
-            One: this.parentScene.input.keyboard.addKey('ONE'),
-            Two: this.parentScene.input.keyboard.addKey('TWO'),
-            Three: this.parentScene.input.keyboard.addKey('THREE'),
-            W: this.parentScene.input.keyboard.addKey('W'),
-            A: this.parentScene.input.keyboard.addKey('A'),
-            S: this.parentScene.input.keyboard.addKey('S'),
-            D: this.parentScene.input.keyboard.addKey('D'),
+            One: this._parentScene.input.keyboard.addKey('ONE'),
+            Two: this._parentScene.input.keyboard.addKey('TWO'),
+            Three: this._parentScene.input.keyboard.addKey('THREE'),
+            W: this._parentScene.input.keyboard.addKey('W'),
+            A: this._parentScene.input.keyboard.addKey('A'),
+            S: this._parentScene.input.keyboard.addKey('S'),
+            D: this._parentScene.input.keyboard.addKey('D'),
             Up: cursorKeys.up,
             Left: cursorKeys.left,
             Right: cursorKeys.right,
@@ -121,22 +125,22 @@ export class Player extends Physics.Arcade.Sprite {
             Space: cursorKeys.space,
         };
 
-        parentScene.physics.world.enableBody(this);
+        _parentScene.physics.world.enableBody(this);
         this.setSize(29, 32);
         this.setOffset(10, 10);
         this.setScale(1.3);
         this.setCollideWorldBounds(true);
         this.setImmovable(true);
 
-        this.earthballs = parentScene.physics.add.group({
+        this.earthballs = _parentScene.physics.add.group({
             classType: Earthball,
             runChildUpdate: true,
         });
-        this.waterballs = parentScene.physics.add.group({
+        this.waterballs = _parentScene.physics.add.group({
             classType: Waterball,
             runChildUpdate: true,
         });
-        this.fireballs = parentScene.physics.add.group({
+        this.fireballs = _parentScene.physics.add.group({
             classType: Fireball,
             runChildUpdate: true,
         });
@@ -162,13 +166,13 @@ export class Player extends Physics.Arcade.Sprite {
 
     public onHit(): void {
         if (!this._hitTimer) {
-            this._hitTimer = this.parentScene.time.addEvent(
+            this._hitTimer = this._parentScene.time.addEvent(
                 this._hitTimerConfig
             );
         } else {
             this._hitTimer.destroy();
             this.clearTint();
-            this._hitTimer = this.parentScene.time.addEvent(
+            this._hitTimer = this._parentScene.time.addEvent(
                 this._hitTimerConfig
             );
         }
@@ -252,9 +256,9 @@ export class Player extends Physics.Arcade.Sprite {
 
     private _addAnimations(): void {
         const addAnimation = (key: string, offset: number) => {
-            this.parentScene.anims.create({
+            this._parentScene.anims.create({
                 key,
-                frames: this.parentScene.anims.generateFrameNumbers(
+                frames: this._parentScene.anims.generateFrameNumbers(
                     GameSpritesheet.PLAYER,
                     {
                         frames: [

@@ -21,9 +21,9 @@ export class EnemyController {
     }
 
     constructor(
-        private _parentScene: Scene,
-        private _player: Player,
-        private _spiritGroups: Physics.Arcade.Group[]
+        private readonly _parentScene: Scene,
+        private readonly _player: Player,
+        private readonly _spiritGroups: Physics.Arcade.Group[]
     ) {
         this._timer = _parentScene.time.addEvent(this._timerConfig);
     }

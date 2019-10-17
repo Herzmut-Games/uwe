@@ -24,7 +24,7 @@ export class Button {
         );
     }
 
-    private _text: GameObjects.Text;
+    private readonly _text: GameObjects.Text;
 
     constructor(
         parentScene: Scene,

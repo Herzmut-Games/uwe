@@ -6,7 +6,7 @@ import { GameImage } from '../configs/Resources';
 export class Healthbar {
     private _health: number = 6;
     private _xPos: number = 650;
-    private _hearts: GameObjects.Sprite[] = [];
+    private readonly _hearts: GameObjects.Sprite[] = [];
 
     constructor(parentScene: Scene) {
         this._render(parentScene);

@@ -7,11 +7,11 @@ import { Room } from '../room/Room';
 
 export class Menu extends Scene {
     public playerRunAway: boolean;
-    public runAwayModifier: number = 0;
+    public runAwayModifier: number;
     private _background: GameObjects.TileSprite;
     private _menuPlayer: Physics.Arcade.Sprite;
-    private _backgroundModifier: number = 2.75;
-    private _moonWalkEnabled: boolean = false;
+    private _backgroundModifier: number;
+    private _moonWalkEnabled: boolean;
     private _background_dark: GameObjects.TileSprite;
     private _soundIntro: Sound.BaseSound;
     private _soundThriller: Sound.BaseSound;
@@ -28,6 +28,10 @@ export class Menu extends Scene {
     }
 
     public create(): void {
+        this.runAwayModifier = 0;
+        this._backgroundModifier = 2.75;
+        this._moonWalkEnabled = false;
+
         this._background = this.add.tileSprite(
             0,
             300,

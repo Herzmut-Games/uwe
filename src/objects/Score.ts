@@ -8,7 +8,7 @@ export class Score {
     }
 
     private _score: number = 0;
-    private _subheadline: GameObjects.Text;
+    private readonly _subheadline: GameObjects.Text;
 
     constructor(parentScene: Scene) {
         parentScene.add.text(20, 20, 'Punkte', {

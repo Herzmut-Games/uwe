@@ -12,7 +12,8 @@
     "arrow-parens": false,
     "variable-name": false,
     "ordered-imports": false,
-    "interface-name": false
+    "interface-name": false,
+    "prefer-readonly": true
   },
   "rulesDirectory": []
 }

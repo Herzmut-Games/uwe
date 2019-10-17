@@ -11,10 +11,10 @@ export enum EnemyType {
 
 export class Enemy extends Physics.Arcade.Sprite {
     private _player: Player;
-    private _speed: number = 100;
-    private _diagonalSpeed: number = this._speed / 1.5;
     private _health: number = 1;
-    private _soundDeath: Sound.BaseSound;
+    private readonly _speed: number = 100;
+    private readonly _diagonalSpeed: number = this._speed / 1.5;
+    private readonly _soundDeath: Sound.BaseSound;
 
     private get _bodyX(): number {
         return this.x + this.displayWidth / 2;
@@ -23,7 +23,10 @@ export class Enemy extends Physics.Arcade.Sprite {
     private get _bodyY(): number {
         return this.y + (this.displayHeight / 3) * 2;
     }
-    constructor(private _parentScene: Scene, private _kind: EnemyType) {
+    constructor(
+        private readonly _parentScene: Scene,
+        private readonly _kind: EnemyType
+    ) {
         super(_parentScene, 0, 0, _kind);
 
         this._soundDeath = this._parentScene.sound.add(GameAudio.ENEMY_DEATH);
