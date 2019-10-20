@@ -69,8 +69,7 @@ export abstract class Enemy extends Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true);
         while (!this._hasSufficientDistanceToPlayer) {}
         this.anims.play(`run_${this._kind}`, true);
-        this.setSize(10, 20);
-        this.setOffset(-1, 5);
+        this._setHitBox();
         this.setDataEnabled();
         this.setData('type', this._kind);
 
@@ -114,6 +113,8 @@ export abstract class Enemy extends Physics.Arcade.Sprite {
         this.setVisible(false);
         this.disableBody();
     }
+
+    protected abstract _setHitBox(): void;
 
     private _setScale() {
         this.setScale(2 + this._health * 1.25);

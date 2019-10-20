@@ -106,22 +106,22 @@ export class Player extends Physics.Arcade.Sprite {
             Space: cursorKeys.space,
         };
 
-        _parentScene.physics.world.enableBody(this);
+        this._parentScene.physics.world.enableBody(this);
         this.setSize(29, 32);
         this.setOffset(10, 10);
         this.setScale(1.3);
         this.setCollideWorldBounds(true);
         this.setImmovable(true);
 
-        this.earthballs = _parentScene.physics.add.group({
+        this.earthballs = this._parentScene.physics.add.group({
             classType: Earthball,
             runChildUpdate: true,
         });
-        this.waterballs = _parentScene.physics.add.group({
+        this.waterballs = this._parentScene.physics.add.group({
             classType: Waterball,
             runChildUpdate: true,
         });
-        this.fireballs = _parentScene.physics.add.group({
+        this.fireballs = this._parentScene.physics.add.group({
             classType: Fireball,
             runChildUpdate: true,
         });
