@@ -14,7 +14,7 @@ export abstract class Ball extends Physics.Arcade.Sprite {
     private _fadingOut: boolean = false;
     private _collidedWithWorldBounds: boolean = false;
 
-    constructor(protected parentScene: Scene, protected ballType: BallType) {
+    constructor(protected parentScene: Scene, public ballType: BallType) {
         super(parentScene, 0, 0, ballType);
 
         parentScene.anims.create({
@@ -44,8 +44,6 @@ export abstract class Ball extends Physics.Arcade.Sprite {
         }
         this.setCollideWorldBounds(true);
         this.setImmovable(true);
-        this.setDataEnabled();
-        this.data.set('type', this.ballType);
         this._fadingOut = false;
         this._collidedWithWorldBounds = false;
         this.scale = 0.1;
