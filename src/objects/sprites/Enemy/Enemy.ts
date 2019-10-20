@@ -3,6 +3,7 @@ import { Player } from '../Player/Player';
 import { BallType } from '../Ball/BallType';
 import { GameAudio } from '../../../configs/Resources';
 import { EnemyType } from './EnemyType';
+import { Ball } from '../Ball/Ball';
 
 export abstract class Enemy extends Physics.Arcade.Sprite {
     private _player: Player;
@@ -73,8 +74,14 @@ export abstract class Enemy extends Physics.Arcade.Sprite {
         this._setScale();
     }
 
-    public hit(ballType: BallType): boolean {
-        if (this._isWeakness(ballType)) {
+    /**
+     * Method called on collision with a ball
+     *
+     * Returns wheter the player should be awarded with points or not
+     * @param ballType Ball that hit this enemy
+     */
+    public onHit(ball: Ball): boolean {
+        if (this._isWeakness(ball.ballType)) {
             if (this._health <= 1) {
                 this._parentScene.sound.play(GameAudio.ENEMY_DEATH);
                 this.kill();
@@ -82,15 +89,12 @@ export abstract class Enemy extends Physics.Arcade.Sprite {
             } else {
                 this._health -= 1;
                 this._setScale();
-                return false;
             }
-        } else if (this._isSelf(ballType)) {
+        } else if (this._isSelf(ball.ballType)) {
             if (this._health < 3) {
                 this._health += 1;
                 this._setScale();
             }
-
-            return false;
         }
 
         return false;

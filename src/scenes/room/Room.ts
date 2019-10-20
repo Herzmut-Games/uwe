@@ -97,7 +97,7 @@ export class Room extends Scene {
             ],
             (spirit: Enemy, ball: Ball) => {
                 ball.fadeOut();
-                if (spirit.hit(ball.ballType)) {
+                if (spirit.onHit(ball)) {
                     this.events.emit(RoomEvent.Kill);
                 }
             }
