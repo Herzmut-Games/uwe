@@ -7,10 +7,10 @@ function getBallAnimation(ballType: BallType): string {
 }
 
 export abstract class Ball extends Physics.Arcade.Sprite {
+    protected _direction: Direction;
     private readonly _animationSpeed: number = 10;
     private readonly _shootSpeed: number = 7;
     private readonly _size: number = 1.5;
-    private _direction: Direction;
     private _fadingOut: boolean = false;
     private _collidedWithWorldBounds: boolean = false;
 
@@ -50,10 +50,10 @@ export abstract class Ball extends Physics.Arcade.Sprite {
         this._collidedWithWorldBounds = false;
         this.scale = 0.1;
         this._direction = direction;
-        this.setSize(5, 5);
 
-        this._setDirection();
+        this.setCircle(4);
         this._setOffset();
+        this._setDirection();
 
         this.setPosition(player.x, player.y);
         this.anims.play(getBallAnimation(this.ballType), true);
@@ -104,6 +104,8 @@ export abstract class Ball extends Physics.Arcade.Sprite {
         }
     }
 
+    protected abstract _setOffset(): void;
+
     private _setDirection(): void {
         switch (this._direction) {
             case Direction.Left:
@@ -117,71 +119,6 @@ export abstract class Ball extends Physics.Arcade.Sprite {
                 break;
             case Direction.Right:
                 this.setAngle(180);
-                break;
-        }
-    }
-
-    private _setOffset() {
-        switch (this.ballType) {
-            case BallType.EARTH:
-                this._setOffsetEarth();
-                break;
-            case BallType.FIRE:
-                this._setOffsetFire();
-                break;
-            case BallType.WATER:
-                this._setOffsetWater();
-                break;
-        }
-    }
-
-    private _setOffsetEarth() {
-        switch (this._direction) {
-            case Direction.Left:
-                this.setOffset(3, 2);
-                break;
-            case Direction.Up:
-                this.setOffset(30, -26);
-                break;
-            case Direction.Down:
-                this.setOffset(30, 30);
-                break;
-            case Direction.Right:
-                this.setOffset(58, 2);
-                break;
-        }
-    }
-
-    private _setOffsetFire() {
-        switch (this._direction) {
-            case Direction.Left:
-                this.setOffset(3, 2);
-                break;
-            case Direction.Up:
-                this.setOffset(32, -27);
-                break;
-            case Direction.Down:
-                this.setOffset(31, 31);
-                break;
-            case Direction.Right:
-                this.setOffset(61, 2);
-                break;
-        }
-    }
-
-    private _setOffsetWater() {
-        switch (this._direction) {
-            case Direction.Left:
-                this.setOffset(3, 2);
-                break;
-            case Direction.Up:
-                this.setOffset(40, -35);
-                break;
-            case Direction.Down:
-                this.setOffset(39, 39);
-                break;
-            case Direction.Right:
-                this.setOffset(77, 2);
                 break;
         }
     }
