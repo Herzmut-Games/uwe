@@ -1,6 +1,8 @@
 import { Scene, Time, Physics, Types, Math } from 'phaser';
 import { Player } from './sprites/Player/Player';
 import { RoomEvent } from '../scenes/room/Room.event';
+import { GameAudio } from '../configs/Resources';
+import { EnemyType } from './sprites/Enemy/EnemyType';
 
 export class EnemyController {
     private _timer: Time.TimerEvent;
@@ -26,6 +28,10 @@ export class EnemyController {
         private readonly _player: Player,
         private readonly _spiritGroups: Physics.Arcade.Group[]
     ) {
+        // Setup assets
+        this._parentScene.sound.add(GameAudio.ENEMY_DEATH);
+        this._setupSpiritAnimations();
+
         this._timer = _parentScene.time.addEvent(this._timerConfig);
         this._spawnSpirits();
 
@@ -58,5 +64,18 @@ export class EnemyController {
         if (this._round < 4) {
             this._round += 1;
         }
+    }
+
+    private _setupSpiritAnimations(): void {
+        [EnemyType.EARTH, EnemyType.FIRE, EnemyType.WATER].forEach(type => {
+            this._parentScene.anims.create({
+                key: `run_${type}`,
+                frames: this._parentScene.anims.generateFrameNumbers(type, {
+                    start: 0,
+                    end: -1,
+                }),
+                repeat: -1,
+            });
+        });
     }
 }

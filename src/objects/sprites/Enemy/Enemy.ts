@@ -9,7 +9,6 @@ export abstract class Enemy extends Physics.Arcade.Sprite {
     private _health: number = 1;
     private readonly _speed: number = 100;
     private readonly _diagonalSpeed: number = this._speed / 1.5;
-    private readonly _soundDeath: Sound.BaseSound;
 
     private get _bodyX(): number {
         return this.x + this.displayWidth / 2;
@@ -20,20 +19,9 @@ export abstract class Enemy extends Physics.Arcade.Sprite {
     }
     constructor(
         private readonly _parentScene: Scene,
-        private readonly _kind: EnemyType
+        private readonly _type: EnemyType
     ) {
-        super(_parentScene, 0, 0, _kind);
-
-        this._soundDeath = this._parentScene.sound.add(GameAudio.ENEMY_DEATH);
-
-        _parentScene.anims.create({
-            key: `run_${_kind}`,
-            frames: _parentScene.anims.generateFrameNumbers(_kind, {
-                start: 0,
-                end: -1,
-            }),
-            repeat: -1,
-        });
+        super(_parentScene, 0, 0, _type);
     }
 
     public update(): void {
@@ -68,23 +56,19 @@ export abstract class Enemy extends Physics.Arcade.Sprite {
         this._player = player;
         this.setCollideWorldBounds(true);
         while (!this._hasSufficientDistanceToPlayer) {}
-        this.anims.play(`run_${this._kind}`, true);
+        this.anims.play(`run_${this._type}`, true);
         this._setHitBox();
         this.setDataEnabled();
-        this.setData('type', this._kind);
+        this.setData('type', this._type);
 
         this._health = health;
         this._setScale();
     }
 
     public hit(ballType: BallType): boolean {
-        if (
-            (this._kind === EnemyType.FIRE && ballType === BallType.WATER) ||
-            (this._kind === EnemyType.EARTH && ballType === BallType.FIRE) ||
-            (this._kind === EnemyType.WATER && ballType === BallType.EARTH)
-        ) {
+        if (this._isWeakness(ballType)) {
             if (this._health <= 1) {
-                this._soundDeath.play();
+                this._parentScene.sound.play(GameAudio.ENEMY_DEATH);
                 this.kill();
                 return true;
             } else {
@@ -92,11 +76,7 @@ export abstract class Enemy extends Physics.Arcade.Sprite {
                 this._setScale();
                 return false;
             }
-        } else if (
-            (this._kind === EnemyType.FIRE && ballType === BallType.FIRE) ||
-            (this._kind === EnemyType.EARTH && ballType === BallType.EARTH) ||
-            (this._kind === EnemyType.WATER && ballType === BallType.WATER)
-        ) {
+        } else if (this._isSelf(ballType)) {
             if (this._health < 3) {
                 this._health += 1;
                 this._setScale();
@@ -114,6 +94,8 @@ export abstract class Enemy extends Physics.Arcade.Sprite {
         this.disableBody();
     }
 
+    protected abstract _isWeakness(ballType: BallType): boolean;
+    protected abstract _isSelf(ballType: BallType): boolean;
     protected abstract _setHitBox(): void;
 
     private _setScale() {
