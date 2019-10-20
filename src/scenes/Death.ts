@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import { screenWidth, screenHeight } from '../configs/Screen';
+import { screenHeight, screenCenterX, screenCenterY } from '../configs/Screen';
 import { Button } from '../objects/Button';
 import { fonts } from '../configs/Fonts';
 import { colors } from '../configs/Colors';
@@ -17,7 +17,7 @@ export class Death extends Scene {
 
     public create(data: DeathSceneData): void {
         this.add
-            .text(screenWidth / 2, screenHeight / 3, `Punkte: ${data.score}`, {
+            .text(screenCenterX, screenHeight / 3, `Punkte: ${data.score}`, {
                 fontFamily: fonts.primary,
                 fontSize: '80px',
                 fill: colors.primary.light,
@@ -26,8 +26,8 @@ export class Death extends Scene {
 
         Button.create(
             this,
-            screenWidth / 2,
-            screenHeight / 2 + 50,
+            screenCenterX,
+            screenCenterY + 50,
             'Nochmal',
             '#FFF',
             '#D50C2D',
@@ -36,8 +36,8 @@ export class Death extends Scene {
         );
         Button.create(
             this,
-            screenWidth / 2,
-            screenHeight / 2 + 100,
+            screenCenterX,
+            screenCenterY + 100,
             'Lieber nicht',
             '#FFF',
             '#D50C2D',

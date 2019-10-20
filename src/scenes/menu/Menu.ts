@@ -1,5 +1,5 @@
 import { Scene, GameObjects, Physics, Sound } from 'phaser';
-import { screenWidth } from '../../configs/Screen';
+import { screenWidth, screenCenterX } from '../../configs/Screen';
 import { fonts } from '../../configs/Fonts';
 import { colors } from '../../configs/Colors';
 import { GameImage, GameAudio, GameSpritesheet } from '../../configs/Resources';
@@ -188,14 +188,14 @@ export class Menu extends Scene {
 
     private _displayHeader(): void {
         this.add
-            .text(screenWidth / 2, 80, 'UWE', {
+            .text(screenCenterX, 80, 'UWE', {
                 fill: colors.red,
                 fontSize: 120,
                 fontFamily: fonts.primary,
             })
             .setOrigin(0.5, 0.5);
         this.add
-            .text(screenWidth / 2, 140, '(E wie Elemente)', {
+            .text(screenCenterX, 140, '(E wie Elemente)', {
                 fill: colors.red,
                 fontSize: 25,
                 fontFamily: fonts.primary,

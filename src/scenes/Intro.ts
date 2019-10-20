@@ -1,5 +1,5 @@
 import { Scene, GameObjects, Sound } from 'phaser';
-import { screenWidth, screenHeight } from '../configs/Screen';
+import { screenWidth, screenHeight, screenCenterX } from '../configs/Screen';
 import { fonts } from '../configs/Fonts';
 import { colors, hexColors } from '../configs/Colors';
 import { GameAudio, GameImage, GameSpritesheet } from '../configs/Resources';
@@ -42,10 +42,10 @@ export class Intro extends Scene {
     }
 
     private _displayLogo(): void {
-        this._logo = this.add.image(screenWidth / 2, 200, GameImage.LOGO);
+        this._logo = this.add.image(screenCenterX, 200, GameImage.LOGO);
         this._logo.setOrigin(0.5, 0.5);
         this.add
-            .text(screenWidth / 2, screenHeight / 1.5, 'Hetzner GameJam 2019', {
+            .text(screenCenterX, screenHeight / 1.5, 'Hetzner GameJam 2019', {
                 fill: '#000',
                 fontFamily: fonts.primary,
                 fontSize: '24px',
