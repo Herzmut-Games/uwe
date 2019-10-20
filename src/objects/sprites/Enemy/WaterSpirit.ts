@@ -15,8 +15,7 @@ export class WaterSpirit extends Enemy {
     protected _isSelf(ballType: BallType): boolean {
         return ballType === BallType.WATER;
     }
-    protected _setHitBox() {
-        this.setSize(8, 18);
-        this.setOffset(0, 5);
+    protected _setOffset() {
+        this.setOffset(0, 7);
     }
 }

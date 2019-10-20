@@ -7,8 +7,15 @@ import { EnemyType } from './EnemyType';
 export abstract class Enemy extends Physics.Arcade.Sprite {
     private _player: Player;
     private _health: number = 1;
-    private readonly _speed: number = 100;
-    private readonly _diagonalSpeed: number = this._speed / 1.5;
+    private readonly _defaultSpeed: number = 100;
+
+    private get _speed(): number {
+        return this._defaultSpeed * (this._health * 0.75);
+    }
+
+    private get _diagonalSpeed(): number {
+        return this._speed / 1.5;
+    }
 
     private get _bodyX(): number {
         return this.x + this.displayWidth / 2;
@@ -17,6 +24,7 @@ export abstract class Enemy extends Physics.Arcade.Sprite {
     private get _bodyY(): number {
         return this.y + (this.displayHeight / 3) * 2;
     }
+
     constructor(
         private readonly _parentScene: Scene,
         private readonly _type: EnemyType
@@ -57,7 +65,9 @@ export abstract class Enemy extends Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true);
         while (!this._hasSufficientDistanceToPlayer) {}
         this.anims.play(`run_${this._type}`, true);
-        this._setHitBox();
+        this.setSize(8, 16);
+        this._setOffset();
+        this.setBounce(0.5);
 
         this._health = health;
         this._setScale();
@@ -94,7 +104,7 @@ export abstract class Enemy extends Physics.Arcade.Sprite {
 
     protected abstract _isWeakness(ballType: BallType): boolean;
     protected abstract _isSelf(ballType: BallType): boolean;
-    protected abstract _setHitBox(): void;
+    protected abstract _setOffset(): void;
 
     private _setScale() {
         this.setScale(2 + this._health * 1.25);

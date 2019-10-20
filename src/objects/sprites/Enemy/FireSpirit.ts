@@ -16,8 +16,7 @@ export class FireSpirit extends Enemy {
         return ballType === BallType.FIRE;
     }
 
-    protected _setHitBox() {
-        this.setSize(8, 18);
-        this.setOffset(1, 7);
+    protected _setOffset() {
+        this.setOffset(1, 9);
     }
 }

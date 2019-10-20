@@ -16,8 +16,7 @@ export class EarthSpirit extends Enemy {
         return ballType === BallType.EARTH;
     }
 
-    protected _setHitBox() {
-        this.setSize(8, 18);
-        this.setOffset(0, 7);
+    protected _setOffset() {
+        this.setOffset(0, 9);
     }
 }

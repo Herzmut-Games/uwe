@@ -21,6 +21,9 @@ export class UweGame extends Game {
             parent,
             physics: {
                 default: 'arcade',
+                arcade: {
+                    debug: false,
+                },
             },
             fps: {
                 min: 40,
