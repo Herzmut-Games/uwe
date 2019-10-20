@@ -58,8 +58,6 @@ export abstract class Enemy extends Physics.Arcade.Sprite {
         while (!this._hasSufficientDistanceToPlayer) {}
         this.anims.play(`run_${this._type}`, true);
         this._setHitBox();
-        this.setDataEnabled();
-        this.setData('type', this._type);
 
         this._health = health;
         this._setScale();

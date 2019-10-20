@@ -4,7 +4,6 @@ import { WaterSpirit } from '../../objects/sprites/Enemy/WaterSpirit';
 import { EarthSpirit } from '../../objects/sprites/Enemy/EarthSpirit';
 import { FireSpirit } from '../../objects/sprites/Enemy/FireSpirit';
 import { Ball } from '../../objects/sprites/Ball/Ball';
-import { BallType } from '../../objects/sprites/Ball/BallType';
 import { EnemyController } from '../../objects/EnemyController';
 import { GameAudio, GameImage } from '../../configs/Resources';
 import { Death } from '../Death';
@@ -97,9 +96,8 @@ export class Room extends Scene {
                 this._player.waterballs,
             ],
             (spirit: Enemy, ball: Ball) => {
-                const ballType: BallType = ball.getData('type');
                 ball.fadeOut();
-                if (spirit.hit(ballType)) {
+                if (spirit.hit(ball.ballType)) {
                     this.events.emit(RoomEvent.Kill);
                 }
             }
