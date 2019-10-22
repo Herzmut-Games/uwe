@@ -1,16 +1,17 @@
 import { Scene, GameObjects, Physics, Sound } from 'phaser';
-import { screenWidth } from '../../config';
-import { fonts } from '../../objects/Fonts';
-import { colors } from '../../objects/Colors';
+import { screenWidth, screenCenterX } from '../../configs/Screen';
+import { fonts } from '../../configs/Fonts';
+import { colors } from '../../configs/Colors';
 import { GameImage, GameAudio, GameSpritesheet } from '../../configs/Resources';
+import { Room } from '../room/Room';
 
 export class Menu extends Scene {
     public playerRunAway: boolean;
-    public runAwayModifier: number = 0;
+    public runAwayModifier: number;
     private _background: GameObjects.TileSprite;
     private _menuPlayer: Physics.Arcade.Sprite;
-    private _backgroundModifier: number = 2.75;
-    private _moonWalkEnabled: boolean = false;
+    private _backgroundModifier: number;
+    private _moonWalkEnabled: boolean;
     private _background_dark: GameObjects.TileSprite;
     private _soundIntro: Sound.BaseSound;
     private _soundThriller: Sound.BaseSound;
@@ -27,6 +28,10 @@ export class Menu extends Scene {
     }
 
     public create(): void {
+        this.runAwayModifier = 0;
+        this._backgroundModifier = 2.75;
+        this._moonWalkEnabled = false;
+
         this._background = this.add.tileSprite(
             0,
             300,
@@ -57,7 +62,7 @@ export class Menu extends Scene {
 
         this._displayMenuPlayer();
         this._displayHeader();
-        this.scene.launch('Selection');
+        this.scene.launch(Selection.name);
     }
 
     public update(): void {
@@ -74,7 +79,7 @@ export class Menu extends Scene {
         if (this._menuPlayer.x >= 900) {
             this.playerRunAway = false;
             this.runAwayModifier = 0;
-            this.scene.start('Room');
+            this.scene.start(Room.name);
             this.destroy();
         }
 
@@ -183,14 +188,14 @@ export class Menu extends Scene {
 
     private _displayHeader(): void {
         this.add
-            .text(screenWidth / 2, 80, 'UWE', {
+            .text(screenCenterX, 80, 'UWE', {
                 fill: colors.red,
                 fontSize: 120,
                 fontFamily: fonts.primary,
             })
             .setOrigin(0.5, 0.5);
         this.add
-            .text(screenWidth / 2, 140, '(E wie Elemente)', {
+            .text(screenCenterX, 140, '(E wie Elemente)', {
                 fill: colors.red,
                 fontSize: 25,
                 fontFamily: fonts.primary,

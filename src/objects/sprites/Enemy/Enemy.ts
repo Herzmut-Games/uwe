@@ -1,20 +1,22 @@
 import { Scene, Physics, Sound } from 'phaser';
-import { Player } from './Player';
-import { BallType } from './Ball';
-import { GameAudio } from '../configs/Resources';
+import { Player } from '../Player/Player';
+import { BallType } from '../Ball/BallType';
+import { GameAudio } from '../../../configs/Resources';
+import { EnemyType } from './EnemyType';
+import { Ball } from '../Ball/Ball';
 
-export enum EnemyType {
-    WATER = 'waterspirit',
-    EARTH = 'earthspirit',
-    FIRE = 'firespirit',
-}
-
-export class Enemy extends Physics.Arcade.Sprite {
+export abstract class Enemy extends Physics.Arcade.Sprite {
     private _player: Player;
-    private _speed: number = 100;
-    private _diagonalSpeed: number = this._speed / 1.5;
     private _health: number = 1;
-    private _soundDeath: Sound.BaseSound;
+    private readonly _defaultSpeed: number = 100;
+
+    private get _speed(): number {
+        return this._defaultSpeed * (this._health * 0.75);
+    }
+
+    private get _diagonalSpeed(): number {
+        return this._speed / 1.5;
+    }
 
     private get _bodyX(): number {
         return this.x + this.displayWidth / 2;
@@ -23,19 +25,12 @@ export class Enemy extends Physics.Arcade.Sprite {
     private get _bodyY(): number {
         return this.y + (this.displayHeight / 3) * 2;
     }
-    constructor(private _parentScene: Scene, private _kind: EnemyType) {
-        super(_parentScene, 0, 0, _kind);
 
-        this._soundDeath = this._parentScene.sound.add(GameAudio.ENEMY_DEATH);
-
-        _parentScene.anims.create({
-            key: `run_${_kind}`,
-            frames: _parentScene.anims.generateFrameNumbers(_kind, {
-                start: 0,
-                end: -1,
-            }),
-            repeat: -1,
-        });
+    constructor(
+        private readonly _parentScene: Scene,
+        private readonly _type: EnemyType
+    ) {
+        super(_parentScene, 0, 0, _type);
     }
 
     public update(): void {
@@ -70,42 +65,36 @@ export class Enemy extends Physics.Arcade.Sprite {
         this._player = player;
         this.setCollideWorldBounds(true);
         while (!this._hasSufficientDistanceToPlayer) {}
-        this.anims.play(`run_${this._kind}`, true);
-        this.setSize(10, 20);
-        this.setOffset(-1, 5);
-        this.setDataEnabled();
-        this.setData('type', this._kind);
+        this.anims.play(`run_${this._type}`, true);
+        this.setSize(8, 16);
+        this._setOffset();
+        this.setBounce(0.5);
 
         this._health = health;
         this._setScale();
     }
 
-    public hit(ballType: BallType): boolean {
-        if (
-            (this._kind === EnemyType.FIRE && ballType === BallType.WATER) ||
-            (this._kind === EnemyType.EARTH && ballType === BallType.FIRE) ||
-            (this._kind === EnemyType.WATER && ballType === BallType.EARTH)
-        ) {
+    /**
+     * Method called on collision with a ball
+     *
+     * Returns wheter the player should be awarded with points or not
+     * @param ballType Ball that hit this enemy
+     */
+    public onHit(ball: Ball): boolean {
+        if (this._isWeakness(ball.ballType)) {
             if (this._health <= 1) {
-                this._soundDeath.play();
+                this._parentScene.sound.play(GameAudio.ENEMY_DEATH);
                 this.kill();
                 return true;
             } else {
                 this._health -= 1;
                 this._setScale();
-                return false;
             }
-        } else if (
-            (this._kind === EnemyType.FIRE && ballType === BallType.FIRE) ||
-            (this._kind === EnemyType.EARTH && ballType === BallType.EARTH) ||
-            (this._kind === EnemyType.WATER && ballType === BallType.WATER)
-        ) {
+        } else if (this._isSelf(ball.ballType)) {
             if (this._health < 3) {
                 this._health += 1;
                 this._setScale();
             }
-
-            return false;
         }
 
         return false;
@@ -116,6 +105,10 @@ export class Enemy extends Physics.Arcade.Sprite {
         this.setVisible(false);
         this.disableBody();
     }
+
+    protected abstract _isWeakness(ballType: BallType): boolean;
+    protected abstract _isSelf(ballType: BallType): boolean;
+    protected abstract _setOffset(): void;
 
     private _setScale() {
         this.setScale(2 + this._health * 1.25);
@@ -128,23 +121,5 @@ export class Enemy extends Physics.Arcade.Sprite {
             Math.abs(this._player.bodyX - this._bodyX) >= minDistance &&
             Math.abs(this._player.bodyY - this._bodyY) >= minDistance
         );
-    }
-}
-
-export class FireSpirit extends Enemy {
-    constructor(parentScene: Scene) {
-        super(parentScene, EnemyType.FIRE);
-    }
-}
-
-export class EarthSpirit extends Enemy {
-    constructor(parentScene: Scene) {
-        super(parentScene, EnemyType.EARTH);
-    }
-}
-
-export class WaterSpirit extends Enemy {
-    constructor(parentScene: Scene) {
-        super(parentScene, EnemyType.WATER);
     }
 }

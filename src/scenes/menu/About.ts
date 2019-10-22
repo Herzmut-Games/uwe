@@ -1,7 +1,7 @@
 import { Scene, GameObjects } from 'phaser';
 import { Button } from '../../objects/Button';
-import { colors } from '../../objects/Colors';
-import { fonts } from '../../objects/Fonts';
+import { colors } from '../../configs/Colors';
+import { fonts } from '../../configs/Fonts';
 
 export class About extends Scene {
     private _aboutText: GameObjects.Text;
@@ -32,7 +32,7 @@ export class About extends Scene {
             '58px',
             () => {
                 this.scene.stop();
-                this.scene.start('Selection');
+                this.scene.start(Selection.name);
             }
         );
     }

@@ -1,5 +1,8 @@
 import { Scene, Time, Physics, Types, Math } from 'phaser';
-import { Player } from './Player';
+import { Player } from './sprites/Player/Player';
+import { RoomEvent } from '../scenes/room/Room.event';
+import { GameAudio } from '../configs/Resources';
+import { EnemyType } from './sprites/Enemy/EnemyType';
 
 export class EnemyController {
     private _timer: Time.TimerEvent;
@@ -21,14 +24,24 @@ export class EnemyController {
     }
 
     constructor(
-        private _parentScene: Scene,
-        private _player: Player,
-        private _spiritGroups: Physics.Arcade.Group[]
+        private readonly _parentScene: Scene,
+        private readonly _player: Player,
+        private readonly _spiritGroups: Physics.Arcade.Group[]
     ) {
+        // Setup assets
+        this._parentScene.sound.add(GameAudio.ENEMY_DEATH);
+        this._setupSpiritAnimations();
+
         this._timer = _parentScene.time.addEvent(this._timerConfig);
+        this._spawnSpirits();
+
+        // Respawn enemies early if last one was removed from room
+        // this can either happen on a kill or when taking damage
+        this._parentScene.events.on(RoomEvent.Damage, this._earlyRespawn, this);
+        this._parentScene.events.on(RoomEvent.Kill, this._earlyRespawn, this);
     }
 
-    public update(): void {
+    private _earlyRespawn(): void {
         if (this.enemyCount === 0 && this._round > 1) {
             this._timer.destroy();
             this._timer = this._parentScene.time.addEvent(this._timerConfig);
@@ -51,5 +64,18 @@ export class EnemyController {
         if (this._round < 4) {
             this._round += 1;
         }
+    }
+
+    private _setupSpiritAnimations(): void {
+        [EnemyType.EARTH, EnemyType.FIRE, EnemyType.WATER].forEach(type => {
+            this._parentScene.anims.create({
+                key: `run_${type}`,
+                frames: this._parentScene.anims.generateFrameNumbers(type, {
+                    start: 0,
+                    end: -1,
+                }),
+                repeat: -1,
+            });
+        });
     }
 }

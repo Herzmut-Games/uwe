@@ -1,8 +1,9 @@
 import { Scene, GameObjects, Sound } from 'phaser';
-import { screenWidth, screenHeight } from '../config';
-import { fonts } from '../objects/Fonts';
-import { colors, hexColors } from '../objects/Colors';
+import { screenWidth, screenHeight, screenCenterX } from '../configs/Screen';
+import { fonts } from '../configs/Fonts';
+import { colors, hexColors } from '../configs/Colors';
 import { GameAudio, GameImage, GameSpritesheet } from '../configs/Resources';
+import { Menu } from './menu/Menu';
 
 export class Intro extends Scene {
     private _logo: GameObjects.Image;
@@ -10,7 +11,7 @@ export class Intro extends Scene {
     private _soundBling: Sound.BaseSound;
 
     constructor() {
-        super({ key: 'Intro' });
+        super({ key: Intro.name });
     }
 
     public preload(): void {
@@ -41,10 +42,10 @@ export class Intro extends Scene {
     }
 
     private _displayLogo(): void {
-        this._logo = this.add.image(screenWidth / 2, 200, GameImage.LOGO);
+        this._logo = this.add.image(screenCenterX, 200, GameImage.LOGO);
         this._logo.setOrigin(0.5, 0.5);
         this.add
-            .text(screenWidth / 2, screenHeight / 1.5, 'Hetzner GameJam 2019', {
+            .text(screenCenterX, screenHeight / 1.5, 'Hetzner GameJam 2019', {
                 fill: '#000',
                 fontFamily: fonts.primary,
                 fontSize: '24px',
@@ -60,7 +61,8 @@ export class Intro extends Scene {
     }
 
     private _startMenu(): void {
-        this.scene.start('Menu');
+        this.scene.start(Menu.name);
+        this.scene.remove();
     }
 
     private _loadAudio() {

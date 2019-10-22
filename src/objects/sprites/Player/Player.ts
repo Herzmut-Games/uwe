@@ -1,27 +1,12 @@
 import { Scene, Physics, Input, Types, Sound, Time } from 'phaser';
-import { Fireball } from './Fireball';
-import { Waterball } from './Waterball';
-import { Earthball } from './Earthball';
-import { GameAudio, GameSpritesheet } from '../configs/Resources';
-import { hexColors } from './Colors';
-
-export enum Direction {
-    Up,
-    UpRight,
-    Right,
-    DownRight,
-    Down,
-    DownLeft,
-    Left,
-    UpLeft,
-    None,
-}
-
-export enum Element {
-    Fire,
-    Water,
-    Earth,
-}
+import { Fireball } from '../Ball/Fireball';
+import { Waterball } from '../Ball/Waterball';
+import { Earthball } from '../Ball/Earthball';
+import { GameSpritesheet, GameAudio } from '../../../configs/Resources';
+import { hexColors } from '../../../configs/Colors';
+import { Direction } from './Direction';
+import { PlayerElement } from './PlayerElement';
+import { PlayerEvent } from './Player.event';
 
 type Keys =
     | 'One'
@@ -47,23 +32,20 @@ export class Player extends Physics.Arcade.Sprite {
         return this.y + this.displayHeight / 2;
     }
 
-    get element(): Element {
-        return this._currentElement;
-    }
-
     public fireballs: Physics.Arcade.Group;
     public waterballs: Physics.Arcade.Group;
     public earthballs: Physics.Arcade.Group;
 
-    private _speed = 6;
-    private _diagonalSpeed = this._speed / 1.5;
-    private _animationSpeed = 15;
-    private _keys: ControlKeys;
     private _isMoving: boolean = false;
-    private _currentElement: Element = Element.Fire;
-    private _soundFootsteps: Sound.BaseSound;
-    private _soundSwap: Sound.BaseSound;
+    private _currentElement: PlayerElement = PlayerElement.Fire;
     private _hitTimer: Time.TimerEvent;
+
+    private readonly _speed = 6;
+    private readonly _diagonalSpeed = this._speed / 1.5;
+    private readonly _animationSpeed = 15;
+    private readonly _keys: ControlKeys;
+    private readonly _soundFootsteps: Sound.BaseSound;
+    private readonly _soundSwap: Sound.BaseSound;
     private readonly _hitTimerConfig: Types.Time.TimerEventConfig = {
         repeat: 3,
         startAt: 100,
@@ -95,25 +77,28 @@ export class Player extends Physics.Arcade.Sprite {
         }
     }
 
-    constructor(private parentScene: Scene) {
-        super(parentScene, 100, 450, GameSpritesheet.PLAYER);
-        parentScene.add.existing(this);
+    constructor(private readonly _parentScene: Scene) {
+        super(_parentScene, 100, 450, GameSpritesheet.PLAYER);
+        _parentScene.add.existing(this);
 
-        const cursorKeys = this.parentScene.input.keyboard.createCursorKeys();
-        this._soundFootsteps = this.parentScene.sound.add(GameAudio.FOOTSTEPS, {
-            rate: 1.5,
-            volume: 0.3,
-        });
-        this._soundSwap = this.parentScene.sound.add(GameAudio.ELEMENT_SWITCH);
+        const cursorKeys = this._parentScene.input.keyboard.createCursorKeys();
+        this._soundFootsteps = this._parentScene.sound.add(
+            GameAudio.FOOTSTEPS,
+            {
+                rate: 1.5,
+                volume: 0.3,
+            }
+        );
+        this._soundSwap = this._parentScene.sound.add(GameAudio.ELEMENT_SWITCH);
 
         this._keys = {
-            One: this.parentScene.input.keyboard.addKey('ONE'),
-            Two: this.parentScene.input.keyboard.addKey('TWO'),
-            Three: this.parentScene.input.keyboard.addKey('THREE'),
-            W: this.parentScene.input.keyboard.addKey('W'),
-            A: this.parentScene.input.keyboard.addKey('A'),
-            S: this.parentScene.input.keyboard.addKey('S'),
-            D: this.parentScene.input.keyboard.addKey('D'),
+            One: this._parentScene.input.keyboard.addKey('ONE'),
+            Two: this._parentScene.input.keyboard.addKey('TWO'),
+            Three: this._parentScene.input.keyboard.addKey('THREE'),
+            W: this._parentScene.input.keyboard.addKey('W'),
+            A: this._parentScene.input.keyboard.addKey('A'),
+            S: this._parentScene.input.keyboard.addKey('S'),
+            D: this._parentScene.input.keyboard.addKey('D'),
             Up: cursorKeys.up,
             Left: cursorKeys.left,
             Right: cursorKeys.right,
@@ -121,22 +106,22 @@ export class Player extends Physics.Arcade.Sprite {
             Space: cursorKeys.space,
         };
 
-        parentScene.physics.world.enableBody(this);
+        this._parentScene.physics.world.enableBody(this);
         this.setSize(29, 32);
         this.setOffset(10, 10);
         this.setScale(1.3);
         this.setCollideWorldBounds(true);
         this.setImmovable(true);
 
-        this.earthballs = parentScene.physics.add.group({
+        this.earthballs = this._parentScene.physics.add.group({
             classType: Earthball,
             runChildUpdate: true,
         });
-        this.waterballs = parentScene.physics.add.group({
+        this.waterballs = this._parentScene.physics.add.group({
             classType: Waterball,
             runChildUpdate: true,
         });
-        this.fireballs = parentScene.physics.add.group({
+        this.fireballs = this._parentScene.physics.add.group({
             classType: Fireball,
             runChildUpdate: true,
         });
@@ -151,23 +136,24 @@ export class Player extends Physics.Arcade.Sprite {
         this._animate();
     }
 
-    public removeListeners(): void {
-        this._keys.Down.removeAllListeners();
-        this._keys.Up.removeAllListeners();
-        this._keys.Left.removeAllListeners();
-        this._keys.Right.removeAllListeners();
-        this._keys.Space.removeAllListeners();
+    public cleanup(): void {
+        this._keys.Down.removeListener('down');
+        this._keys.Up.removeListener('down');
+        this._keys.Left.removeListener('down');
+        this._keys.Right.removeListener('down');
+        this._keys.Space.removeListener('down');
+        this.removeListener(PlayerEvent.ChangeElement);
     }
 
     public onHit(): void {
         if (!this._hitTimer) {
-            this._hitTimer = this.parentScene.time.addEvent(
+            this._hitTimer = this._parentScene.time.addEvent(
                 this._hitTimerConfig
             );
         } else {
             this._hitTimer.destroy();
             this.clearTint();
-            this._hitTimer = this.parentScene.time.addEvent(
+            this._hitTimer = this._parentScene.time.addEvent(
                 this._hitTimerConfig
             );
         }
@@ -251,9 +237,9 @@ export class Player extends Physics.Arcade.Sprite {
 
     private _addAnimations(): void {
         const addAnimation = (key: string, offset: number) => {
-            this.parentScene.anims.create({
+            this._parentScene.anims.create({
                 key,
-                frames: this.parentScene.anims.generateFrameNumbers(
+                frames: this._parentScene.anims.generateFrameNumbers(
                     GameSpritesheet.PLAYER,
                     {
                         frames: [
@@ -278,23 +264,27 @@ export class Player extends Physics.Arcade.Sprite {
     }
 
     private _addElementListeners(): void {
-        this._keys.One.onDown = () => (this._currentElement = Element.Fire);
-        this._keys.Two.onDown = () => (this._currentElement = Element.Water);
-        this._keys.Three.onDown = () => (this._currentElement = Element.Earth);
+        this._keys.One.onDown = () =>
+            (this._currentElement = PlayerElement.Fire);
+        this._keys.Two.onDown = () =>
+            (this._currentElement = PlayerElement.Water);
+        this._keys.Three.onDown = () =>
+            (this._currentElement = PlayerElement.Earth);
 
         this._keys.Space.on('down', () => {
             this._soundSwap.play();
             switch (this._currentElement) {
-                case Element.Fire:
-                    this._currentElement = Element.Water;
+                case PlayerElement.Fire:
+                    this._currentElement = PlayerElement.Water;
                     break;
-                case Element.Water:
-                    this._currentElement = Element.Earth;
+                case PlayerElement.Water:
+                    this._currentElement = PlayerElement.Earth;
                     break;
-                case Element.Earth:
-                    this._currentElement = Element.Fire;
+                case PlayerElement.Earth:
+                    this._currentElement = PlayerElement.Fire;
                     break;
             }
+            this.emit(PlayerEvent.ChangeElement, this._currentElement);
         });
     }
 
@@ -314,31 +304,22 @@ export class Player extends Physics.Arcade.Sprite {
     }
 
     private _shootIntoDirection(direction: Direction): void {
-        switch (this._currentElement) {
-            case Element.Fire:
-                this.fireballs
-                    .get()
-                    .setActive(true)
-                    .setVisible(true)
-                    .enableBody()
-                    .shoot(this, direction);
-                break;
-            case Element.Water:
-                this.waterballs
-                    .get()
-                    .setActive(true)
-                    .setVisible(true)
-                    .enableBody()
-                    .shoot(this, direction);
-                break;
-            case Element.Earth:
-                this.earthballs
-                    .get()
-                    .setActive(true)
-                    .setVisible(true)
-                    .enableBody()
-                    .shoot(this, direction);
-                break;
-        }
+        const elementGroup = () => {
+            switch (this._currentElement) {
+                case PlayerElement.Fire:
+                    return this.fireballs;
+                case PlayerElement.Water:
+                    return this.waterballs;
+                case PlayerElement.Earth:
+                    return this.earthballs;
+            }
+        };
+
+        elementGroup()
+            .get()
+            .setActive(true)
+            .setVisible(true)
+            .enableBody()
+            .shoot(this, direction);
     }
 }

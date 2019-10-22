@@ -1,12 +1,12 @@
 import { Scene, Physics } from 'phaser';
-import { Element } from './Player';
 import { GameSpritesheet } from '../configs/Resources';
+import { PlayerElement } from './sprites/Player/PlayerElement';
 
 export class WeaponStatus {
-    private _speed: number = 120;
-    private _weapon: Physics.Arcade.Sprite;
+    private readonly _speed: number = 120;
+    private readonly _weapon: Physics.Arcade.Sprite;
 
-    constructor(private _parentScene: Scene) {
+    constructor(private readonly _parentScene: Scene) {
         this._addAnimations();
 
         this._weapon = _parentScene.physics.add.staticSprite(
@@ -15,25 +15,30 @@ export class WeaponStatus {
             GameSpritesheet.STATUS_FIRE
         );
 
+        this._weapon.anims.play(
+            `${GameSpritesheet.STATUS_FIRE}-animation`,
+            true
+        );
+
         this._weapon.setScale(4);
         this._weapon.setAngle(90);
     }
 
-    public update(element: Element): void {
+    public update(element: PlayerElement): void {
         switch (element) {
-            case Element.Fire:
+            case PlayerElement.Fire:
                 this._weapon.anims.play(
                     `${GameSpritesheet.STATUS_FIRE}-animation`,
                     true
                 );
                 break;
-            case Element.Water:
+            case PlayerElement.Water:
                 this._weapon.anims.play(
                     `${GameSpritesheet.STATUS_WATER}-animation`,
                     true
                 );
                 break;
-            case Element.Earth:
+            case PlayerElement.Earth:
                 this._weapon.anims.play(
                     `${GameSpritesheet.STATUS_EARTH}-animation`,
                     true

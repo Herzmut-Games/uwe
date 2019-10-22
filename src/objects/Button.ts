@@ -1,5 +1,5 @@
 import { Scene, GameObjects } from 'phaser';
-import { fonts } from './Fonts';
+import { fonts } from '../configs/Fonts';
 
 export class Button {
     public static create(
@@ -24,7 +24,7 @@ export class Button {
         );
     }
 
-    private _text: GameObjects.Text;
+    private readonly _text: GameObjects.Text;
 
     constructor(
         parentScene: Scene,

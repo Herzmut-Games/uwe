@@ -1,6 +1,6 @@
 import { Scene, GameObjects } from 'phaser';
-import { fonts } from './Fonts';
-import { colors } from './Colors';
+import { fonts } from '../configs/Fonts';
+import { colors } from '../configs/Colors';
 
 export class Score {
     get score(): number {
@@ -8,7 +8,7 @@ export class Score {
     }
 
     private _score: number = 0;
-    private _subheadline: GameObjects.Text;
+    private readonly _subheadline: GameObjects.Text;
 
     constructor(parentScene: Scene) {
         parentScene.add.text(20, 20, 'Punkte', {
@@ -25,9 +25,6 @@ export class Score {
 
     public add(score: number): void {
         this._score += score;
-    }
-
-    public update(): void {
         this._subheadline.setText(`${this.score}`);
     }
 }
