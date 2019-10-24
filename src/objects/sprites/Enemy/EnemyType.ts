@@ -1,4 +1,4 @@
-export enum EnemyType {
+export const enum EnemyType {
     WATER = 'waterspirit',
     EARTH = 'earthspirit',
     FIRE = 'firespirit',

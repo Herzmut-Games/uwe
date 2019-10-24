@@ -1,4 +1,4 @@
-export enum Direction {
+export const enum Direction {
     Up,
     UpRight,
     Right,

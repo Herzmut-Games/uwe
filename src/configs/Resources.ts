@@ -1,4 +1,4 @@
-export enum GameAudio {
+export const enum GameAudio {
     BATTLE_INTRO = 'battle-intro',
     BATTLE_MAIN = 'battle-main',
     PLAYER_IMPACT = 'player-impact',
@@ -11,7 +11,7 @@ export enum GameAudio {
     FOOTSTEPS = 'footsteps',
 }
 
-export enum GameImage {
+export const enum GameImage {
     LOGO = 'logo',
     MENU_BACKGROUND = 'menu-background',
     MENU_BACKGROUND_DARK = 'menu-background-dark',
@@ -20,7 +20,7 @@ export enum GameImage {
     HALF_HEART = 'half-heart',
 }
 
-export enum GameSpritesheet {
+export const enum GameSpritesheet {
     PLAYER = 'player',
     SPIRIT_FIRE = 'firespirit',
     SPIRIT_WATER = 'waterspirit',

@@ -1,3 +1,3 @@
-export enum CountDownEvent {
+export const enum CountDownEvent {
     Done = 'countdown_done',
 }
