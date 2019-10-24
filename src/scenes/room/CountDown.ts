@@ -1,8 +1,8 @@
 import { Scene, GameObjects, Time } from 'phaser';
 import { colors } from '../../configs/Colors';
 import { fonts } from '../../configs/Fonts';
-import { Room } from './Room';
 import { CountDownEvent } from './CountDown.event';
+import { Scenes } from '../../configs/Scenes';
 
 export class CountDown extends Scene {
     private _timer: Time.TimerEvent;
@@ -17,7 +17,7 @@ export class CountDown extends Scene {
     ];
 
     constructor() {
-        super({ key: CountDown.name });
+        super({ key: Scenes.CountDown });
     }
 
     public create(): void {
@@ -29,7 +29,7 @@ export class CountDown extends Scene {
             callbackScope: this,
         });
 
-        this.scene.moveAbove(Room.name);
+        this.scene.moveAbove(Scenes.Room);
 
         this._countdownText = this.add
             .text(400, 300, this._countdownTexts[this._currentCountdown], {

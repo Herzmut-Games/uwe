@@ -1,9 +1,10 @@
 import { Scene, GameObjects, Sound } from 'phaser';
-import { screenWidth, screenHeight, screenCenterX } from '../configs/Screen';
+import { screenHeight, screenCenterX } from '../configs/Screen';
 import { fonts } from '../configs/Fonts';
 import { colors, hexColors } from '../configs/Colors';
 import { GameAudio, GameImage, GameSpritesheet } from '../configs/Resources';
 import { Menu } from './menu/Menu';
+import { Scenes } from '../configs/Scenes';
 
 export class Intro extends Scene {
     private _logo: GameObjects.Image;
@@ -11,7 +12,7 @@ export class Intro extends Scene {
     private _soundBling: Sound.BaseSound;
 
     constructor() {
-        super({ key: Intro.name });
+        super({ key: Scenes.Intro });
     }
 
     public preload(): void {
@@ -61,7 +62,7 @@ export class Intro extends Scene {
     }
 
     private _startMenu(): void {
-        this.scene.start(Menu.name);
+        this.scene.start(Scenes.Menu);
         this.scene.remove();
     }
 

@@ -7,6 +7,7 @@ import { Room } from './Room';
 import { RoomEvent } from './Room.event';
 import { PlayerElement } from '../../objects/sprites/Player/PlayerElement';
 import { TopBarEvent } from './TopBar.event';
+import { Scenes } from '../../configs/Scenes';
 
 export class TopBar extends Scene {
     private _score: Score;
@@ -15,11 +16,11 @@ export class TopBar extends Scene {
     private _roomScene: Room;
 
     constructor() {
-        super({ key: TopBar.name });
+        super({ key: Scenes.TopBar });
     }
 
     public create() {
-        this._roomScene = this.scene.get(Room.name) as Room;
+        this._roomScene = this.scene.get(Scenes.Room) as Room;
 
         this.add
             .graphics()

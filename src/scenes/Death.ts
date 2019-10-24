@@ -3,8 +3,7 @@ import { screenHeight, screenCenterX, screenCenterY } from '../configs/Screen';
 import { Button } from '../objects/Button';
 import { fonts } from '../configs/Fonts';
 import { colors } from '../configs/Colors';
-import { Room } from './room/Room';
-import { Menu } from './menu/Menu';
+import { Scenes } from '../configs/Scenes';
 
 interface DeathSceneData {
     score: number;
@@ -12,7 +11,7 @@ interface DeathSceneData {
 
 export class Death extends Scene {
     constructor() {
-        super({ key: Death.name });
+        super({ key: Scenes.Death });
     }
 
     public create(data: DeathSceneData): void {
@@ -32,7 +31,7 @@ export class Death extends Scene {
             '#FFF',
             '#D50C2D',
             '40px',
-            () => this.scene.start(Room.name)
+            () => this.scene.start(Scenes.Room)
         );
         Button.create(
             this,
@@ -42,7 +41,7 @@ export class Death extends Scene {
             '#FFF',
             '#D50C2D',
             '40px',
-            () => this.scene.start(Menu.name)
+            () => this.scene.start(Scenes.Menu)
         );
     }
 }
