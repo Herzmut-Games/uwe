@@ -1,4 +1,4 @@
-export enum PlayerElement {
+export const enum PlayerElement {
     Fire,
     Water,
     Earth,

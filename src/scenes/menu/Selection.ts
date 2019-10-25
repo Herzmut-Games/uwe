@@ -2,8 +2,7 @@ import { Scene } from 'phaser';
 import { Button } from '../../objects/Button';
 import { colors } from '../../configs/Colors';
 import { Menu } from './Menu';
-import { Help } from '../Help';
-import { About } from './About';
+import { Scenes } from '../../configs/Scenes';
 
 export class Selection extends Scene {
     private _startButton: Button;
@@ -12,12 +11,12 @@ export class Selection extends Scene {
     private _startScene: Menu;
 
     constructor() {
-        super({ key: 'Selection' });
+        super({ key: Scenes.Selection });
     }
 
     public create(): void {
-        this._startScene = this.scene.get('Menu') as Menu;
-        this.scene.moveAbove('Menu');
+        this._startScene = this.scene.get(Scenes.Menu) as Menu;
+        this.scene.moveAbove(Scenes.Menu);
 
         this._startButton = Button.create(
             this,
@@ -42,7 +41,7 @@ export class Selection extends Scene {
             '36px',
             () => {
                 this.scene.stop();
-                this.scene.start(Help.name);
+                this.scene.start(Scenes.Help);
             }
         );
 
@@ -56,7 +55,7 @@ export class Selection extends Scene {
             '36px',
             () => {
                 this.scene.stop();
-                this.scene.start(About.name);
+                this.scene.start(Scenes.About);
             }
         );
     }

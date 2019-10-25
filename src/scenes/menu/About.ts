@@ -2,17 +2,18 @@ import { Scene, GameObjects } from 'phaser';
 import { Button } from '../../objects/Button';
 import { colors } from '../../configs/Colors';
 import { fonts } from '../../configs/Fonts';
+import { Scenes } from '../../configs/Scenes';
 
 export class About extends Scene {
     private _aboutText: GameObjects.Text;
     private _aboutBackButton: Button;
 
     constructor() {
-        super({ key: 'About' });
+        super({ key: Scenes.About });
     }
 
     public create(): void {
-        this.scene.moveAbove('Menu');
+        this.scene.moveAbove(Scenes.Menu);
 
         this._aboutText = this.add
             .text(570, 350, 'Christopher\nMarvin\nPatrick\nRobert', {
@@ -32,7 +33,7 @@ export class About extends Scene {
             '58px',
             () => {
                 this.scene.stop();
-                this.scene.start(Selection.name);
+                this.scene.start(Scenes.Selection);
             }
         );
     }

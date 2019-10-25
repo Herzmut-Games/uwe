@@ -1,3 +1,3 @@
-export enum TopBarEvent {
+export const enum TopBarEvent {
     NoHealth = 'topbar_nohealth',
 }

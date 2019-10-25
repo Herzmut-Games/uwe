@@ -1,9 +1,9 @@
 import { Scene, GameObjects, Physics, Sound } from 'phaser';
-import { screenWidth, screenCenterX } from '../../configs/Screen';
+import { screenCenterX } from '../../configs/Screen';
 import { fonts } from '../../configs/Fonts';
 import { colors } from '../../configs/Colors';
 import { GameImage, GameAudio, GameSpritesheet } from '../../configs/Resources';
-import { Room } from '../room/Room';
+import { Scenes } from '../../configs/Scenes';
 
 export class Menu extends Scene {
     public playerRunAway: boolean;
@@ -18,13 +18,13 @@ export class Menu extends Scene {
     private _soundMenuSelect: Sound.BaseSound;
 
     constructor() {
-        super({ key: 'Menu' });
+        super({ key: Scenes.Menu });
     }
 
     public destroy(): void {
         this._soundIntro.stop();
         this._soundThriller.stop();
-        this.scene.stop('Selection');
+        this.scene.stop(Scenes.Selection);
     }
 
     public create(): void {
@@ -62,7 +62,7 @@ export class Menu extends Scene {
 
         this._displayMenuPlayer();
         this._displayHeader();
-        this.scene.launch(Selection.name);
+        this.scene.launch(Scenes.Selection);
     }
 
     public update(): void {
@@ -79,7 +79,7 @@ export class Menu extends Scene {
         if (this._menuPlayer.x >= 900) {
             this.playerRunAway = false;
             this.runAwayModifier = 0;
-            this.scene.start(Room.name);
+            this.scene.start(Scenes.Room);
             this.destroy();
         }
 

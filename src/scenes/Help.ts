@@ -3,10 +3,11 @@ import { fonts } from '../configs/Fonts';
 import { colors, hexColors } from '../configs/Colors';
 import { Button } from '../objects/Button';
 import { GameImage, GameSpritesheet } from '../configs/Resources';
+import { Scenes } from '../configs/Scenes';
 
 export class Help extends Scene {
     constructor() {
-        super({ key: Help.name });
+        super({ key: Scenes.Help });
     }
 
     public create() {
@@ -80,7 +81,7 @@ export class Help extends Scene {
             '46px',
             () => {
                 this.scene.stop();
-                this.scene.start(Selection.name);
+                this.scene.start(Scenes.Selection);
             }
         );
 

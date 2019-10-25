@@ -6,7 +6,6 @@ import { FireSpirit } from '../../objects/sprites/Enemy/FireSpirit';
 import { Ball } from '../../objects/sprites/Ball/Ball';
 import { EnemyController } from '../../objects/EnemyController';
 import { GameAudio, GameImage } from '../../configs/Resources';
-import { Death } from '../Death';
 import { TopBar } from './TopBar';
 import { TopBarEvent } from './TopBar.event';
 import { CountDown } from './CountDown';
@@ -14,6 +13,7 @@ import { CountDownEvent } from './CountDown.event';
 import { Player } from '../../objects/sprites/Player/Player';
 import { PlayerEvent } from '../../objects/sprites/Player/Player.event';
 import { RoomEvent } from './Room.event';
+import { Scenes } from '../../configs/Scenes';
 
 export class Room extends Scene {
     private _player: Player;
@@ -28,7 +28,7 @@ export class Room extends Scene {
     private _countDownScene: CountDown;
 
     constructor() {
-        super({ key: Room.name });
+        super({ key: Scenes.Room });
     }
 
     public create() {
@@ -39,8 +39,8 @@ export class Room extends Scene {
 
         this.physics.world.setBounds(10, 131, 780, 429);
 
-        this.scene.launch(TopBar.name);
-        this._topBarScene = this.scene.get(TopBar.name) as TopBar;
+        this.scene.launch(Scenes.TopBar);
+        this._topBarScene = this.scene.get(Scenes.TopBar) as TopBar;
 
         this._topBarScene.events.on(TopBarEvent.NoHealth, (score: number) =>
             this._endGame(score)
@@ -63,8 +63,8 @@ export class Room extends Scene {
     }
 
     private _startCountdown() {
-        this.scene.launch(CountDown.name);
-        this._countDownScene = this.scene.get(CountDown.name) as CountDown;
+        this.scene.launch(Scenes.CountDown);
+        this._countDownScene = this.scene.get(Scenes.CountDown) as CountDown;
         this._countDownScene.events.once(CountDownEvent.Done, () =>
             this._spawnEnemies()
         );
@@ -145,8 +145,8 @@ export class Room extends Scene {
     private _endGame(score: number): void {
         this._soundBattleMain.stop();
         this.scene.stop();
-        this.scene.stop(TopBar.name);
-        this.scene.start(Death.name, { score });
+        this.scene.stop(Scenes.TopBar);
+        this.scene.start(Scenes.Death, { score });
         this._topBarScene.cleanup();
         this._player.cleanup();
         this.events.removeListener(RoomEvent.Damage);
