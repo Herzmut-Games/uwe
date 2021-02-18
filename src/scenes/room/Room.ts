@@ -16,16 +16,16 @@ import { RoomEvent } from './Room.event';
 import { Scenes } from '../../configs/Scenes';
 
 export class Room extends Scene {
-    private _player: Player;
-    private _enemyController: EnemyController;
-    private _firespirits: Physics.Arcade.Group;
-    private _waterspirits: Physics.Arcade.Group;
-    private _earthspirits: Physics.Arcade.Group;
-    private _soundPlayerImpact: Sound.BaseSound;
-    private _soundBattleIntro: Sound.BaseSound;
-    private _soundBattleMain: Sound.BaseSound;
-    private _topBarScene: TopBar;
-    private _countDownScene: CountDown;
+    private _player!: Player;
+    private _enemyController!: EnemyController;
+    private _firespirits!: Physics.Arcade.Group;
+    private _waterspirits!: Physics.Arcade.Group;
+    private _earthspirits!: Physics.Arcade.Group;
+    private _soundPlayerImpact!: Sound.BaseSound;
+    private _soundBattleIntro!: Sound.BaseSound;
+    private _soundBattleMain!: Sound.BaseSound;
+    private _topBarScene!: TopBar;
+    private _countDownScene!: CountDown;
 
     constructor() {
         super({ key: Scenes.Room });
@@ -74,7 +74,9 @@ export class Room extends Scene {
         this.physics.add.overlap(
             this._player,
             [this._waterspirits, this._firespirits, this._earthspirits],
-            (_: Player, spirit: Enemy) => {
+            (_, _spirit) => {
+                const spirit = _spirit as Enemy;
+
                 spirit.kill();
                 this.events.emit(RoomEvent.Damage);
                 this._player.onHit();
@@ -95,7 +97,9 @@ export class Room extends Scene {
                 this._player.fireballs,
                 this._player.waterballs,
             ],
-            (spirit: Enemy, ball: Ball) => {
+            (_spirit, _ball) => {
+                const spirit = _spirit as Enemy;
+                const ball = _ball as Ball;
                 ball.fadeOut();
                 if (spirit.onHit(ball)) {
                     this.events.emit(RoomEvent.Kill);

@@ -6,7 +6,7 @@ export const colors = {
     },
     white: '#fff',
     red: '#D50C2D',
-};
+} as const;
 
 export const hexColors = {
     primary: {
@@ -16,4 +16,4 @@ export const hexColors = {
     },
     white: 0xfffff,
     red: 0xd50c2d,
-};
+} as const;

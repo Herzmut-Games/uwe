@@ -14,12 +14,12 @@ export class Score {
         parentScene.add.text(20, 20, 'Punkte', {
             fontFamily: fonts.primary,
             fontSize: '30px',
-            fill: colors.primary.light,
+            color: colors.primary.light,
         });
         this._subheadline = parentScene.add.text(20, 46, `${this.score}`, {
             fontFamily: fonts.primary,
             fontSize: '46px',
-            fill: colors.white,
+            color: colors.white,
         });
     }
 

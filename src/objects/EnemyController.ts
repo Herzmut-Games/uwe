@@ -2,7 +2,7 @@ import { Scene, Time, Physics, Types, Math } from 'phaser';
 import { Player } from './sprites/Player/Player';
 import { RoomEvent } from '../scenes/room/Room.event';
 import { GameAudio } from '../configs/Resources';
-import { EnemyType } from './sprites/Enemy/EnemyType';
+import { EnemyType, EnemyTypes } from './sprites/Enemy/EnemyType';
 
 export class EnemyController {
     private _timer: Time.TimerEvent;
@@ -67,7 +67,7 @@ export class EnemyController {
     }
 
     private _setupSpiritAnimations(): void {
-        [EnemyType.EARTH, EnemyType.FIRE, EnemyType.WATER].forEach(type => {
+        Object.values(EnemyTypes).forEach(type => {
             this._parentScene.anims.create({
                 key: `run_${type}`,
                 frames: this._parentScene.anims.generateFrameNumbers(type, {

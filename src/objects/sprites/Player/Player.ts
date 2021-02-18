@@ -38,7 +38,7 @@ export class Player extends Physics.Arcade.Sprite {
 
     private _isMoving: boolean = false;
     private _currentElement: PlayerElement = PlayerElement.Fire;
-    private _hitTimer: Time.TimerEvent;
+    private _hitTimer: Maybe<Time.TimerEvent>;
 
     private readonly _speed = 6;
     private readonly _diagonalSpeed = this._speed / 1.5;
@@ -99,11 +99,13 @@ export class Player extends Physics.Arcade.Sprite {
             A: this._parentScene.input.keyboard.addKey('A'),
             S: this._parentScene.input.keyboard.addKey('S'),
             D: this._parentScene.input.keyboard.addKey('D'),
-            Up: cursorKeys.up,
-            Left: cursorKeys.left,
-            Right: cursorKeys.right,
-            Down: cursorKeys.down,
-            Space: cursorKeys.space,
+            // This will break if for whatever reason cursor keys
+            // are not available in the browser
+            Up: cursorKeys.up!,
+            Left: cursorKeys.left!,
+            Right: cursorKeys.right!,
+            Down: cursorKeys.down!,
+            Space: cursorKeys.space!,
         };
 
         this._parentScene.physics.world.enableBody(this);

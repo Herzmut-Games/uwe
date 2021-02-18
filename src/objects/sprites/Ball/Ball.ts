@@ -7,7 +7,7 @@ function getBallAnimation(ballType: BallType): string {
 }
 
 export abstract class Ball extends Physics.Arcade.Sprite {
-    protected _direction: Direction;
+    protected _direction: Maybe<Direction>;
     private readonly _animationSpeed: number = 10;
     private readonly _shootSpeed: number = 7;
     private readonly _size: number = 1.5;
@@ -33,7 +33,7 @@ export abstract class Ball extends Physics.Arcade.Sprite {
             (this.body as any).onWorldBounds = true;
             this.body.world.on(
                 'worldbounds',
-                body => {
+                (body: Physics.Arcade.Body) => {
                     if (body.gameObject === this) {
                         this._collidedWithWorldBounds = true;
                         this.fadeOut(false);

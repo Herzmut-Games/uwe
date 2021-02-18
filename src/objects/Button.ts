@@ -38,7 +38,7 @@ export class Button {
     ) {
         this._text = parentScene.add
             .text(x, y, text, {
-                fill: color,
+                color,
                 fontSize: size,
                 fontFamily: fonts.primary,
             })

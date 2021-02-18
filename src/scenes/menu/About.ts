@@ -5,8 +5,8 @@ import { fonts } from '../../configs/Fonts';
 import { Scenes } from '../../configs/Scenes';
 
 export class About extends Scene {
-    private _aboutText: GameObjects.Text;
-    private _aboutBackButton: Button;
+    private _aboutText!: GameObjects.Text;
+    private _aboutBackButton!: Button;
 
     constructor() {
         super({ key: Scenes.About });
@@ -17,7 +17,7 @@ export class About extends Scene {
 
         this._aboutText = this.add
             .text(570, 350, 'Christopher\nMarvin\nPatrick\nRobert', {
-                fill: colors.white,
+                color: colors.white,
                 fontSize: '58px',
                 fontFamily: fonts.primary,
             })

@@ -60,7 +60,7 @@ export class Help extends Scene {
             .text(15, 555, '(Eigentlich wie bei Pokemon, ne?)', {
                 fontFamily: fonts.primary,
                 fontSize: '20px',
-                fill: colors.white,
+                color: colors.white,
             })
             .setAngle(270);
     }
@@ -88,13 +88,13 @@ export class Help extends Scene {
         this.add.text(20, 5, 'Hilfe', {
             fontFamily: fonts.primary,
             fontSize: '46px',
-            fill: colors.white,
+            color: colors.white,
         });
 
         this.add.text(20, 48, "Wenn's mal klemmt", {
             fontFamily: fonts.primary,
             fontSize: '38px',
-            fill: colors.primary.light,
+            color: colors.primary.light,
         });
     }
 

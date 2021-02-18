@@ -5,9 +5,9 @@ import { CountDownEvent } from './CountDown.event';
 import { Scenes } from '../../configs/Scenes';
 
 export class CountDown extends Scene {
-    private _timer: Time.TimerEvent;
-    private _countdownText: GameObjects.Text;
-    private _currentCountdown: number;
+    private _timer!: Time.TimerEvent;
+    private _countdownText!: GameObjects.Text;
+    private _currentCountdown!: number;
     private readonly _countdownTexts: string[] = [
         'und ab',
         'eins',
@@ -33,8 +33,8 @@ export class CountDown extends Scene {
 
         this._countdownText = this.add
             .text(400, 300, this._countdownTexts[this._currentCountdown], {
-                fill: colors.white,
-                fontSize: 68,
+                color: colors.white,
+                fontSize: '68px',
                 fontFamily: fonts.primary,
             })
             .setOrigin(0.5, 0.5);

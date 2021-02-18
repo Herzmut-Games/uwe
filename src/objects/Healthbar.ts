@@ -19,7 +19,7 @@ export class Healthbar {
     public ouch(): void {
         this._health -= 1;
         if (this._hearts.length > 0) {
-            this._hearts.pop().destroy();
+            this._hearts.pop()!.destroy();
         }
     }
 
@@ -35,7 +35,7 @@ export class Healthbar {
         parentScene.add.text(this._xPos, 20, 'Leben', {
             fontFamily: fonts.primary,
             fontSize: '30px',
-            fill: colors.primary.light,
+            color: colors.primary.light,
         });
 
         for (let i = 0; i < heartCount; i++) {

@@ -1,19 +1,19 @@
 import { Scene } from 'phaser';
-import { EnemyType } from './EnemyType';
+import { EnemyTypes } from './EnemyType';
 import { Enemy } from './Enemy';
-import { BallType } from '../Ball/BallType';
+import { BallType, BallTypes } from '../Ball/BallType';
 
 export class EarthSpirit extends Enemy {
     constructor(parentScene: Scene) {
-        super(parentScene, EnemyType.EARTH);
+        super(parentScene, EnemyTypes.EARTH);
     }
 
     protected _isWeakness(ballType: BallType): boolean {
-        return ballType === BallType.FIRE;
+        return ballType === BallTypes.FIRE;
     }
 
     protected _isSelf(ballType: BallType): boolean {
-        return ballType === BallType.EARTH;
+        return ballType === BallTypes.EARTH;
     }
 
     protected _setOffset() {

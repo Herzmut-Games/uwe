@@ -1,5 +1,6 @@
-export const enum EnemyType {
-    WATER = 'waterspirit',
-    EARTH = 'earthspirit',
-    FIRE = 'firespirit',
-}
+export const EnemyTypes = {
+    WATER: 'waterspirit',
+    EARTH: 'earthspirit',
+    FIRE: 'firespirit',
+} as const;
+export type EnemyType = EnumValue<typeof EnemyTypes>;

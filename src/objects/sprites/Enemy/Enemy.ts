@@ -6,7 +6,9 @@ import { EnemyType } from './EnemyType';
 import { Ball } from '../Ball/Ball';
 
 export abstract class Enemy extends Physics.Arcade.Sprite {
-    private _player: Player;
+    // Player is set on spawn
+    private _player!: Player;
+
     private _health: number = 1;
     private readonly _defaultSpeed: number = 100;
 

@@ -7,9 +7,9 @@ import { Menu } from './menu/Menu';
 import { Scenes } from '../configs/Scenes';
 
 export class Intro extends Scene {
-    private _logo: GameObjects.Image;
-    private _progressBar: GameObjects.Graphics;
-    private _soundBling: Sound.BaseSound;
+    private _logo!: GameObjects.Image;
+    private _progressBar!: GameObjects.Graphics;
+    private _soundBling!: Sound.BaseSound;
 
     constructor() {
         super({ key: Scenes.Intro });
@@ -18,7 +18,7 @@ export class Intro extends Scene {
     public preload(): void {
         this._progressBar = this.add.graphics();
 
-        this.load.on('progress', value => {
+        this.load.on('progress', (value: number) => {
             this._progressBar.clear();
             this._progressBar.fillStyle(hexColors.red, 1);
             this._progressBar.fillRect(250, 280, 300 * value, 10);
@@ -47,14 +47,14 @@ export class Intro extends Scene {
         this._logo.setOrigin(0.5, 0.5);
         this.add
             .text(screenCenterX, screenHeight / 1.5, 'Hetzner GameJam 2019', {
-                fill: '#000',
+                color: '#000',
                 fontFamily: fonts.primary,
                 fontSize: '24px',
             })
             .setOrigin(0.5, 0.5);
         this.add
             .text(400, 255, 'Games', {
-                fill: colors.red,
+                color: colors.red,
                 fontFamily: fonts.primary,
                 fontSize: '38px',
             })

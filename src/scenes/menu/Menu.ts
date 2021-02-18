@@ -6,16 +6,16 @@ import { GameImage, GameAudio, GameSpritesheet } from '../../configs/Resources';
 import { Scenes } from '../../configs/Scenes';
 
 export class Menu extends Scene {
-    public playerRunAway: boolean;
-    public runAwayModifier: number;
-    private _background: GameObjects.TileSprite;
-    private _menuPlayer: Physics.Arcade.Sprite;
-    private _backgroundModifier: number;
-    private _moonWalkEnabled: boolean;
-    private _background_dark: GameObjects.TileSprite;
-    private _soundIntro: Sound.BaseSound;
-    private _soundThriller: Sound.BaseSound;
-    private _soundMenuSelect: Sound.BaseSound;
+    public playerRunAway!: boolean;
+    public runAwayModifier!: number;
+    private _background!: GameObjects.TileSprite;
+    private _menuPlayer!: Physics.Arcade.Sprite;
+    private _backgroundModifier!: number;
+    private _moonWalkEnabled!: boolean;
+    private _background_dark!: GameObjects.TileSprite;
+    private _soundIntro!: Sound.BaseSound;
+    private _soundThriller!: Sound.BaseSound;
+    private _soundMenuSelect!: Sound.BaseSound;
 
     constructor() {
         super({ key: Scenes.Menu });
@@ -189,15 +189,15 @@ export class Menu extends Scene {
     private _displayHeader(): void {
         this.add
             .text(screenCenterX, 80, 'UWE', {
-                fill: colors.red,
-                fontSize: 120,
+                color: colors.red,
+                fontSize: '120px',
                 fontFamily: fonts.primary,
             })
             .setOrigin(0.5, 0.5);
         this.add
             .text(screenCenterX, 140, '(E wie Elemente)', {
-                fill: colors.red,
-                fontSize: 25,
+                color: colors.red,
+                fontSize: '25px',
                 fontFamily: fonts.primary,
             })
             .setOrigin(0.5, 0.5);

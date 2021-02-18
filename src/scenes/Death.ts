@@ -19,7 +19,7 @@ export class Death extends Scene {
             .text(screenCenterX, screenHeight / 3, `Punkte: ${data.score}`, {
                 fontFamily: fonts.primary,
                 fontSize: '80px',
-                fill: colors.primary.light,
+                color: colors.primary.light,
             })
             .setOrigin(0.5, 0.5);
 

@@ -10,10 +10,10 @@ import { TopBarEvent } from './TopBar.event';
 import { Scenes } from '../../configs/Scenes';
 
 export class TopBar extends Scene {
-    private _score: Score;
-    private _healthbar: Healthbar;
-    private _weaponStatus: WeaponStatus;
-    private _roomScene: Room;
+    private _score!: Score;
+    private _healthbar!: Healthbar;
+    private _weaponStatus!: WeaponStatus;
+    private _roomScene!: Room;
 
     constructor() {
         super({ key: Scenes.TopBar });

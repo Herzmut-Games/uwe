@@ -5,10 +5,10 @@ import { Menu } from './Menu';
 import { Scenes } from '../../configs/Scenes';
 
 export class Selection extends Scene {
-    private _startButton: Button;
-    private _aboutButton: Button;
-    private _helpButton: Button;
-    private _startScene: Menu;
+    private _startButton!: Button;
+    private _aboutButton!: Button;
+    private _helpButton!: Button;
+    private _startScene!: Menu;
 
     constructor() {
         super({ key: Scenes.Selection });

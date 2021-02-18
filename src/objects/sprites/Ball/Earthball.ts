@@ -1,11 +1,11 @@
 import { Scene } from 'phaser';
 import { Ball } from './Ball';
-import { BallType } from './BallType';
+import { BallTypes } from './BallType';
 import { Direction } from '../Player/Direction';
 
 export class Earthball extends Ball {
     constructor(protected parentScene: Scene) {
-        super(parentScene, BallType.EARTH);
+        super(parentScene, BallTypes.EARTH);
     }
 
     protected _setOffset(): void {
